@@ -40,6 +40,7 @@ export default function SignIn() {
               focusBorderColor={"black"}
               placeholder={"email"}
               color={"black"}
+              cursor={"pointer"}
             />
           </Box>
           <Box>
@@ -53,6 +54,7 @@ export default function SignIn() {
                focusBorderColor={"black"}
               type="password"
               name="password"
+              cursor={"pointer"}
             />
           </Box>
         </Flex>
@@ -68,6 +70,7 @@ export default function SignIn() {
             _hover={{ bottom: "4px" }}
             color={"black"}
             backgroundColor={"white"}
+            cursor={"pointer"}
             _active={{backgroundColor:"none"}}
           >
             Login

@@ -102,7 +102,8 @@ export default function Quiz() {
                   </Text>
                 </Flex>
               </Flex>
-              <Flex gap={4} p={"2.3em"} flexDirection={"column"}>
+              <Flex gap={4} p={"2.3em"} flexDirection={"column"} flexWrap={"wrap"}>
+
                 {quizData[currentQuestion]["options"].map((option, index) => {
                   return (
                     <Button
