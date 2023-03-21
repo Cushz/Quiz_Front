@@ -11,7 +11,11 @@ import {
   FormHelperText,
   Input,
 } from "@chakra-ui/react";
+import { useEffect } from "react";
 export default function SignIn() {
+  useEffect(()=>{
+    document.title= "Quiz App | Auth" 
+   })
   return (
     <div className="quiz-body">
       <Flex

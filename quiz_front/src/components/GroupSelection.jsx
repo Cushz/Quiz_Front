@@ -8,8 +8,11 @@ import {
   Select,
   Link,
 } from "@chakra-ui/react";
-
+import { useEffect } from "react";
 export default function GroupSelection() {
+  useEffect(()=>{
+    document.title= "Quiz App | Groups" 
+   })
   return (
     <div className="quiz-body">
       <Flex

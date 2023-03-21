@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import { useEffect } from "react";
 import { ListItem, UnorderedList, useDisclosure } from "@chakra-ui/react";
 import { useState } from "react";
 import file_upload from "../assets/file.png";
@@ -24,6 +25,9 @@ import {
   ModalCloseButton,
 } from "@chakra-ui/react";
 export default function QuestionManagement() {
+  useEffect(()=>{
+    document.title= "Quiz App | Manage" 
+   })
   const [file, setFile] = useState(null);
   const [fileList, setFileList] = useState([]);
   const { isOpen, onOpen, onClose } = useDisclosure();

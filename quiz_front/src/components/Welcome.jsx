@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect } from "react";
 import { Flex, Box, Heading, Text, Button, Image } from "@chakra-ui/react";
 import logo from "../assets/vectorpaint.svg";
 import "../assets/style.css";
@@ -6,7 +7,9 @@ import { useNavigate } from "react-router-dom";
 export default function Welcome() {
 
 const navigate = useNavigate();
-
+useEffect(()=>{
+  document.title= "Quiz App | Home" 
+ })
   return (
     <div className="quiz-body">
       <Flex gap={10} flexDirection={"column"} w={"50%"} margin={"0 auto"}>
