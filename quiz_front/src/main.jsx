@@ -9,6 +9,9 @@ import QuestionManagement from "./components/QuestionManagement";
 import { ChakraProvider } from '@chakra-ui/react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "../src/assets/style.css"
+import dotenv from "dotenv";
+
+
 ReactDOM.createRoot(document.getElementById("root")).render(
   <ChakraProvider>
     <React.StrictMode>

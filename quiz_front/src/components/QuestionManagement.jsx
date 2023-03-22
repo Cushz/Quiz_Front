@@ -24,7 +24,12 @@ import {
   ModalBody,
   ModalCloseButton,
 } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
+
+
 export default function QuestionManagement() {
+  const navigate = useNavigate();
+
   useEffect(()=>{
     document.title= "Quiz App | Manage" 
    })
@@ -34,6 +39,11 @@ export default function QuestionManagement() {
   const handleSubmit = () => {
     console.log(file);
     file && setFileList([file.name, ...fileList]);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/auth");  
   };
 
   return (

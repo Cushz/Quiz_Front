@@ -11,8 +11,39 @@ import {
   FormHelperText,
   Input,
 } from "@chakra-ui/react";
-import { useEffect } from "react";
+import { useEffect, useState} from "react";
+import signIn from "../api/loginTeacher";
+import getUserInfo from "../api/getUserInfo"
+import { useNavigate } from "react-router-dom";
+
+
 export default function SignIn() {
+  const navigate = useNavigate();
+
+  const[signInEmail, setsignInEmail] = useState("");
+  const[signInPassword, setsignInPassword] = useState("");
+
+ useEffect(()=>{
+  async function getUser() {
+    const teacher = await getUserInfo();
+    teacher && navigate('/manage')
+  }
+  getUser();
+  },[navigate])
+
+
+const signInClick = async (e) => {
+  e.preventDefault();
+  const resultToken = await signIn(signInEmail, signInPassword);
+  if(!resultToken){
+    alert("Invalid Credentials");
+    return ;
+  }
+  localStorage.setItem("token", resultToken);
+  navigate("/manage");
+}
+
+
   useEffect(()=>{
     document.title= "Quiz App | Auth" 
    })
@@ -37,6 +68,7 @@ export default function SignIn() {
             <Input
               type="email"
               name="email"
+              maxLength={'1000'}
               boxShadow={"4px 4px 1px black"}
               border={"2px solid black"}
               backgroundColor={"white"}
@@ -45,6 +77,7 @@ export default function SignIn() {
               placeholder={"email"}
               color={"black"}
               cursor={"pointer"}
+              onChange={(e)=>setsignInEmail(e.target.value)}
             />
           </Box>
           <Box>
@@ -59,6 +92,7 @@ export default function SignIn() {
               type="password"
               name="password"
               cursor={"pointer"}
+              onChange={(e)=>setsignInPassword(e.target.value)}
             />
           </Box>
         </Flex>
@@ -76,6 +110,7 @@ export default function SignIn() {
             backgroundColor={"white"}
             cursor={"pointer"}
             _active={{backgroundColor:"none"}}
+            onClick={(e) => signInClick(e)}
           >
             Login
           </Button>
