@@ -4,6 +4,7 @@ import { Flex, Box, Heading, Text, Button, Image } from "@chakra-ui/react";
 import logo from "../assets/vectorpaint.svg";
 import "../assets/style.css";
 import { useNavigate } from "react-router-dom";
+import Navbar from "./Navbar";
 export default function Welcome() {
 
 const navigate = useNavigate();

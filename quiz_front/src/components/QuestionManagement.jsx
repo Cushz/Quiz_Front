@@ -7,13 +7,9 @@ import file_upload from "../assets/file.png";
 import {
   Flex,
   Box,
-  Heading,
   Text,
   Button,
-  FormControl,
   FormLabel,
-  FormErrorMessage,
-  FormHelperText,
   Input,
   Image,
   Modal,
@@ -24,6 +20,8 @@ import {
   ModalBody,
   ModalCloseButton,
 } from "@chakra-ui/react";
+import GroupSelection from "./GroupSelection";
+import Navbar from "./Navbar";
 import { useNavigate } from "react-router-dom";
 
 
@@ -48,17 +46,18 @@ export default function QuestionManagement() {
 
   return (
     <div className="quiz-body">
+      <Navbar />
       <Flex
         gap={"2em"}
         w={"60%"}
         margin={"1em auto 0 auto"}
-        h={"90%"}
+        h={"80%"}
         flexDirection={{ md: "row", base: "column" }}
       >
         <Flex
           boxShadow={"4px 4px 1px black"}
           border={"2px solid black"}
-          w={{md:"50%", base:"column"}}
+          w={{md:"35%", base:"100%"}}
           flexDirection={"column"}
           p={"1em"}
           gap={2}
@@ -172,6 +171,7 @@ export default function QuestionManagement() {
             </form>
           </Flex>
         </Flex>
+        <GroupSelection />
       </Flex>
     </div>
   );
