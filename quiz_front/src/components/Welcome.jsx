@@ -1,5 +1,5 @@
 import React from "react";
-import { useEffect } from "react";
+import { useEffect,useState } from "react";
 import {
   Flex,
   Box,
@@ -20,10 +20,23 @@ import {
 } from "@chakra-ui/react";
 import logo from "../assets/vectorpaint.svg";
 import "../assets/style.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 export default function Welcome() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
+  const [name, setName] = useState("")
+  const [surname, setSurname] = useState("")
+  const [group, setGroup] = useState("")
+  const [subject, setSubject] = useState("")
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    if (name && surname && group && subject) {
+      navigate("/quiz")
+    } else {
+      alert("Please fill in all fields")
+    }
+  }
   useEffect(() => {
     document.title = "Quiz App | Home";
   });
@@ -63,84 +76,100 @@ export default function Welcome() {
               bottom={0}
               transition={"bottom 0.2s ease-out"}
               _hover={{ bottom: "4px" }}
-              _focus={{backgroundColor:"inherit"}}
+              _focus={{ backgroundColor: "inherit" }}
             >
               Start
             </Button>
-            <Modal isOpen={isOpen} onClose={onClose}>
-              <ModalOverlay />
-              <ModalContent>
-                <ModalHeader color={"black"}>Student Form</ModalHeader>
-                <ModalCloseButton />
-                <ModalBody>
-                  <FormControl
-                    display={"flex"}
-                    gap={2}
-                    flexDirection={"column"}
-                  >
-                    <Input
-                      boxShadow={"4px 4px 1px black"}
-                      border={"2px solid black"}
-                      backgroundColor={"white"}
-                      _hover={{ border: "2px solid black" }}
-                      focusBorderColor={"black"}
-                      placeholder={"Name"}
-                      _placeholder={{ color: "black" }}
-                    />
-                    <Input
-                      boxShadow={"4px 4px 1px black"}
-                      border={"2px solid black"}
-                      backgroundColor={"white"}
-                      _hover={{ border: "2px solid black" }}
-                      focusBorderColor={"black"}
-                      _placeholder={{ color: "black" }}
-                      placeholder={"Surname"}
-                    />
-                    <Select
-                      boxShadow={"4px 4px 1px black"}
-                      border={"2px solid black"}
-                      backgroundColor={"white"}
-                      _hover={{ border: "2px solid black" }}
-                      focusBorderColor={"black"}
-                      placeholder={"Group"}
+            <form >
+              <Modal isOpen={isOpen} onClose={onClose}>
+                <ModalOverlay />
+                <ModalContent>
+                  <ModalHeader color={"black"}>Student Form</ModalHeader>
+                  <ModalCloseButton />
+                  <ModalBody>
+                    <FormControl
+                      display={"flex"}
+                      gap={2}
+                      flexDirection={"column"}
                     >
-                      <option value={"a"}>a</option>
-                      <option value={"b"}>b</option>
-                      <option value={"c"}>c</option>
-                    </Select>
-                    <Select
-                      boxShadow={"4px 4px 1px black"}
-                      border={"2px solid black"}
-                      backgroundColor={"white"}
-                      _hover={{ border: "2px solid black" }}
-                      focusBorderColor={"black"}
-                      placeholder={"Subject"}
-                    >
-                      <option value={"a"}>a</option>
-                      <option value={"b"}>b</option>
-                      <option value={"c"}>c</option>
-                    </Select>
-                  </FormControl>
-                </ModalBody>
+                      <Input
+                       value={name}
+                       onChange={(event) => setName(event.target.value)}
+                        boxShadow={"4px 4px 1px black"}
+                        border={"2px solid black"}
+                        backgroundColor={"white"}
+                        _hover={{ border: "2px solid black" }}
+                        focusBorderColor={"black"}
+                        placeholder={"Name"}
+                        _placeholder={{ color: "black" }}
+                      />
+                      <Input
+                        boxShadow={"4px 4px 1px black"}
+                        value={surname}
+                       onChange={(event) => setSurname(event.target.value)}
+                        border={"2px solid black"}
+                        backgroundColor={"white"}
+                        _hover={{ border: "2px solid black" }}
+                        focusBorderColor={"black"}
+                        _placeholder={{ color: "black" }}
+                        placeholder={"Surname"}
+                      />
+                      <Select
+                        boxShadow={"4px 4px 1px black"}
+                        border={"2px solid black"}
+                        backgroundColor={"white"}
+                        value={group}
+                       onChange={(event) => setGroup(event.target.value)}
+                        _hover={{ border: "2px solid black" }}
+                        focusBorderColor={"black"}
+                        placeholder={"Group"}
+                      >
+                        <option value={"a"}>a</option>
+                        <option value={"b"}>b</option>
+                        <option value={"c"}>c</option>
+                      </Select>
+                      <Select
+                        boxShadow={"4px 4px 1px black"}
+                        border={"2px solid black"}
+                        backgroundColor={"white"}
+                        _hover={{ border: "2px solid black" }}
+                        focusBorderColor={"black"}
+                        value={subject}
+                       onChange={(event) => setSubject(event.target.value)}
+                        placeholder={"Subject"}
+                      >
+                        <option value={"a"}>a</option>
+                        <option value={"b"}>b</option>
+                        <option value={"c"}>c</option>
+                      </Select>
+                    </FormControl>
+                  </ModalBody>
 
-                <ModalFooter>
-                  <Button
-                    _hover={{backgroundColor:"black",color:"white"}}
-                    borderColor={"black"}
-                    backgroundColor={"black"}
-                    mr={3}
-                    color={"white"}
-                    onClick={onClose}
-                  >
-                    Close
-                  </Button>
-                  <Button borderColor={"black"} color={"black"}
-                    _hover={{ backgroundColor: "black", color: "white" }} onClick={() => navigate("/quiz")} variant="ghost">
-                    Start
-                  </Button>
-                </ModalFooter>
-              </ModalContent>
-            </Modal>
+                  <ModalFooter>
+                    <Button
+                      _hover={{ backgroundColor: "black", color: "white" }}
+                      borderColor={"black"}
+                      backgroundColor={"black"}
+                      mr={3}
+                      color={"white"}
+                      onClick={onClose}
+                    >
+                      Close
+                    </Button>
+                    <Button
+                      type="submit"
+                      borderColor={"black"}
+                      color={"black"}
+                      _hover={{ backgroundColor: "black", color: "white" }}
+                      variant="ghost"
+                      onClick={handleSubmit}
+                    >
+                      Start
+                    </Button>
+                  </ModalFooter>
+                </ModalContent>
+              </Modal>
+            </form>
           </Box>
         </Flex>
       </Flex>
