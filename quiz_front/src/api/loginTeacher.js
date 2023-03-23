@@ -5,9 +5,8 @@ import React from 'react'
 const login = async (email, password) => {
 
     const data = {email, password};
-    // console.log(process.env.REACT_APP_API_URL)
 
-    const url = `http://localhost:3000/auth/login`;
+    const url = `${import.meta.env.VITE_APP_API_URL}/auth/login`;
 
   
     try {
