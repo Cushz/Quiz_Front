@@ -59,7 +59,7 @@ export default function Navbar() {
           </Box>
         </>
       )}
-      <Link style={{textDecoration:"none"}} href={"/quiz"}>
+      <Link style={{textDecoration:"none"}} href={"/"}>
             <Box>
               <Button
                 _hover={{ backgroundColor: "black", color: "white" }}
