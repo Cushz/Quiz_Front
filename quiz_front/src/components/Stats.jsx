@@ -25,7 +25,7 @@ export default function Stats(props) {
           borderBottom={"3px solid black"}
         >
           <Box>
-            <Heading>Stats</Heading>
+            <Heading>Results</Heading>
           </Box>
         </Flex>
 

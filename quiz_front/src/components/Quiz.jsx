@@ -80,7 +80,7 @@ export default function Quiz() {
             alignItems={"center"}
           >
             <Box>
-              <Heading color={"black"}>Quiz App</Heading>
+              <Heading color={"black"}>..Subject title..</Heading>
             </Box>
           </Flex>
           <form>
