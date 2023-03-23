@@ -23,9 +23,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           <Route path="quiz/" element={<Quiz />} />
           <Route path="stats/" element={<Stats />} />
           <Route path="auth/" element={<SignIn />} /> 
-          {/* <Route path="dashboard/" element={<QuestionManagement />} /> */}
-          {/* <PrivateRoute path="dashboard/" component={QuestionManagement} /> */}
-          {/* <PrivateRoute path="dashboard/" component={QuestionManagement} /> */}
         </Routes>
       </BrowserRouter>
   </React.StrictMode>
