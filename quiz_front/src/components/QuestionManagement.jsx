@@ -39,10 +39,6 @@ export default function QuestionManagement() {
     file && setFileList([file.name, ...fileList]);
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    navigate("/auth");  
-  };
 
   return (
     <div className="quiz-body">

@@ -26,7 +26,7 @@ export default function SignIn() {
  useEffect(()=>{
   async function getUser() {
     const teacher = await getUserInfo();
-    teacher && navigate('/manage')
+    teacher && navigate('/dashboard')
   }
   getUser();
   },[navigate])
@@ -40,7 +40,7 @@ const signInClick = async (e) => {
     return ;
   }
   localStorage.setItem("token", resultToken);
-  navigate("/manage");
+  navigate("/dashboard");
 }
 
 
