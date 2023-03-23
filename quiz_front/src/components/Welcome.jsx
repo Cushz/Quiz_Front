@@ -1,5 +1,5 @@
 import React from "react";
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Flex,
   Box,
@@ -20,23 +20,23 @@ import {
 } from "@chakra-ui/react";
 import logo from "../assets/vectorpaint.svg";
 import "../assets/style.css";
-import { useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 export default function Welcome() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
-  const [name, setName] = useState("")
-  const [surname, setSurname] = useState("")
-  const [group, setGroup] = useState("")
-  const [subject, setSubject] = useState("")
+  const [name, setName] = useState("");
+  const [surname, setSurname] = useState("");
+  const [group, setGroup] = useState("");
+  const [subject, setSubject] = useState("");
 
   const handleSubmit = (event) => {
-    event.preventDefault()
+    event.preventDefault();
     if (name && surname && group && subject) {
-      navigate("/quiz")
+      navigate("/quiz");
     } else {
-      alert("Please fill in all fields")
+      alert("Please fill in all fields");
     }
-  }
+  };
   useEffect(() => {
     document.title = "Quiz App | Home";
   });
@@ -80,7 +80,7 @@ export default function Welcome() {
             >
               Start
             </Button>
-            <form >
+            <form>
               <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
                 <ModalContent>
@@ -93,8 +93,8 @@ export default function Welcome() {
                       flexDirection={"column"}
                     >
                       <Input
-                       value={name}
-                       onChange={(event) => setName(event.target.value)}
+                        value={name}
+                        onChange={(event) => setName(event.target.value)}
                         boxShadow={"4px 4px 1px black"}
                         border={"2px solid black"}
                         backgroundColor={"white"}
@@ -106,7 +106,7 @@ export default function Welcome() {
                       <Input
                         boxShadow={"4px 4px 1px black"}
                         value={surname}
-                       onChange={(event) => setSurname(event.target.value)}
+                        onChange={(event) => setSurname(event.target.value)}
                         border={"2px solid black"}
                         backgroundColor={"white"}
                         _hover={{ border: "2px solid black" }}
@@ -119,7 +119,7 @@ export default function Welcome() {
                         border={"2px solid black"}
                         backgroundColor={"white"}
                         value={group}
-                       onChange={(event) => setGroup(event.target.value)}
+                        onChange={(event) => setGroup(event.target.value)}
                         _hover={{ border: "2px solid black" }}
                         focusBorderColor={"black"}
                         placeholder={"Group"}
@@ -135,7 +135,7 @@ export default function Welcome() {
                         _hover={{ border: "2px solid black" }}
                         focusBorderColor={"black"}
                         value={subject}
-                       onChange={(event) => setSubject(event.target.value)}
+                        onChange={(event) => setSubject(event.target.value)}
                         placeholder={"Subject"}
                       >
                         <option value={"a"}>a</option>
