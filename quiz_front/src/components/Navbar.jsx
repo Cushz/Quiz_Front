@@ -1,15 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { Flex, Box, Button, Link } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
 export default function Navbar() {
+  const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   const handleLogout = () => {
     setIsLoggedIn(false);
+    localStorage.removeItem("token");
+    navigate("/auth");  
   };
 
   const handleLogin = () => {
     setIsLoggedIn(true);
+    
   };
   return (
     <Flex

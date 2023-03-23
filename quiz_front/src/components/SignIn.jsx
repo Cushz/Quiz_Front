@@ -21,7 +21,7 @@ export default function SignIn() {
  useEffect(()=>{
   async function getUser() {
     const teacher = await getUserInfo();
-    teacher && navigate('/manage')
+    teacher && navigate('/dashboard')
   }
   getUser();
   },[navigate])
