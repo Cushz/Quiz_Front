@@ -16,7 +16,7 @@ import ExcludingRoutes from "./utils/ExcludingRoutes";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <ChakraProvider>
-    <React.StrictMode>
+
       <BrowserRouter>
         <Routes>
         <Route element={<PrivateRoutes/>}>
@@ -31,7 +31,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           <Route path="auth/" element={<SignIn />} /> 
         </Routes>
       </BrowserRouter>
-  </React.StrictMode>
   </ChakraProvider>
   
 );
