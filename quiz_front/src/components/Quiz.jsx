@@ -80,7 +80,7 @@ export default function Quiz() {
             alignItems={"center"}
           >
             <Box>
-              <Heading>Quiz App</Heading>
+              <Heading color={"black"}>Quiz App</Heading>
             </Box>
           </Flex>
           <form>
@@ -97,25 +97,27 @@ export default function Quiz() {
               </Flex>
               <Flex>
                 <Flex mt={"2em"} p={"0.3em"}>
-                  <Text fontSize={"1.8em"} fontWeight={"bold"}>
+                  <Text color={"black"} fontSize={"1.8em"} fontWeight={"bold"}>
                     {quizData[currentQuestion]["question"]}
                   </Text>
                 </Flex>
               </Flex>
-              <Flex gap={4} p={"2.3em"} flexDirection={"column"} flexWrap={"wrap"}>
+              <Flex gap={4} m={"0 auto"} w={"100%"} pt={"1em"} pb={"2em"} flexDirection={"column"} flexWrap={"wrap"}>
 
                 {quizData[currentQuestion]["options"].map((option, index) => {
                   return (
                     <Button
                       key={index}
                       onClick={() => handleQuestions(option)}
-                      h={"3.5em"}
-                      boxShadow={"4px 4px 1px #000000"}
+                      height={"auto"}
+                      minHeight={"3.5em"}
+                      boxShadow={"4px 4px 0 #000000"}
                       bg={"#ffffff"}
                       border={"4px solid #000000"}
-                      position={"relative"}
                       bottom={0}
                       transition={"bottom 0.2s ease-out"}
+                      wordBreak={"break-word"}
+                      whiteSpace={"normal"}
                       _hover={{
                         backgroundColor: "black",
                         color: "white",
