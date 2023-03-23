@@ -21,12 +21,13 @@ import {
 import logo from "../assets/vectorpaint.svg";
 import "../assets/style.css";
 import { useNavigate } from "react-router-dom";
+import getUniGroup from "../api/getUniGroup";
 export default function Welcome() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
-  const [group, setGroup] = useState("");
+  const [groups, setGroups] = useState([]);
   const [subject, setSubject] = useState("");
 
   const handleSubmit = (event) => {
@@ -37,9 +38,18 @@ export default function Welcome() {
       alert("Please fill in all fields");
     }
   };
+  // const unigroups = getUniGroup();
+  // console.log(unigroups);
+
   useEffect(() => {
     document.title = "Quiz App | Home";
-  });
+    async function fetchData() {
+      const response = await getUniGroup();
+      setGroups(response)
+      console.log(response);
+    }
+    fetchData();
+  }, []);
   return (
     <div className="quiz-body">
       <Flex gap={10} flexDirection={"column"} w={"50%"} margin={"0 auto"}>
@@ -118,15 +128,19 @@ export default function Welcome() {
                         boxShadow={"4px 4px 1px black"}
                         border={"2px solid black"}
                         backgroundColor={"white"}
-                        value={group}
                         onChange={(event) => setGroup(event.target.value)}
                         _hover={{ border: "2px solid black" }}
                         focusBorderColor={"black"}
                         placeholder={"Group"}
                       >
-                        <option value={"a"}>a</option>
-                        <option value={"b"}>b</option>
-                        <option value={"c"}>c</option>
+                        {
+                          groups.map((group) => {
+                            return (
+                              <option key={group.id} value={group.id}>{group.name}</option>
+                            )
+                          }
+                          )
+                        }
                       </Select>
                       <Select
                         boxShadow={"4px 4px 1px black"}
