@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { useEffect } from "react";
+import { ChevronDownIcon } from "@chakra-ui/icons";
 import { ListItem, UnorderedList, useDisclosure } from "@chakra-ui/react";
 import { useState } from "react";
 import file_upload from "../assets/file.png";
@@ -19,21 +20,46 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
 } from "@chakra-ui/react";
-import GroupSelection from "./GroupSelection";
 import Navbar from "./Navbar";
 import { useNavigate } from "react-router-dom";
-
 
 export default function QuestionManagement() {
   const navigate = useNavigate();
 
-  useEffect(()=>{
-    document.title= "Quiz App | Manage" 
-   })
+  useEffect(() => {
+    document.title = "Quiz App | Manage";
+  });
   const [file, setFile] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState();
   const [fileList, setFileList] = useState([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const FakeData = [
+    {
+      Group: "L0",
+      Speciality: "Math",
+      ListOfFiles: ["Math1", "Math2", "Math3", "Math4"],
+    },
+    {
+      Group: "L1",
+      Speciality: "Math",
+      ListOfFiles: ["L1Math1", "L1Math2", "L1Math3", "L1Math4"],
+    },
+    {
+      Group: "L0",
+      Speciality: "Chem",
+      ListOfFiles: ["Chem1", "Chem2", "Chem3", "Chem4"],
+    },
+    {
+      Group: "L1",
+      Speciality: "Chem",
+      ListOfFiles: ["L1Chem1", "L1Chem2", "L1Chem3", "L1Chem4"],
+    },
+  ];
   const handleSubmit = () => {
     console.log(file);
     file && setFileList([file.name, ...fileList]);
@@ -41,9 +67,8 @@ export default function QuestionManagement() {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    navigate("/auth");  
+    navigate("/auth");
   };
-
   return (
     <div className="quiz-body">
       <Navbar />
@@ -57,7 +82,7 @@ export default function QuestionManagement() {
         <Flex
           boxShadow={"4px 4px 1px black"}
           border={"2px solid black"}
-          w={{md:"35%", base:"100%"}}
+          w={{ md: "35%", base: "100%" }}
           flexDirection={"column"}
           p={"1em"}
           gap={2}
@@ -65,13 +90,13 @@ export default function QuestionManagement() {
           overflowX={"hidden"}
         >
           {fileList &&
-            fileList.map((e, i) => {
+            fileList.map((e, key) => {
               return (
                 <>
                   <Box
                     cursor={"pointer"}
                     onClick={onOpen}
-                    key={i}
+                    key={key}
                     boxShadow={"4px 4px 1px black"}
                     border={"2px solid black"}
                     borderRadius={"0.3em"}
@@ -84,38 +109,39 @@ export default function QuestionManagement() {
                   >
                     {e}
                   </Box>
-                  <Modal isOpen={isOpen} onClose={onClose}>
-                    <ModalOverlay />
-                    <ModalContent>
-                      <ModalHeader>Question</ModalHeader>
-                      <ModalCloseButton />
-                      <ModalBody>
-                        <UnorderedList>
-                          <ListItem>a</ListItem>
-                          <ListItem>a</ListItem>
-                          <ListItem>a</ListItem>
-                          <ListItem>a</ListItem>
-                        </UnorderedList>
-                        <Text>Correct answer:</Text>
-                      </ModalBody>
-
-                      <ModalFooter>
-                        <Button
-                          border={"2px solid black"}
-                          variant="outline"
-                          mr={3}
-                          onClick={onClose}
-                          _hover={{ backgroundColor: "white" }}
-                        >
-                          Close
-                        </Button>
-                      </ModalFooter>
-                    </ModalContent>
-                  </Modal>
                 </>
               );
             })}
+          <Modal isOpen={isOpen} onClose={onClose}>
+            <ModalOverlay />
+            <ModalContent>
+              <ModalHeader>Question</ModalHeader>
+              <ModalCloseButton />
+              <ModalBody>
+                <UnorderedList>
+                  <ListItem>a</ListItem>
+                  <ListItem>a</ListItem>
+                  <ListItem>a</ListItem>
+                  <ListItem>a</ListItem>
+                </UnorderedList>
+                <Text>Correct answer:</Text>
+              </ModalBody>
+
+              <ModalFooter>
+                <Button
+                  border={"2px solid black"}
+                  variant="outline"
+                  mr={3}
+                  onClick={onClose}
+                  _hover={{ backgroundColor: "white" }}
+                >
+                  Close
+                </Button>
+              </ModalFooter>
+            </ModalContent>
+          </Modal>
         </Flex>
+
         <Flex
           justifyContent={"center"}
           alignItems={"center"}
@@ -134,7 +160,7 @@ export default function QuestionManagement() {
                 </Box>
                 <Box>
                   <FormLabel htmlFor={"upload"}>
-                    {file ? file.name : "Browse files"}
+                    {file ? file.name : "Choose File"}
                   </FormLabel>
                 </Box>
               </Flex>
@@ -171,7 +197,38 @@ export default function QuestionManagement() {
             </form>
           </Flex>
         </Flex>
-        <GroupSelection />
+        <Flex justifyContent={"center"} alignItems={"center"}>
+          <Box>
+            <Menu>
+              <MenuButton
+                boxShadow={"4px 4px 1px black"}
+                border={"2px solid black"}
+                _hover={{ border: "2px solid black" }}
+                focusBorderColor={"black"}
+                cursor="pointer"
+                placeholder="Group and Speciality"
+                as={Button}
+                rightIcon={<ChevronDownIcon />}
+                backgroundColor={"white"}
+              >
+                Group and Speciality
+              </MenuButton>
+              <MenuList>
+                {FakeData && FakeData.map((item,key)=>
+                {
+                  return(
+                    <>
+                    <MenuItem onClick={()=>setFileList([item.ListOfFiles])}>{item.Group} {item.Speciality}</MenuItem>
+                  </>
+                  )
+                  
+                })}
+                
+                
+              </MenuList>
+            </Menu>
+          </Box>
+        </Flex>
       </Flex>
     </div>
   );
