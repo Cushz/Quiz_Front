@@ -10,6 +10,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "../src/assets/style.css"
 import Navbar from "./components/Navbar";
 import dotenv from "dotenv";
+import PrivateRoutes from "./utils/PrivateRoutes";
 
 
 ReactDOM.createRoot(document.getElementById("root")).render(
@@ -17,11 +18,16 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <React.StrictMode>
       <BrowserRouter>
         <Routes>
+          <Route element={<PrivateRoutes/>}>
+            <Route path="dashboard/" element={<QuestionManagement />} />
+          </Route>
           <Route path="/" element={<Welcome />} />
           <Route path="quiz/" element={<Quiz />} />
           <Route path="stats/" element={<Stats />} />
           <Route path="auth/" element={<SignIn />} /> 
-          <Route path="dashboard/" element={<QuestionManagement />} />
+          {/* <Route path="dashboard/" element={<QuestionManagement />} /> */}
+          {/* <PrivateRoute path="dashboard/" component={QuestionManagement} /> */}
+          {/* <PrivateRoute path="dashboard/" component={QuestionManagement} /> */}
         </Routes>
       </BrowserRouter>
   </React.StrictMode>

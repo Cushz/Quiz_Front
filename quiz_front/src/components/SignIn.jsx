@@ -23,13 +23,13 @@ export default function SignIn() {
   const[signInEmail, setsignInEmail] = useState("");
   const[signInPassword, setsignInPassword] = useState("");
 
- useEffect(()=>{
-  async function getUser() {
-    const teacher = await getUserInfo();
-    teacher && navigate('/dashboard')
-  }
-  getUser();
-  },[navigate])
+//  useEffect(()=>{
+//   async function getUser() {
+//     const teacher = await getUserInfo();
+//     teacher && navigate('/dashboard')
+//   }
+//   getUser();
+//   },[navigate])
 
 
 const signInClick = async (e) => {
