@@ -1,14 +1,13 @@
 import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
 
-const PrivateRoutes = () => {
+const ExcludingRoutes = () => {
     const token = localStorage.getItem("token");
     return (
         //if request is to /auth and token is present, don't change the route
-        token ? <Outlet /> : <Navigate to="/auth" />
-        
+        token && window.location.pathname === "/auth" ? <Navigate to="/dashboard" /> : <Outlet />
     );
     
 }
 
-export default PrivateRoutes;
+export default ExcludingRoutes;
