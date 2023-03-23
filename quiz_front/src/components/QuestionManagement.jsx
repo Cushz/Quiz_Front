@@ -63,6 +63,7 @@ export default function QuestionManagement() {
   const handleSubmit = () => {
     console.log(file);
     file && setFileList([file.name, ...fileList]);
+    
   };
 
   return (
@@ -214,7 +215,7 @@ export default function QuestionManagement() {
                 {
                   return(
                     <>
-                    <MenuItem onClick={()=>setFileList([item.ListOfFiles])}>{item.Group} {item.Speciality}</MenuItem>
+                    <MenuItem onClick={()=>setFileList([...item.ListOfFiles])}>{item.Group} {item.Speciality}</MenuItem>
                   </>
                   )
                   
