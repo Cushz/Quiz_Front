@@ -16,7 +16,6 @@ import ExcludingRoutes from "./utils/ExcludingRoutes";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <ChakraProvider>
-
       <BrowserRouter>
         <Routes>
         <Route element={<PrivateRoutes/>}>
