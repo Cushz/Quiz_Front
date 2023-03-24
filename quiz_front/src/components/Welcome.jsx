@@ -33,7 +33,7 @@ export default function Welcome() {
   const toast = useToast()
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (name && surname && group && subject) {
+    if (name && surname && groups && subject) {
       navigate("/quiz");
     } else {
       toast.closeAll()
