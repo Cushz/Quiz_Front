@@ -25,6 +25,7 @@ import {
   MenuList,
   MenuItem,
 } from "@chakra-ui/react";
+import { CloseIcon } from "@chakra-ui/icons";
 import Navbar from "./Navbar";
 import { useNavigate } from "react-router-dom";
 
@@ -63,7 +64,6 @@ export default function QuestionManagement() {
   const handleSubmit = () => {
     console.log(file);
     file && setFileList([file.name, ...fileList]);
-    
   };
 
   return (
@@ -90,7 +90,7 @@ export default function QuestionManagement() {
             fileList.map((e, key) => {
               return (
                 <>
-                  <Box
+                  <Flex
                     cursor={"pointer"}
                     onClick={onOpen}
                     key={key}
@@ -102,10 +102,20 @@ export default function QuestionManagement() {
                     bottom={0}
                     transition={"bottom 0.1s ease-out"}
                     _hover={{ bottom: "2px" }}
-                    p={"0.2em"}
+                    justifyContent={"space-between"}
+                    p={"0.4em"}
                   >
-                    {e}
-                  </Box>
+                    <Box>{e}</Box>
+                    <Box>
+                      <CloseIcon
+                        onClick={() => {
+                          alert("hello");
+                        }}
+                        fontSize={"0.7em"}
+                        color="black"
+                      />
+                    </Box>
+                  </Flex>
                 </>
               );
             })}
@@ -211,17 +221,18 @@ export default function QuestionManagement() {
                 Group and Speciality
               </MenuButton>
               <MenuList>
-                {FakeData && FakeData.map((item,key)=>
-                {
-                  return(
-                    <>
-                    <MenuItem onClick={()=>setFileList([...item.ListOfFiles])}>{item.Group} {item.Speciality}</MenuItem>
-                  </>
-                  )
-                  
-                })}
-                
-                
+                {FakeData &&
+                  FakeData.map((item, key) => {
+                    return (
+                      <>
+                        <MenuItem
+                          onClick={() => setFileList([...item.ListOfFiles])}
+                        >
+                          {item.Group} {item.Speciality}
+                        </MenuItem>
+                      </>
+                    );
+                  })}
               </MenuList>
             </Menu>
           </Box>
