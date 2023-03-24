@@ -94,7 +94,7 @@ export default function QuestionManagement() {
                     cursor={"pointer"}
                     onClick={onOpen}
                     key={key}
-                    boxShadow={"4px 4px 1px black"}
+                    boxShadow={"4px 4px 0px black"}
                     border={"2px solid black"}
                     borderRadius={"0.3em"}
                     backgroundColor={"white"}
