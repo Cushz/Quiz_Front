@@ -45,8 +45,7 @@ export default function Welcome() {
       })
     }
   };
-  // const unigroups = getUniGroup();
-  // console.log(unigroups);
+
 
   useEffect(() => {
     document.title = "Quiz App | Home";
