@@ -20,6 +20,7 @@ import {
 } from "@chakra-ui/react";
 import logo from "../assets/vectorpaint.svg";
 import "../assets/style.css";
+import { useToast } from '@chakra-ui/react'
 import { useNavigate } from "react-router-dom";
 import getUniGroup from "../api/getUniGroup";
 export default function Welcome() {
@@ -29,13 +30,19 @@ export default function Welcome() {
   const [surname, setSurname] = useState("");
   const [groups, setGroups] = useState([]);
   const [subject, setSubject] = useState("");
-
+  const toast = useToast()
   const handleSubmit = (event) => {
     event.preventDefault();
     if (name && surname && group && subject) {
       navigate("/quiz");
     } else {
-      alert("Please fill in all fields");
+      toast.closeAll()
+      toast({
+        title: "Fill all inputs correctly",
+        status: "error",
+        isClosable: true,
+        duration:1000,
+      })
     }
   };
   // const unigroups = getUniGroup();
@@ -90,7 +97,7 @@ export default function Welcome() {
             >
               Start
             </Button>
-            <form>
+            <form >
               <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
                 <ModalContent>
@@ -112,6 +119,7 @@ export default function Welcome() {
                         focusBorderColor={"black"}
                         placeholder={"Name"}
                         _placeholder={{ color: "black" }}
+                        
                       />
                       <Input
                         boxShadow={"4px 4px 1px black"}
