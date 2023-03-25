@@ -49,12 +49,11 @@ export default function Welcome() {
 
   useEffect(() => {
     document.title = "Quiz App | Home";
-    async function fetchData() {
+    async function fetchGroupData() {
       const response = await getUniGroup();
       setGroups(response)
-      console.log(response);
     }
-    fetchData();
+    fetchGroupData();
   }, []);
   return (
     <div className="quiz-body">
