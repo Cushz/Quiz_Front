@@ -23,17 +23,18 @@ import "../assets/style.css";
 import { useToast } from '@chakra-ui/react'
 import { useNavigate } from "react-router-dom";
 import getUniGroup from "../api/getUniGroup";
+import getSubject from "../api/getSubject";
 export default function Welcome() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [groups, setGroups] = useState([]);
-  const [subject, setSubject] = useState("");
+  const [subjects, setSubjects] = useState([]);
   const toast = useToast()
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (name && surname && groups && subject) {
+    if (name && surname && groups && subjects) {
       navigate("/quiz");
     } else {
       toast.closeAll()
@@ -53,7 +54,15 @@ export default function Welcome() {
       const response = await getUniGroup();
       setGroups(response)
     }
+
+    async function fetchSubjectData() {
+      const response = await getSubject();
+      setSubjects(response)
+
+    }
+
     fetchGroupData();
+    fetchSubjectData();
   }, []);
   return (
     <div className="quiz-body">
@@ -154,13 +163,17 @@ export default function Welcome() {
                         backgroundColor={"white"}
                         _hover={{ border: "2px solid black" }}
                         focusBorderColor={"black"}
-                        value={subject}
                         onChange={(event) => setSubject(event.target.value)}
                         placeholder={"Subject"}
                       >
-                        <option value={"a"}>a</option>
-                        <option value={"b"}>b</option>
-                        <option value={"c"}>c</option>
+                         {
+                          subjects.map((subject) => {
+                            return (
+                              <option key={subject.id} value={subject.id}>{subject.name}</option>
+                            )
+                          }
+                          )
+                        }
                       </Select>
                     </FormControl>
                   </ModalBody>
