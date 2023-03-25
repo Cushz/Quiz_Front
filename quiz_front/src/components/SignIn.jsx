@@ -8,7 +8,6 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState} from "react";
 import signIn from "../api/loginTeacher";
-import getUserInfo from "../api/getUserInfo"
 import { useNavigate } from "react-router-dom";
 import { useToast } from '@chakra-ui/react'
 
