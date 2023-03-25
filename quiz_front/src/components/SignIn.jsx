@@ -26,6 +26,12 @@ export default function SignIn() {
 //   getUser();
 //   },[navigate])
 
+const handleKeyDown = (e) => {
+  if (e.key === 'Enter') {
+    signInClick(e);
+  }
+}
+
 
 const signInClick = async (e) => {
   e.preventDefault();
@@ -71,7 +77,6 @@ const signInClick = async (e) => {
               focusBorderColor={"black"}
               placeholder={"email"}
               color={"black"}
-              cursor={"pointer"}
               onChange={(e)=>setsignInEmail(e.target.value)}
             />
           </Box>
@@ -86,8 +91,8 @@ const signInClick = async (e) => {
                focusBorderColor={"black"}
               type="password"
               name="password"
-              cursor={"pointer"}
               onChange={(e)=>setsignInPassword(e.target.value)}
+              onKeyDown={handleKeyDown}
             />
           </Box>
         </Flex>
@@ -114,3 +119,4 @@ const signInClick = async (e) => {
     </div>
   );
 }
+
