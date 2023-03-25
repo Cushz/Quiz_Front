@@ -10,9 +10,11 @@ import { useEffect, useState} from "react";
 import signIn from "../api/loginTeacher";
 import getUserInfo from "../api/getUserInfo"
 import { useNavigate } from "react-router-dom";
+import { useToast } from '@chakra-ui/react'
 
 
 export default function SignIn() {
+  const toast = useToast()
   const navigate = useNavigate();
 
   const[signInEmail, setsignInEmail] = useState("");
@@ -30,7 +32,13 @@ const signInClick = async (e) => {
   e.preventDefault();
   const resultToken = await signIn(signInEmail, signInPassword);
   if(!resultToken){
-    alert("Invalid Credentials");
+   toast.closeAll();
+    toast({
+      title: "Wrong email or password",
+      status: "error",
+      isClosable: true,
+      duration:1000,
+    })
     return ;
   }
   localStorage.setItem("token", resultToken);
