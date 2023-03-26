@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { Flex, Box, Heading, Text, Button } from "@chakra-ui/react";
-import Navbar from "./Navbar";
+import Navbar from "./Navbar"; 
+import { AiOutlineCheck,AiOutlineClose } from "react-icons/ai";
 export default function Stats(props) {
   useEffect(() => {
     document.title = "Quiz App | Results";
@@ -67,25 +68,27 @@ export default function Stats(props) {
             <Box>
               <Text fontWeight={"bold"}>Answered:</Text>
             </Box>
-            <Box>
-              <Text>{props.all}</Text>
-            </Box>
+            <Flex w={"24px"}>
+              <Text>{props.all} </Text>
+            </Flex>
           </Flex>
           <Flex justifyContent={"space-between"}>
             <Box>
               <Text fontWeight={"bold"}>Correct:</Text>
             </Box>
-            <Box>
+            <Flex alignItems={"center"}>
               <Text>{props.correct}</Text>
-            </Box>
+              <AiOutlineCheck color="green" />
+            </Flex>
           </Flex>
           <Flex justifyContent={"space-between"}>
             <Box>
               <Text fontWeight={"bold"}>Incorrect:</Text>
             </Box>
-            <Box>
+            <Flex alignItems={"center"}>
               <Text>{props.incorrect}</Text>
-            </Box>
+              <AiOutlineClose color="red" />
+            </Flex>
           </Flex>
         </Flex>
       </Flex>
