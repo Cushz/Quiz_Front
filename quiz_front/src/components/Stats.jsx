@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { Flex, Box, Heading, Text, Button } from "@chakra-ui/react";
+import Navbar from "./Navbar";
 export default function Stats(props) {
   useEffect(() => {
     document.title = "Quiz App | Results";
@@ -7,6 +8,7 @@ export default function Stats(props) {
 
   return (
     <div className="quiz-body">
+      <Navbar />
       <Flex
         bg={"rgb(255 249 228)"}
         boxShadow={"9px 9px 1px #000000"}

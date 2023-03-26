@@ -71,7 +71,7 @@ export default function Navbar() {
                 border={"none"}
                 variant={"outline"}
               >
-                Quiz
+                Main
               </Button>
             </Box>
           </Link>
