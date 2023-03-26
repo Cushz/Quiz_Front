@@ -4,16 +4,16 @@ import { useNavigate } from "react-router-dom";
 
 export default function Navbar() {
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const handleLogout = () => {
-    setIsLoggedIn(false);
+    setIsLoggedIn(!isLoggedIn);
     localStorage.removeItem("token");
     navigate("/auth");  
   };
 
   const handleLogin = () => {
-    setIsLoggedIn(true);
+    setIsLoggedIn(!isLoggedIn);
     
   };
   return (
@@ -52,29 +52,32 @@ export default function Navbar() {
         </>
       ) : (
         <>
+         <Link style={{textDecoration:"none"}} href={"/"}>
+            <Box>
+              <Button
+                _hover={{ backgroundColor: "black", color: "white" }}
+                border={"none"}
+                variant={"outline"}
+            
+              >
+                Main
+              </Button>
+            </Box>
+          </Link>
           <Box>
             <Button
               _hover={{ backgroundColor: "black", color: "white" }}
               border={"none"}
               variant={"outline"}
               onClick={handleLogin}
+              
             >
               Teacher Login
             </Button>
           </Box>
         </>
       )}
-      <Link style={{textDecoration:"none"}} href={"/"}>
-            <Box>
-              <Button
-                _hover={{ backgroundColor: "black", color: "white" }}
-                border={"none"}
-                variant={"outline"}
-              >
-                Main
-              </Button>
-            </Box>
-          </Link>
+      
     </Flex>
   );
 }
