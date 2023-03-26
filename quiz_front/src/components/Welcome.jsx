@@ -25,6 +25,8 @@ import { useToast } from '@chakra-ui/react'
 import { useNavigate } from "react-router-dom";
 import getUniGroup from "../api/getUniGroup";
 import getSubject from "../api/getSubject";
+
+
 export default function Welcome() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
@@ -33,6 +35,8 @@ export default function Welcome() {
   const [groups, setGroups] = useState([]);
   const [subjects, setSubjects] = useState([]);
   const toast = useToast()
+
+
   const handleSubmit = (event) => {
     event.preventDefault();
     if (name && surname && groups && subjects) {
@@ -55,16 +59,15 @@ export default function Welcome() {
       const response = await getUniGroup();
       setGroups(response)
     }
-
     async function fetchSubjectData() {
       const response = await getSubject();
       setSubjects(response)
-
     }
-
     fetchGroupData();
     fetchSubjectData();
   }, []);
+
+  
   return (
     <div className="quiz-body">
       <Navbar />
