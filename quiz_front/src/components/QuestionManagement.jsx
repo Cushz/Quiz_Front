@@ -24,11 +24,7 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
-  Menu,
-  MenuButton,
-  MenuList,
   Select,
-  MenuItem,
 } from "@chakra-ui/react";
 import { CloseIcon } from "@chakra-ui/icons";
 import Navbar from "./Navbar";
@@ -149,7 +145,7 @@ export default function QuestionManagement() {
                     justifyContent={"space-between"}
                     p={"0.4em"}
                   >
-                    <Box>{e}</Box>
+                    <Box wordBreak={"break-word"}>{e}</Box>
                     <Box>
                       <CloseIcon
                         onClick={() => {
@@ -205,12 +201,13 @@ export default function QuestionManagement() {
                 flexDirection={"column"}
                 justifyContent={"center"}
                 alignItems={"center"}
+                width={"8em"}
               >
                 <Box onClick={() => document.getElementById("upload").click()}>
                   <Image src={file_upload} w={"4em"} cursor="pointer" />
                 </Box>
                 <Box>
-                  <FormLabel htmlFor={"upload"}>
+                  <FormLabel wordBreak={"break-word"} htmlFor={"upload"}>
                     {file ? file.name : "Choose File"}
                   </FormLabel>
                 </Box>
