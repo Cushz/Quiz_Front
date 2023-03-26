@@ -19,6 +19,7 @@ import {
   Select,
 } from "@chakra-ui/react";
 import logo from "../assets/vectorpaint.svg";
+import Navbar from "./Navbar";
 import "../assets/style.css";
 import { useToast } from '@chakra-ui/react'
 import { useNavigate } from "react-router-dom";
@@ -66,6 +67,7 @@ export default function Welcome() {
   }, []);
   return (
     <div className="quiz-body">
+      <Navbar />
       <Flex gap={10} flexDirection={"column"} w={"50%"} margin={"0 auto"}>
         <Flex justifyContent={"center"} alignItems={"center"}>
           <Box>

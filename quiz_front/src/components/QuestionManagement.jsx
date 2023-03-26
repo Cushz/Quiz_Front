@@ -1,8 +1,12 @@
 import React from "react";
 import axios from "axios";
 import { useEffect } from "react";
-import { ChevronDownIcon } from "@chakra-ui/icons";
-import { ListItem, UnorderedList, useDisclosure } from "@chakra-ui/react";
+import {
+  ListItem,
+  UnorderedList,
+  useDisclosure,
+  useToast,
+} from "@chakra-ui/react";
 import { useState } from "react";
 import file_upload from "../assets/file.png";
 import {
@@ -23,8 +27,10 @@ import {
   Menu,
   MenuButton,
   MenuList,
+  Select,
   MenuItem,
 } from "@chakra-ui/react";
+import { CloseIcon } from "@chakra-ui/icons";
 import Navbar from "./Navbar";
 import { useNavigate } from "react-router-dom";
 
@@ -38,16 +44,30 @@ export default function QuestionManagement() {
   const [isLoggedIn, setIsLoggedIn] = useState();
   const [fileList, setFileList] = useState([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [selectedGroup, setSelectedGroup] = useState("");
+  const [specialities, setSpecialities] = useState([]);
+  const [selectedSpeciality, setSelectedSpeciality] = useState("");
+  const toast = useToast();
+
+  const handleGroupChange = (event) => {
+    const selectedGroup = event.target.value;
+    setSelectedGroup(selectedGroup);
+    const filteredSpecialities = FakeData.filter(
+      (item) => item.Group === selectedGroup
+    ).map((item) => item.Speciality);
+    setSpecialities(filteredSpecialities);
+    setSelectedSpeciality(filteredSpecialities[0]);
+  };
+
+  const handleSpecialityChange = (event) => {
+    const selectedSpeciality = event.target.value;
+    setSelectedSpeciality(selectedSpeciality);
+  };
   const FakeData = [
     {
       Group: "L0",
       Speciality: "Math",
       ListOfFiles: ["Math1", "Math2", "Math3", "Math4"],
-    },
-    {
-      Group: "L1",
-      Speciality: "Math",
-      ListOfFiles: ["L1Math1", "L1Math2", "L1Math3", "L1Math4"],
     },
     {
       Group: "L0",
@@ -59,13 +79,37 @@ export default function QuestionManagement() {
       Speciality: "Chem",
       ListOfFiles: ["L1Chem1", "L1Chem2", "L1Chem3", "L1Chem4"],
     },
+    {
+      Group: "L2",
+      Speciality: "Chem",
+      ListOfFiles: ["Chem1", "hem2", "em3", "m4"],
+    },
   ];
   const handleSubmit = () => {
     console.log(file);
     file && setFileList([file.name, ...fileList]);
-    
   };
 
+  const handleItems = (event) => {
+    event.preventDefault();
+    const group = selectedGroup;
+    const spec = selectedSpeciality;
+    const listOfFiles = FakeData.find(
+      (item) => item.Group === group && item.Speciality === spec
+    );
+    console.log(group, spec);
+    if (group && spec) {
+      setFileList(listOfFiles.ListOfFiles);
+    } else {
+      toast.closeAll();
+      toast({
+        title: "Please Select both of the options ",
+        status: "error",
+        isClosable: true,
+        duration: 1000,
+      });
+    }
+  };
   return (
     <div className="quiz-body">
       <Navbar />
@@ -90,11 +134,11 @@ export default function QuestionManagement() {
             fileList.map((e, key) => {
               return (
                 <>
-                  <Box
+                  <Flex
                     cursor={"pointer"}
                     onClick={onOpen}
                     key={key}
-                    boxShadow={"4px 4px 1px black"}
+                    boxShadow={"4px 4px 0px black"}
                     border={"2px solid black"}
                     borderRadius={"0.3em"}
                     backgroundColor={"white"}
@@ -102,10 +146,20 @@ export default function QuestionManagement() {
                     bottom={0}
                     transition={"bottom 0.1s ease-out"}
                     _hover={{ bottom: "2px" }}
-                    p={"0.2em"}
+                    justifyContent={"space-between"}
+                    p={"0.4em"}
                   >
-                    {e}
-                  </Box>
+                    <Box>{e}</Box>
+                    <Box>
+                      <CloseIcon
+                        onClick={() => {
+                          alert("hello");
+                        }}
+                        fontSize={"0.7em"}
+                        color="black"
+                      />
+                    </Box>
+                  </Flex>
                 </>
               );
             })}
@@ -194,38 +248,71 @@ export default function QuestionManagement() {
             </form>
           </Flex>
         </Flex>
-        <Flex justifyContent={"center"} alignItems={"center"}>
-          <Box>
-            <Menu>
-              <MenuButton
+        <form onSubmit={handleItems}>
+          <Flex
+            flexWrap={"wrap"}
+            boxShadow={"4px 4px 1px black"}
+            border={"2px solid black"}
+            justifyContent={"center"}
+            gap={"1em"}
+            p={"1em"}
+            alignItems={"center"}
+          >
+            <Box>
+              <Select
                 boxShadow={"4px 4px 1px black"}
                 border={"2px solid black"}
                 _hover={{ border: "2px solid black" }}
                 focusBorderColor={"black"}
                 cursor="pointer"
-                placeholder="Group and Speciality"
-                as={Button}
-                rightIcon={<ChevronDownIcon />}
+                placeholder="Group"
                 backgroundColor={"white"}
+                onChange={handleGroupChange}
+                value={selectedGroup}
               >
-                Group and Speciality
-              </MenuButton>
-              <MenuList>
-                {FakeData && FakeData.map((item,key)=>
-                {
-                  return(
-                    <>
-                    <MenuItem onClick={()=>setFileList([...item.ListOfFiles])}>{item.Group} {item.Speciality}</MenuItem>
-                  </>
+                {[...new Set(FakeData.map((item, key) => item.Group))].map(
+                  (group, key) => (
+                    <option key={key} value={group}>
+                      {group}
+                    </option>
                   )
-                  
-                })}
-                
-                
-              </MenuList>
-            </Menu>
-          </Box>
-        </Flex>
+                )}
+              </Select>
+            </Box>
+            <Box>
+              <Select
+                boxShadow={"4px 4px 1px black"}
+                border={"2px solid black"}
+                _hover={{ border: "2px solid black" }}
+                focusBorderColor={"black"}
+                cursor="pointer"
+                placeholder="Speciality"
+                backgroundColor={"white"}
+                onChange={handleSpecialityChange}
+                value={specialities.length > 0 ? undefined : ""}
+              >
+                {specialities.map((Speciality, key) => (
+                  <option key={key} value={Speciality}>
+                    {Speciality}
+                  </option>
+                ))}
+              </Select>
+            </Box>
+            <Box>
+              <Button
+                boxShadow={"4px 4px 1px black"}
+                border={"2px solid black"}
+                _hover={{ border: "2px solid black" }}
+                focusBorderColor={"black"}
+                cursor="pointer"
+                backgroundColor={"white"}
+                type={"submit"}
+              >
+                Search
+              </Button>
+            </Box>
+          </Flex>
+        </form>
       </Flex>
     </div>
   );
