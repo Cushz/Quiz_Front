@@ -59,7 +59,7 @@ export default function Navbar() {
               variant={"outline"}
               onClick={handleLogin}
             >
-              Login
+              Teacher Login
             </Button>
           </Box>
         </>
