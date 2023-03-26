@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Flex, Box, Heading, Text, Button } from "@chakra-ui/react";
+import { Flex, Box, Heading, Text} from "@chakra-ui/react";
 import Navbar from "./Navbar";
 export default function Stats(props) {
   useEffect(() => {

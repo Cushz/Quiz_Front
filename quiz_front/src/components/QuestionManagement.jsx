@@ -24,11 +24,7 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
-  Menu,
-  MenuButton,
-  MenuList,
   Select,
-  MenuItem,
 } from "@chakra-ui/react";
 import { CloseIcon } from "@chakra-ui/icons";
 import Navbar from "./Navbar";

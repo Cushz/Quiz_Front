@@ -9,4 +9,4 @@ const addStudent = async () => {
   }
 }
 
-export default addStudent
+export default addStudent;
