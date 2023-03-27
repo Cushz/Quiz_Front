@@ -23,17 +23,23 @@ import Navbar from "./Navbar";
 import "../assets/style.css";
 import { useToast } from '@chakra-ui/react'
 import { useNavigate } from "react-router-dom";
+import getUniGroup from "../api/getUniGroup";
+import getSubject from "../api/getSubject";
+
+
 export default function Welcome() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
-  const [group, setGroup] = useState("");
-  const [subject, setSubject] = useState("");
+  const [groups, setGroups] = useState([]);
+  const [subjects, setSubjects] = useState([]);
   const toast = useToast()
+
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (name && surname && group && subject) {
+    if (name && surname && groups && subjects) {
       navigate("/quiz");
     } else {
       toast.closeAll()
@@ -45,9 +51,23 @@ export default function Welcome() {
       })
     }
   };
+
+
   useEffect(() => {
     document.title = "Quiz App | Home";
-  });
+    async function fetchGroupData() {
+      const response = await getUniGroup();
+      setGroups(response)
+    }
+    async function fetchSubjectData() {
+      const response = await getSubject();
+      setSubjects(response)
+    }
+    fetchGroupData();
+    fetchSubjectData();
+  }, []);
+
+  
   return (
     <div className="quiz-body">
       <Navbar />
@@ -128,15 +148,19 @@ export default function Welcome() {
                         boxShadow={"4px 4px 1px black"}
                         border={"2px solid black"}
                         backgroundColor={"white"}
-                        value={group}
                         onChange={(event) => setGroup(event.target.value)}
                         _hover={{ border: "2px solid black" }}
                         focusBorderColor={"black"}
                         placeholder={"Group"}
                       >
-                        <option value={"a"}>a</option>
-                        <option value={"b"}>b</option>
-                        <option value={"c"}>c</option>
+                        {
+                          groups.map((group) => {
+                            return (
+                              <option key={group.id} value={group.id}>{group.name}</option>
+                            )
+                          }
+                          )
+                        }
                       </Select>
                       <Select
                         boxShadow={"4px 4px 1px black"}
@@ -144,13 +168,17 @@ export default function Welcome() {
                         backgroundColor={"white"}
                         _hover={{ border: "2px solid black" }}
                         focusBorderColor={"black"}
-                        value={subject}
                         onChange={(event) => setSubject(event.target.value)}
                         placeholder={"Subject"}
                       >
-                        <option value={"a"}>a</option>
-                        <option value={"b"}>b</option>
-                        <option value={"c"}>c</option>
+                         {
+                          subjects.map((subject) => {
+                            return (
+                              <option key={subject.id} value={subject.id}>{subject.name}</option>
+                            )
+                          }
+                          )
+                        }
                       </Select>
                     </FormControl>
                   </ModalBody>

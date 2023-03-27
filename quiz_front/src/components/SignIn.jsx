@@ -8,30 +8,36 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState} from "react";
 import signIn from "../api/loginTeacher";
-import getUserInfo from "../api/getUserInfo"
 import { useNavigate } from "react-router-dom";
+import { useToast } from '@chakra-ui/react'
 
 
 export default function SignIn() {
+  const toast = useToast()
   const navigate = useNavigate();
 
   const[signInEmail, setsignInEmail] = useState("");
   const[signInPassword, setsignInPassword] = useState("");
 
-//  useEffect(()=>{
-//   async function getUser() {
-//     const teacher = await getUserInfo();
-//     teacher && navigate('/dashboard')
-//   }
-//   getUser();
-//   },[navigate])
+
+const handleKeyDown = (e) => {
+  if (e.key === 'Enter') {
+    signInClick(e);
+  }
+}
 
 
 const signInClick = async (e) => {
   e.preventDefault();
   const resultToken = await signIn(signInEmail, signInPassword);
   if(!resultToken){
-    alert("Invalid Credentials");
+   toast.closeAll();
+    toast({
+      title: "Wrong email or password",
+      status: "error",
+      isClosable: true,
+      duration:1000,
+    })
     return ;
   }
   localStorage.setItem("token", resultToken);
@@ -71,7 +77,6 @@ const signInClick = async (e) => {
               focusBorderColor={"black"}
               placeholder={"email"}
               color={"black"}
-              cursor={"pointer"}
               onChange={(e)=>setsignInEmail(e.target.value)}
             />
           </Box>
@@ -86,8 +91,8 @@ const signInClick = async (e) => {
                focusBorderColor={"black"}
               type="password"
               name="password"
-              cursor={"pointer"}
               onChange={(e)=>setsignInPassword(e.target.value)}
+              onKeyDown={handleKeyDown}
             />
           </Box>
         </Flex>
@@ -114,3 +119,4 @@ const signInClick = async (e) => {
     </div>
   );
 }
+
