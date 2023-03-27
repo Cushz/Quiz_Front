@@ -5,6 +5,8 @@ import {
   Heading,
   Button,
   Input,
+  InputGroup,
+  InputRightElement,
 } from "@chakra-ui/react";
 import { useEffect, useState} from "react";
 import signIn from "../api/loginTeacher";
@@ -19,6 +21,9 @@ export default function SignIn() {
 
   const[signInEmail, setsignInEmail] = useState("");
   const[signInPassword, setsignInPassword] = useState("");
+  const [show, setShow] = React.useState(false)
+
+  const handleShowClick = () => setShow(!show)
 
 
 const handleKeyDown = (e) => {
@@ -49,6 +54,9 @@ const signInClick = async (e) => {
   useEffect(()=>{
     document.title= "Quiz App | Auth" 
    })
+
+
+
   return (
     <div className="quiz-body">
       <Navbar/>
@@ -84,6 +92,7 @@ const signInClick = async (e) => {
             />
           </Box>
           <Box>
+            <InputGroup>
             <Input
                boxShadow={"4px 4px 1px black"}
                border={"2px solid black"}
@@ -92,14 +101,22 @@ const signInClick = async (e) => {
                placeholder={"password"}
                _hover={{border:"2px solid black"}}
                focusBorderColor={"black"}
-              type="password"
+              type= {show ? "text" : "password"}
               name="password"
               onChange={(e)=>setsignInPassword(e.target.value)}
               onKeyDown={handleKeyDown}
               autoComplete="on"
             />
+            <InputRightElement width='4.5rem'>
+          <Button h='1.75rem' size='sm' onClick={handleShowClick}>
+               {show ? 'Hide' : 'Show'}
+          </Button>
+           </InputRightElement>
+            </InputGroup>
           </Box>
+          
         </Flex>
+        
 
         <Flex>
           <Button
