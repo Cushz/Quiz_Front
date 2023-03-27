@@ -33,6 +33,7 @@ const handleKeyDown = (e) => {
 }
 
 
+
 const signInClick = async (e) => {
   e.preventDefault();
   const resultToken = await signIn(signInEmail, signInPassword);
@@ -108,7 +109,9 @@ const signInClick = async (e) => {
               autoComplete="on"
             />
             <InputRightElement width='4.5rem'>
-          <Button h='1.75rem' size='sm' onClick={handleShowClick}>
+          <Button h='1.75rem' size='sm' onClick={handleShowClick}  _hover={{ backgroundColor: "black", color: "white" }}
+              border={"none"}
+              variant={"outline"}>
                {show ? 'Hide' : 'Show'}
           </Button>
            </InputRightElement>
