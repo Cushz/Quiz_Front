@@ -18,12 +18,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <ChakraProvider>
       <BrowserRouter>
         <Routes>
-        <Route element={<PrivateRoutes/>}>
             <Route path="dashboard/" element={<QuestionManagement />} />
-          </Route>
-          <Route element={<ExcludingRoutes/>}>
             <Route path="auth/" element={<SignIn />} />
-          </Route>
           <Route path="/" element={<Welcome />} />
           <Route path="quiz/" element={<Quiz />} />
           <Route path="stats/" element={<Stats />} />

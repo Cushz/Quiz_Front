@@ -8,12 +8,12 @@ export default function Navbar() {
 
   const handleLogout = () => {
     setIsLoggedIn(!isLoggedIn);
-    localStorage.removeItem("token");
-    navigate("/auth");  
+    navigate("/auth")
   };
 
   const handleLogin = () => {
     setIsLoggedIn(!isLoggedIn);
+    navigate("/dashboard")
     
   };
   return (

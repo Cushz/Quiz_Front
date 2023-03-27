@@ -55,16 +55,6 @@ export default function Welcome() {
 
   useEffect(() => {
     document.title = "Quiz App | Home";
-    async function fetchGroupData() {
-      const response = await getUniGroup();
-      setGroups(response)
-    }
-    async function fetchSubjectData() {
-      const response = await getSubject();
-      setSubjects(response)
-    }
-    fetchGroupData();
-    fetchSubjectData();
   }, []);
 
   
@@ -153,14 +143,8 @@ export default function Welcome() {
                         focusBorderColor={"black"}
                         placeholder={"Group"}
                       >
-                        {
-                          groups.map((group) => {
-                            return (
-                              <option key={group.id} value={group.id}>{group.name}</option>
-                            )
-                          }
-                          )
-                        }
+                 group
+                        
                       </Select>
                       <Select
                         boxShadow={"4px 4px 1px black"}
@@ -171,14 +155,7 @@ export default function Welcome() {
                         onChange={(event) => setSubject(event.target.value)}
                         placeholder={"Subject"}
                       >
-                         {
-                          subjects.map((subject) => {
-                            return (
-                              <option key={subject.id} value={subject.id}>{subject.name}</option>
-                            )
-                          }
-                          )
-                        }
+                       subject
                       </Select>
                     </FormControl>
                   </ModalBody>
