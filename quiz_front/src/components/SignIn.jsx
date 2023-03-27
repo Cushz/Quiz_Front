@@ -10,6 +10,7 @@ import { useEffect, useState} from "react";
 import signIn from "../api/loginTeacher";
 import { useNavigate } from "react-router-dom";
 import { useToast } from '@chakra-ui/react'
+import Navbar from "./Navbar";
 
 
 export default function SignIn() {
@@ -50,6 +51,7 @@ const signInClick = async (e) => {
    })
   return (
     <div className="quiz-body">
+      <Navbar/>
       <Flex
         p={"3em"}
         boxShadow={"4px 4px 1px black"}
