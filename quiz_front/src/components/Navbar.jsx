@@ -4,18 +4,20 @@ import { useNavigate } from "react-router-dom";
 
 export default function Navbar() {
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const isValid = localStorage.getItem("token") ? true : false;
+
+  const [isLoggedIn, setIsLoggedIn] = useState(isValid);
 
   const handleLogout = () => {
     setIsLoggedIn(!isLoggedIn);
     localStorage.removeItem("token");
-    navigate("/auth");  
+    navigate("/");  
   };
 
-  const handleLogin = () => {
-    setIsLoggedIn(!isLoggedIn);
-    
+  const navigateAuth = () => {
+    navigate("/auth");
   };
+
   return (
     <Flex
       justifyContent={"space-around"}
@@ -28,16 +30,18 @@ export default function Navbar() {
     >
       {isLoggedIn ? (
         <>
-          <Box>
-            <Button
-              _hover={{ backgroundColor: "black", color: "white" }}
-              border={"none"}
-              variant={"outline"}
-              onClick={handleLogout}
-            >
-              Logout
-            </Button>
-          </Box>
+        <Link style={{textDecoration:"none"}} href={"/"}>
+            <Box>
+              <Button
+                _hover={{ backgroundColor: "black", color: "white" }}
+                border={"none"}
+                variant={"outline"}
+            
+              >
+                Main
+              </Button>
+            </Box>
+          </Link>
           <Link style={{textDecoration:"none"}} href={"/dashboard"}>
           <Box>
             <Button
@@ -49,6 +53,16 @@ export default function Navbar() {
             </Button>
           </Box>
           </Link>
+          <Box>
+            <Button
+              _hover={{ backgroundColor: "black", color: "white" }}
+              border={"none"}
+              variant={"outline"}
+              onClick={handleLogout}
+            >
+              Logout
+            </Button>
+          </Box>
         </>
       ) : (
         <>
@@ -69,8 +83,7 @@ export default function Navbar() {
               _hover={{ backgroundColor: "black", color: "white" }}
               border={"none"}
               variant={"outline"}
-              onClick={handleLogin}
-              
+              onClick={navigateAuth}
             >
               Teacher Login
             </Button>
