@@ -51,7 +51,7 @@ export default function Welcome() {
   return (
     <div className="quiz-body">
       <Navbar />
-      <Flex gap={10} flexDirection={"column"} w={"50%"} margin={"0 auto"}>
+      <Flex   gap={10} flexDirection={"column"} w={{md:"50%",base:"90%"}} margin={"0 auto"}>
         <Flex justifyContent={"center"} alignItems={"center"}>
           <Box>
             <Image src={logo} w={"20em"} />
