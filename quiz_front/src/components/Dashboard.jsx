@@ -1,5 +1,4 @@
 import React from "react";
-import axios from "axios";
 import { useEffect } from "react";
 import {
   ListItem,
@@ -29,6 +28,9 @@ import {
 import { CloseIcon } from "@chakra-ui/icons";
 import Navbar from "./Navbar";
 import { useNavigate } from "react-router-dom";
+import getUniGroup from "../api/getUniGroup";
+import getSubject from "../api/getSubject";
+
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -39,6 +41,8 @@ export default function Dashboard() {
   const [file, setFile] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState();
   const [fileList, setFileList] = useState([]);
+  const [groups, setGroups] = useState([]);
+  const [subjects, setSubjects] = useState([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [selectedGroup, setSelectedGroup] = useState("");
   const [specialities, setSpecialities] = useState([]);
@@ -55,32 +59,46 @@ export default function Dashboard() {
     setSelectedSpeciality(filteredSpecialities[0]);
   };
 
+  useEffect(() => {
+    document.title = "Quiz App | Dashboard";
+    async function fetchGroupData() {
+      const response = await getUniGroup();
+      setGroups(response)
+    }
+    async function fetchSubjectData() {
+      const response = await getSubject();
+      setSubjects(response)
+    }
+    fetchGroupData();
+    fetchSubjectData();
+  }, []);
+
   const handleSpecialityChange = (event) => {
     const selectedSpeciality = event.target.value;
     setSelectedSpeciality(selectedSpeciality);
   };
-  const FakeData = [
-    {
-      Group: "L0",
-      Speciality: "Math",
-      ListOfFiles: ["Math1", "Math2", "Math3", "Math4"],
-    },
-    {
-      Group: "L0",
-      Speciality: "Chem",
-      ListOfFiles: ["Chem1", "Chem2", "Chem3", "Chem4"],
-    },
-    {
-      Group: "L1",
-      Speciality: "Chem",
-      ListOfFiles: ["L1Chem1", "L1Chem2", "L1Chem3", "L1Chem4"],
-    },
-    {
-      Group: "L2",
-      Speciality: "Chem",
-      ListOfFiles: ["Chem1", "hem2", "em3", "m4"],
-    },
-  ];
+  // const FakeData = [
+  //   {
+  //     Group: "L0",
+  //     Speciality: "Math",
+  //     ListOfFiles: ["Math1", "Math2", "Math3", "Math4"],
+  //   },
+  //   {
+  //     Group: "L0",
+  //     Speciality: "Chem",
+  //     ListOfFiles: ["Chem1", "Chem2", "Chem3", "Chem4"],
+  //   },
+  //   {
+  //     Group: "L1",
+  //     Speciality: "Chem",
+  //     ListOfFiles: ["L1Chem1", "L1Chem2", "L1Chem3", "L1Chem4"],
+  //   },
+  //   {
+  //     Group: "L2",
+  //     Speciality: "Chem",
+  //     ListOfFiles: ["Chem1", "hem2", "em3", "m4"],
+  //   },
+  // ];
   const handleSubmit = () => {
     console.log(file);
     file && setFileList([file.name, ...fileList]);
@@ -90,10 +108,6 @@ export default function Dashboard() {
     event.preventDefault();
     const group = selectedGroup;
     const spec = selectedSpeciality;
-    const listOfFiles = FakeData.find(
-      (item) => item.Group === group && item.Speciality === spec
-    );
-    console.log(group, spec);
     if (group && spec) {
       setFileList(listOfFiles.ListOfFiles);
     } else {
@@ -267,13 +281,11 @@ export default function Dashboard() {
                 onChange={handleGroupChange}
                 value={selectedGroup}
               >
-                {[...new Set(FakeData.map((item, key) => item.Group))].map(
-                  (group, key) => (
-                    <option key={key} value={group}>
-                      {group}
-                    </option>
-                  )
-                )}
+                {groups.map((Group, key) => (
+                  <option key={key} value={Group}>
+                    {Group}
+                  </option>
+                ))}
               </Select>
             </Box>
             <Box>
@@ -288,11 +300,14 @@ export default function Dashboard() {
                 onChange={handleSpecialityChange}
                 value={specialities.length > 0 ? undefined : ""}
               >
-                {specialities.map((Speciality, key) => (
-                  <option key={key} value={Speciality}>
-                    {Speciality}
-                  </option>
-                ))}
+               {
+                          subjects.map((subject) => {
+                            return (
+                              <option key={subject.id} value={subject.id}>{subject.name}</option>
+                            )
+                          }
+                          )
+                        }
               </Select>
             </Box>
             <Box>
