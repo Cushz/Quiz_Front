@@ -80,6 +80,7 @@ const signInClick = async (e) => {
               placeholder={"email"}
               color={"black"}
               onChange={(e)=>setsignInEmail(e.target.value)}
+              autoComplete="on"
             />
           </Box>
           <Box>
@@ -95,6 +96,7 @@ const signInClick = async (e) => {
               name="password"
               onChange={(e)=>setsignInPassword(e.target.value)}
               onKeyDown={handleKeyDown}
+              autoComplete="on"
             />
           </Box>
         </Flex>
