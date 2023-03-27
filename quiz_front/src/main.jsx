@@ -11,21 +11,25 @@ import "../src/assets/style.css"
 import Navbar from "./components/Navbar";
 import dotenv from "dotenv";
 import PrivateRoutes from "./utils/PrivateRoutes";
+import ExcludingRoutes from "./utils/ExcludingRoutes";
 
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <ChakraProvider>
-    <React.StrictMode>
       <BrowserRouter>
         <Routes>
-          <Route path="dashboard/" element={<QuestionManagement />} />
+        <Route element={<PrivateRoutes/>}>
+            <Route path="dashboard/" element={<QuestionManagement />} />
+          </Route>
+          <Route element={<ExcludingRoutes/>}>
+            <Route path="auth/" element={<SignIn />} />
+          </Route>
           <Route path="/" element={<Welcome />} />
           <Route path="quiz/" element={<Quiz />} />
           <Route path="stats/" element={<Stats />} />
           <Route path="auth/" element={<SignIn />} /> 
         </Routes>
       </BrowserRouter>
-  </React.StrictMode>
   </ChakraProvider>
   
 );
