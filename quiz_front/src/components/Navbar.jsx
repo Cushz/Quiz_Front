@@ -73,6 +73,7 @@ export default function Navbar(props) {
                         <Button
                           _hover={{ backgroundColor: "black", color: "white" }}
                           border={"none"}
+                          color={"black"}
                           variant={"outline"}
                           onClick={handleLogout}
                         >
@@ -91,6 +92,7 @@ export default function Navbar(props) {
                             }}
                             border={"none"}
                             variant={"outline"}
+                            color={"black"}
                           >
                             Dashboard
                           </Button>
@@ -150,6 +152,7 @@ export default function Navbar(props) {
                   border={"none"}
                   variant={"outline"}
                   onClick={handleLogout}
+                  color={"black"}
                 >
                   Logout
                 </Button>
@@ -160,6 +163,7 @@ export default function Navbar(props) {
                     _hover={{ backgroundColor: "black", color: "white" }}
                     border={"none"}
                     variant={"outline"}
+                    color={"black"}
                   >
                     Dashboard
                   </Button>
@@ -174,6 +178,7 @@ export default function Navbar(props) {
                     _hover={{ backgroundColor: "black", color: "white" }}
                     border={"none"}
                     variant={"outline"}
+                    color={"black"}
                   >
                     Main
                   </Button>
@@ -185,6 +190,7 @@ export default function Navbar(props) {
                   border={"none"}
                   variant={"outline"}
                   onClick={handleLogin}
+                  color={"black"}
                 >
                   Teacher Login
                 </Button>
