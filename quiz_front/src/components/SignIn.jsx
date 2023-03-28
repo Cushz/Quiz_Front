@@ -36,8 +36,8 @@ const handleKeyDown = (e) => {
 
 const signInClick = async (e) => {
   e.preventDefault();
-  
- 
+  const resultToken = await signIn(signInEmail, signInPassword);
+  if(!resultToken){
    toast.closeAll();
     toast({
       title: "Wrong email or password",
@@ -45,8 +45,11 @@ const signInClick = async (e) => {
       isClosable: true,
       duration:1000,
     })
+    return ;
   }
-
+  localStorage.setItem("token", resultToken);
+  navigate("/dashboard");
+}
 
 
   useEffect(()=>{
