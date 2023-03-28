@@ -16,6 +16,7 @@ import { useDisclosure } from "@chakra-ui/react";
 import { useRef } from "react";
 export default function Navbar(props) {
   const navigate = useNavigate();
+
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef();
@@ -34,18 +35,25 @@ export default function Navbar(props) {
     };
   }, []);
 
+  const isValid = localStorage.getItem("token") ? true : false;
+
+  const [isLoggedIn, setIsLoggedIn] = useState(isValid);
+
   const handleLogout = () => {
     setIsLoggedIn(!isLoggedIn);
-    navigate("/auth");
+    localStorage.removeItem("token");
+    localStorage.removeItem("teacherId");
+    navigate("/");  
   };
 
-  const handleLogin = () => {
-    setIsLoggedIn(!isLoggedIn);
-    navigate("/dashboard");
+  const navigateAuth = () => {
+    navigate("/auth");
+
   };
+
   return (
-    <>
-      {mobile || props.isMobile ? (
+<>
+{mobile || props.isMobile ? (
         <Flex w={"80%"} p={"1em"} >
           <Box
             p={"0.2em"}
@@ -135,69 +143,76 @@ export default function Navbar(props) {
           </Box>
         </Flex>
       ) : (
-        <Flex
-          justifyContent={"space-around"}
-          w={"80%"}
-          m={"0.5em auto 0 auto"}
-          boxShadow={"4px 4px 1px black"}
-          border={"2px solid black"}
-          backgroundColor={"white"}
-          p={"0.5em"}
-        >
-          {isLoggedIn ? (
-            <>
-              <Box>
-                <Button
-                  _hover={{ backgroundColor: "black", color: "white" }}
-                  border={"none"}
-                  variant={"outline"}
-                  onClick={handleLogout}
-                  color={"black"}
-                >
-                  Logout
-                </Button>
-              </Box>
-              <Link style={{ textDecoration: "none" }} href={"/dashboard"}>
-                <Box>
-                  <Button
-                    _hover={{ backgroundColor: "black", color: "white" }}
-                    border={"none"}
-                    variant={"outline"}
-                    color={"black"}
-                  >
-                    Dashboard
-                  </Button>
-                </Box>
-              </Link>
-            </>
-          ) : (
-            <>
-              <Link style={{ textDecoration: "none" }} href={"/"}>
-                <Box>
-                  <Button
-                    _hover={{ backgroundColor: "black", color: "white" }}
-                    border={"none"}
-                    variant={"outline"}
-                    color={"black"}
-                  >
-                    Main
-                  </Button>
-                </Box>
-              </Link>
-              <Box>
-                <Button
-                  _hover={{ backgroundColor: "black", color: "white" }}
-                  border={"none"}
-                  variant={"outline"}
-                  onClick={handleLogin}
-                  color={"black"}
-                >
-                  Teacher Login
-                </Button>
-              </Box>
-            </>
-          )}
-        </Flex>
+    <Flex
+      justifyContent={"space-around"}
+      w={"80%"}
+      m={"0.5em auto 0 auto"}
+      boxShadow={"4px 4px 1px black"}
+      border={"2px solid black"}
+      backgroundColor={"white"}
+      p={"0.5em"}
+    >
+      {isLoggedIn ? (
+        <>
+        <Link style={{textDecoration:"none"}} href={"/"}>
+            <Box>
+              <Button
+                _hover={{ backgroundColor: "black", color: "white" }}
+                border={"none"}
+                variant={"outline"}
+            
+              >
+                Main
+              </Button>
+            </Box>
+          </Link>
+          <Link style={{textDecoration:"none"}} href={"/dashboard"}>
+          <Box>
+            <Button
+              _hover={{ backgroundColor: "black", color: "white" }}
+              border={"none"}
+              variant={"outline"}
+            >
+              Dashboard
+            </Button>
+          </Box>
+          </Link>
+          <Box>
+            <Button
+              _hover={{ backgroundColor: "black", color: "white" }}
+              border={"none"}
+              variant={"outline"}
+              onClick={handleLogout}
+            >
+              Logout
+            </Button>
+          </Box>
+        </>
+      ) : (
+        <>
+         <Link style={{textDecoration:"none"}} href={"/"}>
+            <Box>
+              <Button
+                _hover={{ backgroundColor: "black", color: "white" }}
+                border={"none"}
+                variant={"outline"}
+            
+              >
+                Main
+              </Button>
+            </Box>
+          </Link>
+          <Box>
+            <Button
+              _hover={{ backgroundColor: "black", color: "white" }}
+              border={"none"}
+              variant={"outline"}
+              onClick={navigateAuth}
+            >
+              Teacher Login
+            </Button>
+          </Box>
+        </>
       )}
     </>
   );
