@@ -30,7 +30,6 @@ import Navbar from "./Navbar";
 import { useNavigate } from "react-router-dom";
 import getUserInfo from "../api/getUserInfo";
 import getTeacherbyID from "../api/getTeacherbyID";
-import axios from "axios";
 import getUnigroupbyID from "../api/getUnigroupbyID";
 
 
