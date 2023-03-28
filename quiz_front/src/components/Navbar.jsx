@@ -11,6 +11,7 @@ export default function Navbar() {
   const handleLogout = () => {
     setIsLoggedIn(!isLoggedIn);
     localStorage.removeItem("token");
+    localStorage.removeItem("teacherId");
     navigate("/");  
   };
 

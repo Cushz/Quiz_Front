@@ -28,87 +28,89 @@ import {
 import { CloseIcon } from "@chakra-ui/icons";
 import Navbar from "./Navbar";
 import { useNavigate } from "react-router-dom";
-import getUniGroup from "../api/getUniGroup";
-import getSubject from "../api/getSubject";
+import getUserInfo from "../api/getUserInfo";
+import getTeacherbyID from "../api/getTeacherbyID";
+import axios from "axios";
+import getUnigroupbyID from "../api/getUnigroupbyID";
 
 
 export default function Dashboard() {
   const navigate = useNavigate();
-
-  useEffect(() => {
-    document.title = "Quiz App | Manage";
-  });
   const [file, setFile] = useState(null);
-  const [isLoggedIn, setIsLoggedIn] = useState();
   const [fileList, setFileList] = useState([]);
-  const [groups, setGroups] = useState([]);
-  const [subjects, setSubjects] = useState([]);
+  const [teacher, setTeacher] = useState("");
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [selectedGroup, setSelectedGroup] = useState("");
-  const [specialities, setSpecialities] = useState([]);
-  const [selectedSpeciality, setSelectedSpeciality] = useState("");
+  const [selectedSubject, setSelectedSubject] = useState("");
+  const [unigroup, setUnigroup] = useState("");
+  const [teacherId, setTeacherId] = useState(localStorage.getItem("teacherId"));
   const toast = useToast();
 
   const handleGroupChange = (event) => {
     const selectedGroup = event.target.value;
     setSelectedGroup(selectedGroup);
-    const filteredSpecialities = FakeData.filter(
-      (item) => item.Group === selectedGroup
-    ).map((item) => item.Speciality);
-    setSpecialities(filteredSpecialities);
-    setSelectedSpeciality(filteredSpecialities[0]);
+    const fetchUnigroupbyID = async () => {
+      const response = await getUnigroupbyID(selectedGroup);
+      setUnigroup(response);
+    };
+    if (selectedGroup) {
+      fetchUnigroupbyID();
+    }
   };
+
 
   useEffect(() => {
     document.title = "Quiz App | Dashboard";
-    async function fetchGroupData() {
-      const response = await getUniGroup();
-      setGroups(response)
-    }
-    async function fetchSubjectData() {
-      const response = await getSubject();
-      setSubjects(response)
-    }
-    fetchGroupData();
-    fetchSubjectData();
-  }, []);
+    const fetchUserInfo = async () => {
+      const response = await getUserInfo();
+      localStorage.setItem("teacherId", response.id);
+      setTeacherId(localStorage.getItem("teacherId"));
+      
+    };
+    if (!localStorage.getItem("teacherId")) fetchUserInfo();    
+    }, []);
 
-  const handleSpecialityChange = (event) => {
-    const selectedSpeciality = event.target.value;
-    setSelectedSpeciality(selectedSpeciality);
+  useEffect(() => {
+    const fetchTeacherInfo = async () => {
+      try {
+      const response = await getTeacherbyID(teacherId);
+      setTeacher(response);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    if (teacherId) {
+      fetchTeacherInfo();
+    }
+  }, [teacherId]);
+
+  useEffect(() => {
+    console.log("teacher", teacher);
+    console.log
+  }, [teacher]);
+  
+  
+
+
+
+
+  const handleSubjectChange = (event) => {
+    const selectedSubject = event.target.value;
+    setSelectedSubject(selectedSubject);
   };
-  // const FakeData = [
-  //   {
-  //     Group: "L0",
-  //     Speciality: "Math",
-  //     ListOfFiles: ["Math1", "Math2", "Math3", "Math4"],
-  //   },
-  //   {
-  //     Group: "L0",
-  //     Speciality: "Chem",
-  //     ListOfFiles: ["Chem1", "Chem2", "Chem3", "Chem4"],
-  //   },
-  //   {
-  //     Group: "L1",
-  //     Speciality: "Chem",
-  //     ListOfFiles: ["L1Chem1", "L1Chem2", "L1Chem3", "L1Chem4"],
-  //   },
-  //   {
-  //     Group: "L2",
-  //     Speciality: "Chem",
-  //     ListOfFiles: ["Chem1", "hem2", "em3", "m4"],
-  //   },
-  // ];
+
   const handleSubmit = () => {
     console.log(file);
     file && setFileList([file.name, ...fileList]);
   };
 
+
   const handleItems = (event) => {
     event.preventDefault();
     const group = selectedGroup;
-    const spec = selectedSpeciality;
-    if (group && spec) {
+    const subject = selectedSubject;
+    if (group && subject) {
       setFileList(listOfFiles.ListOfFiles);
     } else {
       toast.closeAll();
@@ -120,7 +122,9 @@ export default function Dashboard() {
       });
     }
   };
-  return (
+
+
+  return teacher  && (
     <div className="quiz-body">
       <Navbar />
       <Flex
@@ -280,12 +284,16 @@ export default function Dashboard() {
                 backgroundColor={"white"}
                 onChange={handleGroupChange}
                 value={selectedGroup}
+                
               >
-                {groups.map((Group, key) => (
-                  <option key={key} value={Group}>
-                    {Group}
-                  </option>
-                ))}
+                {teacher.Unigroups.map((unigroup) => {
+                  return (
+                    <option key={unigroup.id} value={unigroup.id}>
+                      {unigroup.name}
+                    </option>
+                  );
+                }
+                  )}
               </Select>
             </Box>
             <Box>
@@ -295,19 +303,16 @@ export default function Dashboard() {
                 _hover={{ border: "2px solid black" }}
                 focusBorderColor={"black"}
                 cursor="pointer"
-                placeholder="Speciality"
+                placeholder="Subject"
                 backgroundColor={"white"}
-                onChange={handleSpecialityChange}
-                value={specialities.length > 0 ? undefined : ""}
+                onChange={handleSubjectChange}
+                value={selectedSubject}
               >
-               {
-                          subjects.map((subject) => {
-                            return (
-                              <option key={subject.id} value={subject.id}>{subject.name}</option>
-                            )
-                          }
-                          )
-                        }
+                {unigroup && unigroup.Subjects.map(group => (
+      <option key={group.id} value={group.id}>
+        {group.name}
+      </option>
+    ))}
               </Select>
             </Box>
             <Box>
@@ -329,3 +334,4 @@ export default function Dashboard() {
     </div>
   );
 }
+
