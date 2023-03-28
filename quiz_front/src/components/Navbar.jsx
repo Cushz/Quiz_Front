@@ -17,7 +17,6 @@ import { useRef } from "react";
 export default function Navbar(props) {
   const navigate = useNavigate();
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef();
   const [mobile, setMobile] = useState(false);
@@ -142,7 +141,7 @@ export default function Navbar(props) {
             </Drawer>
           </Box>
         </Flex>
-      ) : (
+      )  : (
     <Flex
       justifyContent={"space-around"}
       w={"80%"}
@@ -217,3 +216,5 @@ export default function Navbar(props) {
     </>
   );
 }
+
+</>
