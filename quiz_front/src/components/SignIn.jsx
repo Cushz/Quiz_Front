@@ -36,8 +36,8 @@ const handleKeyDown = (e) => {
 
 const signInClick = async (e) => {
   e.preventDefault();
-  const resultToken = await signIn(signInEmail, signInPassword);
-  if(!resultToken){
+  
+ 
    toast.closeAll();
     toast({
       title: "Wrong email or password",
@@ -45,11 +45,8 @@ const signInClick = async (e) => {
       isClosable: true,
       duration:1000,
     })
-    return ;
   }
-  localStorage.setItem("token", resultToken);
-  navigate("/dashboard");
-}
+
 
 
   useEffect(()=>{
@@ -67,12 +64,12 @@ const signInClick = async (e) => {
         border={"2px solid black"}
         borderRadius={"1em"}
         flexDirection={"column"}
-        width={"50%"}
-        margin={"1em auto 0 auto"}
+        width={{md:"50%",base:"80%"}}
+        margin={{md:"18vh auto 0 auto",base:"20vh auto 0 auto"}}
         gap={"2em"}
       >
         <Flex>
-          <Heading color={"black"}>Welcome back!</Heading>
+          <Heading textAlign={{md:"",base:"center"}} color={"black"}>Welcome back!</Heading>
         </Flex>
 
         <Flex gap={"1em"} flexDirection={"column"} justifyContent={"space-evenly"}>
@@ -88,6 +85,8 @@ const signInClick = async (e) => {
               focusBorderColor={"black"}
               placeholder={"email"}
               color={"black"}
+              p={{base:"1em",md:""}}
+              fontSize={{base:"1.3em",md:"default"}}
               onChange={(e)=>setsignInEmail(e.target.value)}
               autoComplete="on"
             />
@@ -98,6 +97,8 @@ const signInClick = async (e) => {
                boxShadow={"4px 4px 1px black"}
                border={"2px solid black"}
                backgroundColor={"white"}
+               p={{base:"1em",md:""}}
+              fontSize={{base:"1.3em",md:"default"}}
                color={"black"}
                placeholder={"password"}
                _hover={{border:"2px solid black"}}
@@ -121,7 +122,7 @@ const signInClick = async (e) => {
         </Flex>
         
 
-        <Flex>
+        <Flex justifyContent={{md:"flex-start",base:"center"}}>
           <Button
             boxShadow={"4px 4px 1px black"}
             border={"2px solid black"}
@@ -142,5 +143,5 @@ const signInClick = async (e) => {
       </Flex>
     </div>
   );
-}
 
+  }

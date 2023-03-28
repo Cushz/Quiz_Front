@@ -67,8 +67,8 @@ export default function Quiz() {
           borderRadius={"14px"}
           flexDirection={"column"}
           border={"5px solid black"}
-          margin={"1em auto 0 auto"}
-          w={"50%"}
+          margin={"8vh auto 0 auto"}
+          w={{md:"50%",base:"90%"}}
           className="Quiz"
         >
           <Flex

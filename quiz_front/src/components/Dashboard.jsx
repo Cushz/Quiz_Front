@@ -122,25 +122,26 @@ export default function Dashboard() {
       });
     }
   };
-
-
-  return teacher  && (
+  return teacher (
     <div className="quiz-body">
       <Navbar />
       <Flex
-        gap={"2em"}
-        w={"60%"}
+        w={"80%"}
         margin={"1em auto 0 auto"}
         h={"80%"}
+        gap={1}
         flexDirection={{ md: "row", base: "column" }}
+        justifyContent={"space-evenly"}
       >
         <Flex
           boxShadow={"4px 4px 1px black"}
           border={"2px solid black"}
-          w={{ md: "35%", base: "100%" }}
           flexDirection={"column"}
           p={"1em"}
           gap={2}
+          maxW={"25%"}
+          minH={{md:"",base:"25%"}}
+          minW={{md:"25%",base:"100%"}}
           overflowY={"auto"}
           overflowX={"hidden"}
         >
@@ -212,14 +213,18 @@ export default function Dashboard() {
           alignItems={"center"}
           boxShadow={"4px 4px 1px black"}
           border={"2px solid black"}
+          maxW={"50%"}
+          minH={{md:"",base:"50%"}}
+          minW={{md:"50%",base:"100%"}}
+          p={"10vw"}
+          flexWrap={"wrap"}
         >
-          <Flex justifyContent={"center"} alignItems={"center"} p={"5em"}>
+          <Flex justifyContent={"center"} alignItems={"center"}>
             <form>
               <Flex
                 flexDirection={"column"}
                 justifyContent={"center"}
                 alignItems={"center"}
-                width={"8em"}
               >
                 <Box onClick={() => document.getElementById("upload").click()}>
                   <Image src={file_upload} w={"4em"} cursor="pointer" />
@@ -263,30 +268,31 @@ export default function Dashboard() {
             </form>
           </Flex>
         </Flex>
-        <form onSubmit={handleItems}>
-          <Flex
-            flexWrap={"wrap"}
-            boxShadow={"4px 4px 1px black"}
-            border={"2px solid black"}
-            justifyContent={"center"}
-            gap={"1em"}
-            p={"1em"}
-            alignItems={"center"}
-          >
-            <Box>
-              <Select
-                boxShadow={"4px 4px 1px black"}
-                border={"2px solid black"}
-                _hover={{ border: "2px solid black" }}
-                focusBorderColor={"black"}
-                cursor="pointer"
-                placeholder="Group"
-                backgroundColor={"white"}
-                onChange={handleGroupChange}
-                value={selectedGroup}
-                
-              >
-                {teacher.Unigroups.map((unigroup) => {
+        <Flex
+          flexWrap={"wrap"}
+          boxShadow={"4px 4px 1px black"}
+          border={"2px solid black"}
+          justifyContent={"center"}
+          alignItems={"center"}
+          maxW={"25%"}
+          minH={{md:"",base:"25%"}}
+          minW={{md:"25%",base:"100%"}}
+        >
+          <form onSubmit={handleItems}>
+            <Flex p={"5vw"}  flexWrap={"wrap"} flexDirection={{md:"column",base:"row"}} gap={2}>
+              <Box>
+                <Select
+                  boxShadow={"4px 4px 1px black"}
+                  border={"2px solid black"}
+                  _hover={{ border: "2px solid black" }}
+                  focusBorderColor={"black"}
+                  cursor="pointer"
+                  placeholder="Group"
+                  backgroundColor={"white"}
+                  onChange={handleGroupChange}
+                  value={selectedGroup}
+                >
+                  {teacher.Unigroups.map((unigroup) => {
                   return (
                     <option key={unigroup.id} value={unigroup.id}>
                       {unigroup.name}
@@ -294,42 +300,43 @@ export default function Dashboard() {
                   );
                 }
                   )}
-              </Select>
-            </Box>
-            <Box>
-              <Select
-                boxShadow={"4px 4px 1px black"}
-                border={"2px solid black"}
-                _hover={{ border: "2px solid black" }}
-                focusBorderColor={"black"}
-                cursor="pointer"
-                placeholder="Subject"
-                backgroundColor={"white"}
-                onChange={handleSubjectChange}
-                value={selectedSubject}
-              >
-                {unigroup && unigroup.Subjects.map(group => (
+                </Select>
+              </Box>
+              <Box>
+                <Select
+                  boxShadow={"4px 4px 1px black"}
+                  border={"2px solid black"}
+                  _hover={{ border: "2px solid black" }}
+                  focusBorderColor={"black"}
+                  cursor="pointer"
+                  placeholder="Speciality"
+                  backgroundColor={"white"}
+                  onChange={handleSubjectChange}
+                  value={selectedSubject}
+                >
+                  {unigroup && unigroup.Subjects.map(group => (
       <option key={group.id} value={group.id}>
         {group.name}
       </option>
     ))}
-              </Select>
-            </Box>
-            <Box>
-              <Button
-                boxShadow={"4px 4px 1px black"}
-                border={"2px solid black"}
-                _hover={{ border: "2px solid black" }}
-                focusBorderColor={"black"}
-                cursor="pointer"
-                backgroundColor={"white"}
-                type={"submit"}
-              >
-                Search
-              </Button>
-            </Box>
-          </Flex>
-        </form>
+                </Select>
+              </Box>
+              <Box>
+                <Button
+                  boxShadow={"4px 4px 1px black"}
+                  border={"2px solid black"}
+                  _hover={{ border: "2px solid black" }}
+                  focusBorderColor={"black"}
+                  cursor="pointer"
+                  backgroundColor={"white"}
+                  type={"submit"}
+                >
+                  Search
+                </Button>
+              </Box>
+            </Flex>
+          </form>
+        </Flex>
       </Flex>
     </div>
   );

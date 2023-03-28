@@ -55,23 +55,13 @@ export default function Welcome() {
 
   useEffect(() => {
     document.title = "Quiz App | Home";
-    async function fetchGroupData() {
-      const response = await getUniGroup();
-      setGroups(response)
-    }
-    async function fetchSubjectData() {
-      const response = await getSubject();
-      setSubjects(response)
-    }
-    fetchGroupData();
-    fetchSubjectData();
   }, []);
 
   
   return (
     <div className="quiz-body">
       <Navbar />
-      <Flex gap={10} flexDirection={"column"} w={"50%"} margin={"0 auto"}>
+      <Flex   gap={10} flexDirection={"column"} w={{md:"50%",base:"90%"}} margin={"0 auto"}>
         <Flex justifyContent={"center"} alignItems={"center"}>
           <Box>
             <Image src={logo} w={"20em"} />
@@ -153,14 +143,8 @@ export default function Welcome() {
                         focusBorderColor={"black"}
                         placeholder={"Group"}
                       >
-                        {
-                          groups.map((group) => {
-                            return (
-                              <option key={group.id} value={group.id}>{group.name}</option>
-                            )
-                          }
-                          )
-                        }
+                 group
+                        
                       </Select>
                       <Select
                         boxShadow={"4px 4px 1px black"}
@@ -171,14 +155,7 @@ export default function Welcome() {
                         onChange={(event) => setSubject(event.target.value)}
                         placeholder={"Subject"}
                       >
-                         {
-                          subjects.map((subject) => {
-                            return (
-                              <option key={subject.id} value={subject.id}>{subject.name}</option>
-                            )
-                          }
-                          )
-                        }
+                       subject
                       </Select>
                     </FormControl>
                   </ModalBody>

@@ -21,7 +21,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           </Route>
           <Route element={<ExcludingRoutes/>}>
             <Route path="auth/" element={<SignIn />} />
-          </Route>
+            </Route>
           <Route path="/" element={<Welcome />} />
           <Route path="quiz/" element={<Quiz />} />
           <Route path="stats/" element={<Stats />} />
