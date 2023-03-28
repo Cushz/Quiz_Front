@@ -30,7 +30,7 @@ import { CloseIcon } from "@chakra-ui/icons";
 import Navbar from "./Navbar";
 import { useNavigate } from "react-router-dom";
 
-export default function QuestionManagement() {
+export default function Dashboard() {
   const navigate = useNavigate();
 
   useEffect(() => {
