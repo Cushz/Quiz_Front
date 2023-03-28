@@ -122,7 +122,7 @@ export default function Dashboard() {
       });
     }
   };
-  return teacher (
+  return  (
     <div className="quiz-body">
       <Navbar />
       <Flex
@@ -292,7 +292,7 @@ export default function Dashboard() {
                   onChange={handleGroupChange}
                   value={selectedGroup}
                 >
-                  {teacher.Unigroups.map((unigroup) => {
+                  {teacher && teacher.Unigroups.map((unigroup) => {
                   return (
                     <option key={unigroup.id} value={unigroup.id}>
                       {unigroup.name}
