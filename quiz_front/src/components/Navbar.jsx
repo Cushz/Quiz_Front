@@ -128,7 +128,7 @@ export default function Navbar(props) {
                           _hover={{ backgroundColor: "black", color: "white" }}
                           border={"none"}
                           variant={"outline"}
-                          onClick={handleLogin}
+                          onClick={navigateAuth}
                           color={"black"}
                         >
                           Teacher Login
@@ -213,8 +213,10 @@ export default function Navbar(props) {
           </Box>
         </>
       )}
+    </Flex>
+      )}
     </>
   );
 }
 
-</>
+
