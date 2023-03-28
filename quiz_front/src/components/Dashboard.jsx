@@ -262,6 +262,7 @@ export default function Dashboard() {
                 p={"1em"}
                 _active={{ backgroundColor: "none" }}
                 onClick={handleSubmit}
+                marginLeft={"0.7rem"}
               >
                 Upload
               </Button>
@@ -330,7 +331,7 @@ export default function Dashboard() {
                   cursor="pointer"
                   backgroundColor={"white"}
                   type={"submit"}
-                  alignSelf={"center"}
+                  alignContent={"center"}
                 >
                   Search
                 </Button>
