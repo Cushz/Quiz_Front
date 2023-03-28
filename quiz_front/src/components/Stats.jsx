@@ -9,7 +9,7 @@ export default function Stats(props) {
 
   return (
     <div className="quiz-body">
-      <Navbar />
+      
       <Flex
         bg={"rgb(255 249 228)"}
         boxShadow={"9px 9px 1px #000000"}
@@ -17,17 +17,22 @@ export default function Stats(props) {
         border={"5px solid black"}
         flexDirection={"column"}
         margin={"1em auto 0 auto"}
-        w={"50%"}
+        w={{md:"50%",base:"90%"}}
       >
+        
         <Flex
           bg={"white"}
           p={"1em"}
           borderRadius={"14px 14px 0 0"}
-          justifyContent={"center"}
+          justifyContent={"flex-start"}
+          alignItems={"center"}
           borderBottom={"3px solid black"}
         >
-          <Box>
-            <Heading>Results</Heading>
+          <Box width={"10%"}>
+          <Navbar isMobile={true}  />
+          </Box>
+          <Box width={"80%"} textAlign={"center"}>
+            <Heading color={"black"} width={"95%"}>Results</Heading>
           </Box>
         </Flex>
         <Flex
@@ -37,7 +42,8 @@ export default function Stats(props) {
           backgroundColor={"white"}
           flexWrap={"wrap"}
           margin={"4em auto 0 auto"}
-          width={"50%"}
+          width={{md:"50%",base:"80%"}}
+          color={"black"}
           flexDirection={"column"}
           p={"1em"}
         >
@@ -59,7 +65,8 @@ export default function Stats(props) {
           backgroundColor={"white"}
           p={"1em"}
           flexWrap={"wrap"}
-          width={"50%"}
+          width={{md:"50%",base:"80%"}}
+          color={"black"}
           justifyContent={"space-between"}
           flexDirection={"column"}
           margin={"5em auto 8em auto"}

@@ -14,16 +14,15 @@ import { useNavigate } from "react-router-dom";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import { useDisclosure } from "@chakra-ui/react";
 import { useRef } from "react";
-export default function Navbar() {
+export default function Navbar(props) {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef();
   const [mobile, setMobile] = useState(false);
-
   useEffect(() => {
     function handleResize() {
-      if (window.innerWidth < 768) {
+      if (window.innerWidth < 768 ) {
         setMobile(true);
       } else {
         setMobile(false);
@@ -46,17 +45,14 @@ export default function Navbar() {
   };
   return (
     <>
-      {mobile ? (
-        <Flex w={"80%"} p={"1em"}>
+      {mobile || props.isMobile ? (
+        <Flex w={"80%"} p={"1em"} >
           <Box
             p={"0.2em"}
-            boxShadow={"4px 4px 1px black"}
-            border={"2px solid black"}
-            borderRadius={"0.2em"}
-            backgroundColor={"white"}
+            backgroundColor={"inherit"}
           >
             <HamburgerIcon
-              fontSize={"6vw"}
+              fontSize={"1.2em"}
               ref={btnRef}
               onClick={onOpen}
               cursor={"pointer"}
@@ -112,6 +108,7 @@ export default function Navbar() {
                             }}
                             border={"none"}
                             variant={"outline"}
+                            color={"black"}
                           >
                             Main
                           </Button>
@@ -123,6 +120,7 @@ export default function Navbar() {
                           border={"none"}
                           variant={"outline"}
                           onClick={handleLogin}
+                          color={"black"}
                         >
                           Teacher Login
                         </Button>
