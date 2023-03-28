@@ -279,7 +279,7 @@ export default function Dashboard() {
           minW={{md:"25%",base:"100%"}}
         >
           <form onSubmit={handleItems}>
-            <Flex p={"5vw"}  flexWrap={"wrap"} flexDirection={{md:"column",base:"row"}} gap={2}>
+            <Flex p={"5vw"} alignItems="center"  flexWrap={"wrap"} flexDirection={{md:"column",base:"row"}} gap={2}>
               <Box>
                 <Select
                   boxShadow={"4px 4px 1px black"}
@@ -330,6 +330,7 @@ export default function Dashboard() {
                   cursor="pointer"
                   backgroundColor={"white"}
                   type={"submit"}
+                  alignSelf={"center"}
                 >
                   Search
                 </Button>
