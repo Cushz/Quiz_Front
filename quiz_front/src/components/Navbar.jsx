@@ -18,7 +18,7 @@ export default function Navbar(props) {
   const navigate = useNavigate();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const btnRef = React.useRef();
+  const btnRef = useRef();
   const [mobile, setMobile] = useState(false);
   useEffect(() => {
     function handleResize() {
