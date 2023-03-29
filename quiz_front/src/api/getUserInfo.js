@@ -1,5 +1,4 @@
 import axios from "axios";
-import React from 'react'
 
 const getUserInfo = async () => {
     const url = `${import.meta.env.VITE_APP_API_URL}/teacher/me`;

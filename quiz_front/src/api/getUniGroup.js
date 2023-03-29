@@ -1,10 +1,8 @@
 import axios from "axios";
-import React from 'react'
 
-const getUniGroup = async () => {
+// Get unigroup data from the API
+export default async function getUniGroup() {
     const url = `${import.meta.env.VITE_APP_API_URL}/unigroup`
     const response = await axios.get(url);
     return response.data;
 }
-
-export default getUniGroup;

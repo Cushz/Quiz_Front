@@ -1,6 +1,6 @@
 import axios from "axios";
-import React from 'react'
 
+// Get subject from the API
 const getSubject = async () => {
     const url = `${import.meta.env.VITE_APP_API_URL}/subject`
     const response = await axios.get(url);
