@@ -34,7 +34,6 @@ import getUnigroupbyID from "../api/getUnigroupbyID";
 
 
 export default function Dashboard() {
-  const navigate = useNavigate();
   const [file, setFile] = useState(null);
   const [fileList, setFileList] = useState([]);
   const [teacher, setTeacher] = useState("");
