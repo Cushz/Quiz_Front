@@ -100,6 +100,15 @@ export default function Dashboard() {
 
   const handleSubmit = () => {
     console.log(file);
+    if (!file) {
+      toast.closeAll();
+      toast({
+        title: "Please upload a file",
+        status: "error",
+        isClosable: true,
+        duration: 1000,
+      });
+    }
     file && setFileList([file.name, ...fileList]);
   };
 
