@@ -124,8 +124,8 @@ export default function Dashboard() {
           p={"1em"}
           gap={2}
           maxW={"25%"}
-          minH={{md:"",base:"25%"}}
-          minW={{md:"25%",base:"100%"}}
+          minH={{ md: "", base: "25%" }}
+          minW={{ md: "25%", base: "100%" }}
           overflowY={"auto"}
           overflowX={"hidden"}
         >
@@ -198,8 +198,8 @@ export default function Dashboard() {
           boxShadow={"4px 4px 1px black"}
           border={"2px solid black"}
           maxW={"50%"}
-          minH={{md:"",base:"50%"}}
-          minW={{md:"50%",base:"100%"}}
+          minH={{ md: "", base: "50%" }}
+          minW={{ md: "50%", base: "100%" }}
           p={"10vw"}
           flexWrap={"wrap"}
         >
@@ -260,11 +260,17 @@ export default function Dashboard() {
           justifyContent={"center"}
           alignItems={"center"}
           maxW={"25%"}
-          minH={{md:"",base:"25%"}}
-          minW={{md:"25%",base:"100%"}}
+          minH={{ md: "", base: "25%" }}
+          minW={{ md: "25%", base: "100%" }}
         >
           <form onSubmit={handleItems}>
-            <Flex p={"5vw"}  flexWrap={"wrap"} flexDirection={{md:"column",base:"row"}} gap={2}>
+            <Flex
+              justifyContent={"center"}
+              p={"5vw"}
+              flexWrap={"wrap"}
+              flexDirection={{ md: "column", base: "row" }}
+              gap={2}
+            >
               <Box>
                 <Select
                   boxShadow={"4px 4px 1px black"}

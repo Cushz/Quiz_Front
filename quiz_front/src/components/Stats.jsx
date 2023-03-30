@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Flex, Box, Heading, Text, Button } from "@chakra-ui/react";
-import Navbar from "./Navbar"; 
-import { AiOutlineCheck,AiOutlineClose } from "react-icons/ai";
+import Navbar from "./Navbar";
+import { AiOutlineCheck, AiOutlineClose } from "react-icons/ai";
 export default function Stats(props) {
   useEffect(() => {
     document.title = "Quiz App | Results";
@@ -9,7 +9,6 @@ export default function Stats(props) {
 
   return (
     <div className="quiz-body">
-      
       <Flex
         bg={"rgb(255 249 228)"}
         boxShadow={"9px 9px 1px #000000"}
@@ -17,9 +16,8 @@ export default function Stats(props) {
         border={"5px solid black"}
         flexDirection={"column"}
         margin={"1em auto 0 auto"}
-        w={{md:"50%",base:"90%"}}
+        w={{ md: "50%", base: "90%" }}
       >
-        
         <Flex
           bg={"white"}
           p={"1em"}
@@ -29,10 +27,12 @@ export default function Stats(props) {
           borderBottom={"3px solid black"}
         >
           <Box width={"10%"}>
-          <Navbar isMobile={true}  />
+            <Navbar isMobile={true} />
           </Box>
           <Box width={"80%"} textAlign={"center"}>
-            <Heading color={"black"} width={"95%"}>Results</Heading>
+            <Heading color={"black"} width={"95%"}>
+              Results
+            </Heading>
           </Box>
         </Flex>
         <Flex
@@ -42,7 +42,7 @@ export default function Stats(props) {
           backgroundColor={"white"}
           flexWrap={"wrap"}
           margin={"4em auto 0 auto"}
-          width={{md:"50%",base:"80%"}}
+          width={{ md: "50%", base: "80%" }}
           color={"black"}
           flexDirection={"column"}
           p={"1em"}
@@ -65,11 +65,11 @@ export default function Stats(props) {
           backgroundColor={"white"}
           p={"1em"}
           flexWrap={"wrap"}
-          width={{md:"50%",base:"80%"}}
+          width={{ md: "50%", base: "80%" }}
           color={"black"}
           justifyContent={"space-between"}
           flexDirection={"column"}
-          margin={"5em auto 8em auto"}
+          margin={"5em auto 3em auto"}
         >
           <Flex justifyContent={"space-between"}>
             <Box>
@@ -97,6 +97,20 @@ export default function Stats(props) {
               <AiOutlineClose color="red" />
             </Flex>
           </Flex>
+        </Flex>
+        <Flex margin={"0 auto 1em auto"}>
+          <Button
+            background={"none"}
+            boxShadow={"4px 4px 1px black"}
+            _hover={{ bottom: "4px",background: "none" }}
+            position={"relative"}
+            bottom={0}
+            transition={"bottom 0.2s ease-out"}
+            _focus={{ backgroundColor: "inherit" }}
+            border={"2px solid black"}
+          >
+            Save Results
+          </Button>
         </Flex>
       </Flex>
     </div>
