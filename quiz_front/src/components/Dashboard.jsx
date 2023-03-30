@@ -129,6 +129,20 @@ export default function Dashboard() {
           overflowY={"auto"}
           overflowX={"hidden"}
         >
+          <Flex margin={"0 auto 1em auto"}>
+          <Button
+            background={"none"}
+            boxShadow={"4px 4px 1px black"}
+            _hover={{ bottom: "4px",background: "none" }}
+            position={"relative"}
+            bottom={0}
+            transition={"bottom 0.2s ease-out"}
+            _focus={{ backgroundColor: "inherit" }}
+            border={"2px solid black"}
+          >
+            Save Results
+          </Button>
+        </Flex>
           {fileList &&
             fileList.map((e, key) => {
               return (
@@ -203,54 +217,54 @@ export default function Dashboard() {
           p={"10vw"}
           flexWrap={"wrap"}
         >
-          <Flex justifyContent={"center"} alignItems={"center"}>
-            <form>
-              <Flex
-                flexDirection={"column"}
-                justifyContent={"center"}
-                alignItems={"center"}
-              >
-                <Box onClick={() => document.getElementById("upload").click()}>
-                  <Image src={file_upload} w={"4em"} cursor="pointer" />
-                </Box>
-                <Box>
-                  <FormLabel wordBreak={"break-word"} htmlFor={"upload"}>
+          <form>
+            <Flex
+              flexDirection={"column"}
+              justifyContent={"center"}
+              alignItems={"center"}
+            >
+              <Box onClick={() => document.getElementById("upload").click()}>
+                <Image src={file_upload} w={"4em"} cursor="pointer" />
+              </Box>
+              <Box>
+                  <Text wordBreak={"break-word"} htmlFor={"upload"}>
                     {file ? file.name : "Choose File"}
-                  </FormLabel>
-                </Box>
-              </Flex>
+                  </Text>
+              </Box>
+              <Box>
+                <Button
+                  size={"xs"}
+                  type="button"
+                  boxShadow={"4px 4px 1px black"}
+                  border={"2px solid black"}
+                  variant="outline"
+                  position={"relative"}
+                  bottom={0}
+                  transition={"bottom 0.2s ease-out"}
+                  _hover={{ bottom: "4px" }}
+                  color={"black"}
+                  backgroundColor={"white"}
+                  cursor={"pointer"}
+                  p={"1em"}
+                  _active={{ backgroundColor: "none" }}
+                  onClick={handleSubmit}
+                >
+                  Upload
+                </Button>
+              </Box>
+            </Flex>
 
-              <Input
-                id={"upload"}
-                border={"none"}
-                type="file"
-                onChange={(e) => {
-                  console.log(e);
-                  setFile(e.target.files[0]);
-                }}
-                display={"none"}
-              />
-              <Button
-                size={"xs"}
-                type="button"
-                boxShadow={"4px 4px 1px black"}
-                border={"2px solid black"}
-                variant="outline"
-                position={"relative"}
-                bottom={0}
-                transition={"bottom 0.2s ease-out"}
-                _hover={{ bottom: "4px" }}
-                color={"black"}
-                backgroundColor={"white"}
-                cursor={"pointer"}
-                p={"1em"}
-                _active={{ backgroundColor: "none" }}
-                onClick={handleSubmit}
-              >
-                Upload
-              </Button>
-            </form>
-          </Flex>
+            <Input
+              id={"upload"}
+              border={"none"}
+              type="file"
+              onChange={(e) => {
+                console.log(e);
+                setFile(e.target.files[0]);
+              }}
+              display={"none"}
+            />
+          </form>
         </Flex>
 
         <Flex
@@ -320,6 +334,7 @@ export default function Dashboard() {
                   cursor="pointer"
                   backgroundColor={"white"}
                   type={"submit"}
+                  w={"100%"}
                 >
                   Search
                 </Button>

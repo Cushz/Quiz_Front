@@ -98,20 +98,7 @@ export default function Stats(props) {
             </Flex>
           </Flex>
         </Flex>
-        <Flex margin={"0 auto 1em auto"}>
-          <Button
-            background={"none"}
-            boxShadow={"4px 4px 1px black"}
-            _hover={{ bottom: "4px",background: "none" }}
-            position={"relative"}
-            bottom={0}
-            transition={"bottom 0.2s ease-out"}
-            _focus={{ backgroundColor: "inherit" }}
-            border={"2px solid black"}
-          >
-            Save Results
-          </Button>
-        </Flex>
+        
       </Flex>
     </div>
   );
