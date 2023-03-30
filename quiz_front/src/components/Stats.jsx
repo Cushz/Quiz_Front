@@ -98,7 +98,6 @@ export default function Stats(props) {
             </Flex>
           </Flex>
         </Flex>
-        
       </Flex>
     </div>
   );

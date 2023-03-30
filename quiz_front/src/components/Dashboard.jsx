@@ -117,6 +117,7 @@ export default function Dashboard() {
         flexDirection={{ md: "row", base: "column" }}
         justifyContent={"space-evenly"}
       >
+        
         <Flex
           boxShadow={"4px 4px 1px black"}
           border={"2px solid black"}
@@ -129,20 +130,6 @@ export default function Dashboard() {
           overflowY={"auto"}
           overflowX={"hidden"}
         >
-          <Flex margin={"0 auto 1em auto"}>
-          <Button
-            background={"none"}
-            boxShadow={"4px 4px 1px black"}
-            _hover={{ bottom: "4px",background: "none" }}
-            position={"relative"}
-            bottom={0}
-            transition={"bottom 0.2s ease-out"}
-            _focus={{ backgroundColor: "inherit" }}
-            border={"2px solid black"}
-          >
-            Save Results
-          </Button>
-        </Flex>
           {fileList &&
             fileList.map((e, key) => {
               return (
@@ -204,8 +191,9 @@ export default function Dashboard() {
               </ModalFooter>
             </ModalContent>
           </Modal>
+         
         </Flex>
-
+       
         <Flex
           justifyContent={"center"}
           alignItems={"center"}
@@ -227,9 +215,9 @@ export default function Dashboard() {
                 <Image src={file_upload} w={"4em"} cursor="pointer" />
               </Box>
               <Box>
-                  <Text wordBreak={"break-word"} htmlFor={"upload"}>
-                    {file ? file.name : "Choose File"}
-                  </Text>
+                <Text wordBreak={"break-word"} htmlFor={"upload"}>
+                  {file ? file.name : "Choose File"}
+                </Text>
               </Box>
               <Box>
                 <Button
