@@ -29,7 +29,6 @@ import {
 import { CloseIcon } from "@chakra-ui/icons";
 import Navbar from "./Navbar";
 import { useNavigate } from "react-router-dom";
-
 export default function Dashboard() {
   const navigate = useNavigate();
 
@@ -43,6 +42,7 @@ export default function Dashboard() {
   const [selectedGroup, setSelectedGroup] = useState("");
   const [specialities, setSpecialities] = useState([]);
   const [selectedSpeciality, setSelectedSpeciality] = useState("");
+  
   const toast = useToast();
 
   const handleGroupChange = (event) => {
@@ -82,10 +82,9 @@ export default function Dashboard() {
     },
   ];
   const handleSubmit = () => {
-    console.log(file);
     file && setFileList([file.name, ...fileList]);
   };
-
+ 
   const handleItems = (event) => {
     event.preventDefault();
     const group = selectedGroup;
@@ -117,7 +116,6 @@ export default function Dashboard() {
         flexDirection={{ md: "row", base: "column" }}
         justifyContent={"space-evenly"}
       >
-        
         <Flex
           boxShadow={"4px 4px 1px black"}
           border={"2px solid black"}
@@ -191,9 +189,8 @@ export default function Dashboard() {
               </ModalFooter>
             </ModalContent>
           </Modal>
-         
         </Flex>
-       
+
         <Flex
           justifyContent={"center"}
           alignItems={"center"}
@@ -247,8 +244,8 @@ export default function Dashboard() {
               border={"none"}
               type="file"
               onChange={(e) => {
-                console.log(e);
-                setFile(e.target.files[0]);
+                const file = e.target.files[0];
+                setFile(file);
               }}
               display={"none"}
             />
