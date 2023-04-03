@@ -170,244 +170,230 @@ export default function Dashboard() {
   };
 
   return (
-    <>
-      <div className="quiz-body">
-        <Navbar name={teacherName} surname={teacherSurname} />
+    <div className="quiz-body">
+      <Navbar name={teacherName} surname={teacherSurname} />
+      <Flex
+        w={"80%"}
+        margin={"1em auto 0 auto"}
+        h={"80%"}
+        gap={1}
+        flexDirection={{ md: "row", base: "column" }}
+        justifyContent={"space-evenly"}
+      >
         <Flex
-          w={"80%"}
-          margin={"1em auto 0 auto"}
-          h={"80%"}
-          gap={1}
-          flexDirection={{ md: "row", base: "column" }}
-          justifyContent={"space-evenly"}
+          boxShadow={"4px 4px 1px black"}
+          border={"2px solid black"}
+          flexDirection={"column"}
+          p={"1em"}
+          gap={2}
+          maxW={"25%"}
+          minH={{ md: "", base: "25%" }}
+          minW={{ md: "25%", base: "100%" }}
+          overflowY={"auto"}
+          overflowX={"hidden"}
         >
-          <Flex
-            boxShadow={"4px 4px 1px black"}
-            border={"2px solid black"}
-            flexDirection={"column"}
-            p={"1em"}
-            gap={2}
-            maxW={"25%"}
-            minH={{ md: "", base: "25%" }}
-            minW={{ md: "25%", base: "100%" }}
-            overflowY={"auto"}
-            overflowX={"hidden"}
-          >
-            {filteredQuestions &&
-              filteredQuestions.map((questions, key) => {
-                return (
-                  <>
-                    <Flex
-                      cursor={"pointer"}
-                      onClick={onOpen}
-                      key={key.id}
-                      boxShadow={"4px 4px 0px black"}
-                      border={"2px solid black"}
-                      borderRadius={"0.3em"}
-                      backgroundColor={"white"}
-                      position={"relative"}
-                      bottom={0}
-                      transition={"bottom 0.1s ease-out"}
-                      _hover={{ bottom: "2px" }}
-                      justifyContent={"space-between"}
-                      p={"0.4em"}
-                    >
-                      <Box wordBreak={"break-word"}>{questions.filename}</Box>
-                      <Box>
-                        <CloseIcon
-                          cursor={"pointer"}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleDeleteQuestion(questions.id);
-                          }}
-                          fontSize={"0.7em"}
-                          color="black"
-                        />
-                      </Box>
-                    </Flex>
-                    <Modal isOpen={isOpen} onClose={onClose} isCentered>
-                      <ModalOverlay backgroundColor={"blackAlpha.300"} />
-                      <ModalContent>
-                        <ModalHeader>{questions.question}</ModalHeader>
-                        <ModalCloseButton />
-                        <ModalBody>
-                          <UnorderedList>
-                            {questions.Options.map((options) => (
-                              <ListItem>{options.option}</ListItem>
-                            ))}
-                          </UnorderedList>
-                          {questions.Options.map((options) => {
-                            if (options.is_correct) {
-                              return (
-                                <Text key={options.id}>
-                                  Correct Answer: {options.option}
-                                </Text>
-                              );
-                            }
-                          })}
-                        </ModalBody>
-                        <ModalFooter>
-                          <Button
-                            border={"2px solid black"}
-                            variant="outline"
-                            mr={3}
-                            onClick={onClose}
-                            _hover={{ backgroundColor: "white" }}
-                          >
-                            Close
-                          </Button>
-                        </ModalFooter>
-                      </ModalContent>
-                    </Modal>
-                  </>
-                );
-              })}
-          </Flex>
-
-          <Flex
-            justifyContent={"center"}
-            alignItems={"center"}
-            boxShadow={"4px 4px 1px black"}
-            border={"2px solid black"}
-            maxW={"50%"}
-            minH={{ md: "", base: "50%" }}
-            minW={{ md: "50%", base: "100%" }}
-            p={"10vw"}
-            flexWrap={"wrap"}
-          >
-            <Flex justifyContent={"center"} alignItems={"center"}>
-              <form>
-                <Flex
-                  flexDirection={"column"}
-                  justifyContent={"center"}
-                  alignItems={"center"}
-                >
-                  <Box
-                    onClick={() => document.getElementById("upload").click()}
+          {fileList &&
+            fileList.map((e, key) => {
+              return (
+                <>
+                  <Flex
+                    cursor={"pointer"}
+                    onClick={onOpen}
+                    key={key}
+                    boxShadow={"4px 4px 0px black"}
+                    border={"2px solid black"}
+                    borderRadius={"0.3em"}
+                    backgroundColor={"white"}
+                    position={"relative"}
+                    bottom={0}
+                    transition={"bottom 0.1s ease-out"}
+                    _hover={{ bottom: "2px" }}
+                    justifyContent={"space-between"}
+                    p={"0.4em"}
                   >
-                    <Image src={file_upload} w={"4em"} cursor="pointer" />
-                  </Box>
-                  <Flex justifyContent={"center"} alignItems={"center"}>
+                    <Box wordBreak={"break-word"}>{e}</Box>
                     <Box>
-                      <Text wordBreak={"break-word"} htmlFor={"upload"}>
-                        {file ? file.name : "Choose File"}
-                      </Text>
+                      <CloseIcon
+                        onClick={() => {
+                          alert("hello");
+                        }}
+                        fontSize={"0.7em"}
+                        color="black"
+                      />
                     </Box>
                   </Flex>
-                  <Box>
-                    <Input
-                      id={"upload"}
-                      border={"none"}
-                      type="file"
-                      onChange={handleFileChange}
-                      display={"none"}
-                      accept=".docx"
-                    />
-                    <Button
-                      size={"xs"}
-                      type="button"
-                      boxShadow={"4px 4px 1px black"}
-                      border={"2px solid black"}
-                      variant="outline"
-                      position={"relative"}
-                      bottom={0}
-                      transition={"bottom 0.2s ease-out"}
-                      _hover={{ bottom: "4px" }}
-                      color={"black"}
-                      backgroundColor={"white"}
-                      cursor={"pointer"}
-                      p={"1em"}
-                      _active={{ backgroundColor: "none" }}
-                      onClick={handleSubmit}
-                      mt={"5px"}
-                    >
-                      Upload
-                    </Button>
-                  </Box>
-                </Flex>
-              </form>
-            </Flex>
-          </Flex>
-          <Flex
-            flexWrap={"wrap"}
-            boxShadow={"4px 4px 1px black"}
-            border={"2px solid black"}
-            justifyContent={"center"}
-            alignItems={"center"}
-            maxW={"25%"}
-            minH={{ md: "", base: "25%" }}
-            minW={{ md: "25%", base: "100%" }}
-          >
+                </>
+              );
+            })}
+          <Modal isOpen={isOpen} onClose={onClose}>
+            <ModalOverlay />
+            <ModalContent>
+              <ModalHeader>Question</ModalHeader>
+              <ModalCloseButton />
+              <ModalBody>
+                <UnorderedList>
+                  <ListItem>a</ListItem>
+                  <ListItem>a</ListItem>
+                  <ListItem>a</ListItem>
+                  <ListItem>a</ListItem>
+                </UnorderedList>
+                <Text>Correct answer:</Text>
+              </ModalBody>
+
+              <ModalFooter>
+                <Button
+                  border={"2px solid black"}
+                  variant="outline"
+                  mr={3}
+                  onClick={onClose}
+                  _hover={{ backgroundColor: "white" }}
+                >
+                  Close
+                </Button>
+              </ModalFooter>
+            </ModalContent>
+          </Modal>
+        </Flex>
+
+        <Flex
+          justifyContent={"flex-start"}
+          alignItems={"center"}
+          boxShadow={"4px 4px 1px black"}
+          border={"2px solid black"}
+          maxW={"50%"}
+          minH={{ md: "", base: "50%" }}
+          minW={{ md: "50%", base: "100%" }}
+          p={"10vw"}
+          flexWrap={"wrap"}
+        >
+          <Flex justifyContent={"center"} alignItems={"center"}>
             <form>
               <Flex
-                p={"5vw"}
-                alignItems="center"
-                flexWrap={"wrap"}
-                flexDirection={{ md: "column", base: "row" }}
-                gap={2}
+                flexDirection={"column"}
+                justifyContent={"center"}
+                alignItems={"center"}
               >
-                <Box>
-                  <Select
-                    boxShadow={"4px 4px 1px black"}
-                    border={"2px solid black"}
-                    _hover={{ border: "2px solid black" }}
-                    focusBorderColor={"black"}
-                    cursor="pointer"
-                    placeholder="Group"
-                    backgroundColor={"white"}
-                    onChange={handleGroupChange}
-                    value={selectedGroup}
-                  >
-                    {teacher &&
-                      teacher.Unigroups.map((unigroup) => {
-                        return (
-                          <option key={unigroup.id} value={unigroup.id}>
-                            {unigroup.name}
-                          </option>
-                        );
-                      })}
-                  </Select>
+                <Box onClick={() => document.getElementById("upload").click()}>
+                  <Image src={file_upload} w={"4em"} cursor="pointer" />
                 </Box>
                 <Box>
-                  <Select
-                    boxShadow={"4px 4px 1px black"}
-                    border={"2px solid black"}
-                    _hover={{ border: "2px solid black" }}
-                    focusBorderColor={"black"}
-                    cursor="pointer"
-                    placeholder="Subject"
-                    backgroundColor={"white"}
-                    onChange={handleSubjectChange}
-                    value={selectedSubject}
-                  >
-                    {unigroup &&
-                      unigroup.Subjects.map((group) => (
-                        <option key={group.id} value={group.id}>
-                          {group.name}
-                        </option>
-                      ))}
-                  </Select>
-                </Box>
-                <Box>
-                  <Button
-                    boxShadow={"4px 4px 1px black"}
-                    border={"2px solid black"}
-                    _hover={{ border: "2px solid black" }}
-                    focusBorderColor={"black"}
-                    cursor="pointer"
-                    backgroundColor={"white"}
-                    type={"button"}
-                    alignContent={"center"}
-                    onClick={handleSearch}
-                  >
-                    Search
-                  </Button>
+                  <FormLabel wordBreak={"break-word"} htmlFor={"upload"}>
+                    {file ? file.name : "Choose File"}
+                  </FormLabel>
                 </Box>
               </Flex>
+
+              <Input
+                id={"upload"}
+                border={"none"}
+                type="file"
+                onChange={(e) => {
+                  console.log(e);
+                  setFile(e.target.files[0]);
+                }}
+                display={"none"}
+              />
+              <Button
+                size={"xs"}
+                type="button"
+                boxShadow={"4px 4px 1px black"}
+                border={"2px solid black"}
+                variant="outline"
+                position={"relative"}
+                bottom={0}
+                transition={"bottom 0.2s ease-out"}
+                _hover={{ bottom: "4px" }}
+                color={"black"}
+                backgroundColor={"white"}
+                cursor={"pointer"}
+                p={"1em"}
+                _active={{ backgroundColor: "none" }}
+                onClick={handleSubmit}
+                marginLeft={"0.7rem"}
+              >
+                Upload
+              </Button>
             </form>
           </Flex>
         </Flex>
-      </div>
-    </>
+        <Flex
+          flexWrap={"wrap"}
+          boxShadow={"4px 4px 1px black"}
+          border={"2px solid black"}
+          justifyContent={"center"}
+          alignItems={"center"}
+          maxW={"25%"}
+          minH={{ md: "", base: "25%" }}
+          minW={{ md: "25%", base: "100%" }}
+        >
+          <form onSubmit={handleItems}>
+            <Flex
+              p={"5vw"}
+              alignItems="center"
+              flexWrap={"wrap"}
+              flexDirection={{ md: "column", base: "row" }}
+              gap={2}
+            >
+              <Box>
+                <Select
+                  boxShadow={"4px 4px 1px black"}
+                  border={"2px solid black"}
+                  _hover={{ border: "2px solid black" }}
+                  focusBorderColor={"black"}
+                  cursor="pointer"
+                  placeholder="Group"
+                  backgroundColor={"white"}
+                  onChange={handleGroupChange}
+                  value={selectedGroup}
+                >
+                  {teacher &&
+                    teacher.Unigroups.map((unigroup) => {
+                      return (
+                        <option key={unigroup.id} value={unigroup.id}>
+                          {unigroup.name}
+                        </option>
+                      );
+                    })}
+                </Select>
+              </Box>
+              <Box>
+                <Select
+                  boxShadow={"4px 4px 1px black"}
+                  border={"2px solid black"}
+                  _hover={{ border: "2px solid black" }}
+                  focusBorderColor={"black"}
+                  cursor="pointer"
+                  placeholder="Speciality"
+                  backgroundColor={"white"}
+                  onChange={handleSubjectChange}
+                  value={selectedSubject}
+                >
+                  {unigroup &&
+                    unigroup.Subjects.map((group) => (
+                      <option key={group.id} value={group.id}>
+                        {group.name}
+                      </option>
+                    ))}
+                </Select>
+              </Box>
+              <Box>
+                <Button
+                  boxShadow={"4px 4px 1px black"}
+                  border={"2px solid black"}
+                  _hover={{ border: "2px solid black" }}
+                  focusBorderColor={"black"}
+                  cursor="pointer"
+                  backgroundColor={"white"}
+                  type={"submit"}
+                  alignContent={"center"}
+                >
+                  Search
+                </Button>
+              </Box>
+            </Flex>
+          </form>
+        </Flex>
+      </Flex>
+    </div>
   );
 }
