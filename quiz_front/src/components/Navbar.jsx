@@ -51,13 +51,10 @@ export default function Navbar(props) {
   };
 
   return (
-<>
-{mobile || props?.isMobile ? (
-        <Flex w={"80%"} p={"1em"} >
-          <Box
-            p={"0.2em"}
-            backgroundColor={"inherit"}
-          >
+    <>
+      {mobile || props?.isMobile ? (
+        <Flex w={"80%"} p={"1em"}>
+          <Box p={"0.2em"} backgroundColor={"inherit"}>
             <HamburgerIcon
               fontSize={"1.2em"}
               ref={btnRef}
@@ -111,17 +108,22 @@ export default function Navbar(props) {
                           </Button>
                         </Box>
                       </Link>
-                      <Box>
-                        <Button
-                          _hover={{ backgroundColor: "black", color: "white" }}
-                          border={"none"}
-                          color={"black"}
-                          variant={"outline"}
-                          onClick={handleLogout}
-                        >
-                          Logout
-                        </Button>
-                      </Box>
+                      <Link style={{ textDecoration: "none" }}>
+                        <Box>
+                          <Button
+                            _hover={{
+                              backgroundColor: "transparent",
+                              color: "black",
+                            }}
+                            border={"none"}
+                            variant={"outline"}
+                            color={"black"}
+                            cursor={"default"}
+                          >
+                            Welcome {props?.name} {props?.surname}
+                          </Button>
+                        </Box>
+                      </Link>
                     </>
                   ) : (
                     <>
@@ -158,64 +160,6 @@ export default function Navbar(props) {
             </Drawer>
           </Box>
         </Flex>
-      )  : (
-    <Flex
-      justifyContent={"space-around"}
-      alignItems={"center"}
-      w={"80%"}
-      m={"0.5em auto 0 auto"}
-      boxShadow={"4px 4px 1px black"}
-      border={"2px solid black"}
-      backgroundColor={"white"}
-      p={"0.5em"}
-    >
-      {isLoggedIn ? (
-        <>
-        
-            <Box>
-              <Text
-                border={"none"}
-                cursor={"default"}
-                fontWeight={"bold"}
-              >
-                Welcome {props?.name} {props?.surname}
-              </Text>
-            </Box>
-        
-        <Link style={{textDecoration:"none"}} href={"/"}>
-            <Box>
-              <Button
-                _hover={{ backgroundColor: "black", color: "white" }}
-                border={"none"}
-                variant={"outline"}
-            
-              >
-                Main
-              </Button>
-            </Box>
-          </Link>
-          <Link style={{textDecoration:"none"}} href={"/dashboard"}>
-          <Box>
-            <Button
-              _hover={{ backgroundColor: "black", color: "white" }}
-              border={"none"}
-              variant={"outline"}
-            >
-              Dashboard
-            </Button>
-          </Box>
-          </Link>
-          <Box>
-            <Button
-              _hover={{ backgroundColor: "black", color: "white" }}
-              border={"none"}
-              variant={"outline"}
-              onClick={handleLogout}
-            >
-              Logout
-            </Button>
-          </Box>
-        </>
       ) : (
         <Flex
           justifyContent={"space-around"}
