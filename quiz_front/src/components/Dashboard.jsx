@@ -32,7 +32,6 @@ import getUserInfo from "../api/getUserInfo";
 import getTeacherbyID from "../api/getTeacherbyID";
 import getUnigroupbyID from "../api/getUnigroupbyID";
 
-
 export default function Dashboard() {
   const [file, setFile] = useState(null);
   const [fileList, setFileList] = useState([]);
@@ -56,23 +55,21 @@ export default function Dashboard() {
     }
   };
 
-
   useEffect(() => {
     document.title = "Quiz App | Dashboard";
     const fetchUserInfo = async () => {
       const response = await getUserInfo();
       localStorage.setItem("teacherId", response.id);
       setTeacherId(localStorage.getItem("teacherId"));
-      
     };
-    if (!localStorage.getItem("teacherId")) fetchUserInfo();    
-    }, []);
+    if (!localStorage.getItem("teacherId")) fetchUserInfo();
+  }, []);
 
   useEffect(() => {
     const fetchTeacherInfo = async () => {
       try {
-      const response = await getTeacherbyID(teacherId);
-      setTeacher(response);
+        const response = await getTeacherbyID(teacherId);
+        setTeacher(response);
       } catch (error) {
         console.error(error);
       }
@@ -85,13 +82,8 @@ export default function Dashboard() {
 
   useEffect(() => {
     console.log("teacher", teacher);
-    console.log
+    console.log;
   }, [teacher]);
-  
-  
-
-
-
 
   const handleSubjectChange = (event) => {
     const selectedSubject = event.target.value;
@@ -112,7 +104,6 @@ export default function Dashboard() {
     file && setFileList([file.name, ...fileList]);
   };
 
-
   const handleItems = (event) => {
     event.preventDefault();
     const group = selectedGroup;
@@ -129,7 +120,7 @@ export default function Dashboard() {
       });
     }
   };
-  return  (
+  return (
     <div className="quiz-body">
       <Navbar />
       <Flex
@@ -147,8 +138,8 @@ export default function Dashboard() {
           p={"1em"}
           gap={2}
           maxW={"25%"}
-          minH={{md:"",base:"25%"}}
-          minW={{md:"25%",base:"100%"}}
+          minH={{ md: "", base: "25%" }}
+          minW={{ md: "25%", base: "100%" }}
           overflowY={"auto"}
           overflowX={"hidden"}
         >
@@ -216,16 +207,28 @@ export default function Dashboard() {
         </Flex>
 
         <Flex
-          justifyContent={"center"}
+          justifyContent={"flex-start"}
           alignItems={"center"}
           boxShadow={"4px 4px 1px black"}
           border={"2px solid black"}
           maxW={"50%"}
-          minH={{md:"",base:"50%"}}
-          minW={{md:"50%",base:"100%"}}
-          p={"10vw"}
+          minH={{ md: "", base: "50%" }}
+          minW={{ md: "50%", base: "100%" }}
+          p={"5vw"}
           flexWrap={"wrap"}
+          gap={15}
+          flexDirection={"column"}
         >
+          <Flex
+            boxShadow={"4px 4px 1px black"}
+            border={"2px solid black"}
+            backgroundColor={"white"}
+            w={"80%"}
+          >
+            <Box>
+              <Text>Welcome ...</Text>
+            </Box>
+          </Flex>
           <Flex justifyContent={"center"} alignItems={"center"}>
             <form>
               <Flex
@@ -283,11 +286,17 @@ export default function Dashboard() {
           justifyContent={"center"}
           alignItems={"center"}
           maxW={"25%"}
-          minH={{md:"",base:"25%"}}
-          minW={{md:"25%",base:"100%"}}
+          minH={{ md: "", base: "25%" }}
+          minW={{ md: "25%", base: "100%" }}
         >
           <form onSubmit={handleItems}>
-            <Flex p={"5vw"} alignItems="center"  flexWrap={"wrap"} flexDirection={{md:"column",base:"row"}} gap={2}>
+            <Flex
+              p={"5vw"}
+              alignItems="center"
+              flexWrap={"wrap"}
+              flexDirection={{ md: "column", base: "row" }}
+              gap={2}
+            >
               <Box>
                 <Select
                   boxShadow={"4px 4px 1px black"}
@@ -300,14 +309,14 @@ export default function Dashboard() {
                   onChange={handleGroupChange}
                   value={selectedGroup}
                 >
-                  {teacher && teacher.Unigroups.map((unigroup) => {
-                  return (
-                    <option key={unigroup.id} value={unigroup.id}>
-                      {unigroup.name}
-                    </option>
-                  );
-                }
-                  )}
+                  {teacher &&
+                    teacher.Unigroups.map((unigroup) => {
+                      return (
+                        <option key={unigroup.id} value={unigroup.id}>
+                          {unigroup.name}
+                        </option>
+                      );
+                    })}
                 </Select>
               </Box>
               <Box>
@@ -322,11 +331,12 @@ export default function Dashboard() {
                   onChange={handleSubjectChange}
                   value={selectedSubject}
                 >
-                  {unigroup && unigroup.Subjects.map(group => (
-      <option key={group.id} value={group.id}>
-        {group.name}
-      </option>
-    ))}
+                  {unigroup &&
+                    unigroup.Subjects.map((group) => (
+                      <option key={group.id} value={group.id}>
+                        {group.name}
+                      </option>
+                    ))}
                 </Select>
               </Box>
               <Box>
@@ -350,4 +360,3 @@ export default function Dashboard() {
     </div>
   );
 }
-
