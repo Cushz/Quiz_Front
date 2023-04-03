@@ -253,8 +253,8 @@ export default function Dashboard() {
           minW={{ md: "50%", base: "100%" }}
           p={"10vw"}
           flexWrap={"wrap"}
-
         >
+
           <Flex justifyContent={"center"} alignItems={"center"}>
             <form>
               <Flex
