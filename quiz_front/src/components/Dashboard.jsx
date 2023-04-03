@@ -256,7 +256,7 @@ export default function Dashboard() {
         </Flex>
 
         <Flex
-          justifyContent={"flex-start"}
+          justifyContent={"center"}
           alignItems={"center"}
           boxShadow={"4px 4px 1px black"}
           border={"2px solid black"}
