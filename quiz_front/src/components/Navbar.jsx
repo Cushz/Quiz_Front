@@ -3,6 +3,7 @@ import {
   Flex,
   Box,
   Button,
+  Text,
   Link,
   Drawer,
   DrawerBody,
@@ -52,7 +53,7 @@ export default function Navbar(props) {
 
   return (
 <>
-{mobile || props.isMobile ? (
+{mobile || props?.isMobile ? (
         <Flex w={"80%"} p={"1em"} >
           <Box
             p={"0.2em"}
@@ -144,6 +145,7 @@ export default function Navbar(props) {
       )  : (
     <Flex
       justifyContent={"space-around"}
+      alignItems={"center"}
       w={"80%"}
       m={"0.5em auto 0 auto"}
       boxShadow={"4px 4px 1px black"}
@@ -153,6 +155,17 @@ export default function Navbar(props) {
     >
       {isLoggedIn ? (
         <>
+        
+            <Box>
+              <Text
+                border={"none"}
+                cursor={"default"}
+                fontWeight={"bold"}
+              >
+                Welcome {props?.name} {props?.surname}
+              </Text>
+            </Box>
+        
         <Link style={{textDecoration:"none"}} href={"/"}>
             <Box>
               <Button

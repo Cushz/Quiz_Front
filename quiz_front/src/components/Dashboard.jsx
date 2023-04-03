@@ -22,6 +22,7 @@ import {
   ModalHeader,
   ModalFooter,
   ModalBody,
+  Heading,
   ModalCloseButton,
   Select,
 } from "@chakra-ui/react";
@@ -40,6 +41,8 @@ export default function Dashboard() {
   const [selectedGroup, setSelectedGroup] = useState("");
   const [selectedSubject, setSelectedSubject] = useState("");
   const [unigroup, setUnigroup] = useState("");
+  const [teacherName,setTeacherName] = useState(null);
+  const [teacherSurname,setTeacherSurname] = useState(null);
   const [teacherId, setTeacherId] = useState(localStorage.getItem("teacherId"));
   const toast = useToast();
 
@@ -70,6 +73,8 @@ export default function Dashboard() {
       try {
         const response = await getTeacherbyID(teacherId);
         setTeacher(response);
+        setTeacherName(response.name)
+        setTeacherSurname(response.surname)
       } catch (error) {
         console.error(error);
       }
@@ -81,8 +86,8 @@ export default function Dashboard() {
   }, [teacherId]);
 
   useEffect(() => {
-    console.log("teacher", teacher);
-    console.log;
+    console.log(teacher)
+    console.log(teacherName)
   }, [teacher]);
 
   const handleSubjectChange = (event) => {
@@ -122,7 +127,7 @@ export default function Dashboard() {
   };
   return (
     <div className="quiz-body">
-      <Navbar />
+      <Navbar name={teacherName} surname={teacherSurname} />
       <Flex
         w={"80%"}
         margin={"1em auto 0 auto"}
@@ -214,21 +219,10 @@ export default function Dashboard() {
           maxW={"50%"}
           minH={{ md: "", base: "50%" }}
           minW={{ md: "50%", base: "100%" }}
-          p={"5vw"}
+          p={"10vw"}
           flexWrap={"wrap"}
-          gap={15}
-          flexDirection={"column"}
+
         >
-          <Flex
-            boxShadow={"4px 4px 1px black"}
-            border={"2px solid black"}
-            backgroundColor={"white"}
-            w={"80%"}
-          >
-            <Box>
-              <Text>Welcome ...</Text>
-            </Box>
-          </Flex>
           <Flex justifyContent={"center"} alignItems={"center"}>
             <form>
               <Flex
