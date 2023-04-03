@@ -27,10 +27,13 @@ import {
 } from "@chakra-ui/react";
 import { CloseIcon } from "@chakra-ui/icons";
 import Navbar from "./Navbar";
-import { useNavigate } from "react-router-dom";
 import getUserInfo from "../api/getUserInfo";
 import getTeacherbyID from "../api/getTeacherbyID";
 import getUnigroupbyID from "../api/getUnigroupbyID";
+import sendFile from "../api/sendFile";
+import getQuestions from "../api/getQuestions";
+
+
 
 export default function Dashboard() {
   const [file, setFile] = useState(null);
@@ -41,6 +44,8 @@ export default function Dashboard() {
   const [selectedSubject, setSelectedSubject] = useState("");
   const [unigroup, setUnigroup] = useState("");
   const [teacherId, setTeacherId] = useState(localStorage.getItem("teacherId"));
+  const [jsonData, setJsonData] = useState(null);
+  const [filteredQuestions, setFilteredQuestions] = useState([]);
   const toast = useToast();
 
   const handleGroupChange = (event) => {
@@ -54,6 +59,12 @@ export default function Dashboard() {
       fetchUnigroupbyID();
     }
   };
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    setFile(file);
+  };
+
 
   useEffect(() => {
     document.title = "Quiz App | Dashboard";
@@ -85,23 +96,44 @@ export default function Dashboard() {
     console.log;
   }, [teacher]);
 
+
+  const handleSearch = async () => {
+    const response = await getQuestions();
+    //filter the question which has selected group and subject
+    const filteredQuestions = response.filter(
+      (question) =>
+      question.groupId = selectedGroup && question.subjectId === selectedSubject
+    );
+    setFilteredQuestions(filteredQuestions);
+  }
+  
+
+
+
+
   const handleSubjectChange = (event) => {
     const selectedSubject = event.target.value;
     setSelectedSubject(selectedSubject);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+
+    const response = await sendFile(file, selectedGroup, selectedSubject);
+    console.log(response);
     console.log(file);
-    if (!file) {
+    if (file && selectedGroup && selectedSubject) {
+      file && setFileList([file.name, ...fileList]);
+    }
+    if (!selectedGroup && !selectedSubject) {
       toast.closeAll();
       toast({
-        title: "Please upload a file",
+        title: "Please Select both of the options ",
         status: "error",
         isClosable: true,
         duration: 1000,
       });
     }
-    file && setFileList([file.name, ...fileList]);
+
   };
 
   const handleItems = (event) => {
@@ -250,11 +282,9 @@ export default function Dashboard() {
                 id={"upload"}
                 border={"none"}
                 type="file"
-                onChange={(e) => {
-                  console.log(e);
-                  setFile(e.target.files[0]);
-                }}
+                onChange={handleFileChange}
                 display={"none"}
+                accept= ".docx"
               />
               <Button
                 size={"xs"}
@@ -326,7 +356,7 @@ export default function Dashboard() {
                   _hover={{ border: "2px solid black" }}
                   focusBorderColor={"black"}
                   cursor="pointer"
-                  placeholder="Speciality"
+                  placeholder="Subject"
                   backgroundColor={"white"}
                   onChange={handleSubjectChange}
                   value={selectedSubject}
@@ -349,6 +379,7 @@ export default function Dashboard() {
                   backgroundColor={"white"}
                   type={"submit"}
                   alignContent={"center"}
+                  onClick={handleSearch}
                 >
                   Search
                 </Button>
