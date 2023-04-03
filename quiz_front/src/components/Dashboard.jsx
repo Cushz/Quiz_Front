@@ -244,17 +244,28 @@ export default function Dashboard() {
         </Flex>
 
         <Flex
-          justifyContent={"center"}
+          justifyContent={"flex-start"}
           alignItems={"center"}
           boxShadow={"4px 4px 1px black"}
           border={"2px solid black"}
           maxW={"50%"}
           minH={{ md: "", base: "50%" }}
           minW={{ md: "50%", base: "100%" }}
-          p={"10vw"}
+          p={"5vw"}
           flexWrap={"wrap"}
-
+          gap={15}
+          flexDirection={"column"}
         >
+          <Flex
+            boxShadow={"4px 4px 1px black"}
+            border={"2px solid black"}
+            backgroundColor={"white"}
+            w={"80%"}
+          >
+            <Box>
+              <Text>Welcome ...</Text>
+            </Box>
+          </Flex>
           <Flex justifyContent={"center"} alignItems={"center"}>
             <form>
               <Flex
