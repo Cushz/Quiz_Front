@@ -41,8 +41,8 @@ export default function Dashboard() {
   const [selectedGroup, setSelectedGroup] = useState("");
   const [selectedSubject, setSelectedSubject] = useState("");
   const [unigroup, setUnigroup] = useState("");
-  const [teacherName, setTeacherName] = useState(null);
-  const [teacherSurname, setTeacherSurname] = useState(null);
+  const [teacherName,setTeacherName] = useState(null);
+  const [teacherSurname,setTeacherSurname] = useState(null);
   const [teacherId, setTeacherId] = useState(localStorage.getItem("teacherId"));
   const [filteredQuestions, setFilteredQuestions] = useState([]);
   const toast = useToast();
@@ -79,8 +79,8 @@ export default function Dashboard() {
       try {
         const response = await getTeacherbyID(teacherId);
         setTeacher(response);
-        setTeacherName(response.name);
-        setTeacherSurname(response.surname);
+        setTeacherName(response.name)
+        setTeacherSurname(response.surname)
       } catch (error) {
         console.error(error);
       }
@@ -96,6 +96,10 @@ export default function Dashboard() {
     console.log(teacherName);
     console.log("filteredQuestions", filteredQuestions);
   }, [teacher, filteredQuestions]);
+    console.log(teacher)
+    console.log(teacherName)
+  }, [teacher]);
+
 
   const handleSearch = async () => {
     const response = await getQuestions();
