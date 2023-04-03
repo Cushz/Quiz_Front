@@ -22,6 +22,7 @@ import {
   ModalHeader,
   ModalFooter,
   ModalBody,
+  Heading,
   ModalCloseButton,
   Select,
 } from "@chakra-ui/react";
@@ -43,6 +44,8 @@ export default function Dashboard() {
   const [selectedGroup, setSelectedGroup] = useState("");
   const [selectedSubject, setSelectedSubject] = useState("");
   const [unigroup, setUnigroup] = useState("");
+  const [teacherName,setTeacherName] = useState(null);
+  const [teacherSurname,setTeacherSurname] = useState(null);
   const [teacherId, setTeacherId] = useState(localStorage.getItem("teacherId"));
   const [jsonData, setJsonData] = useState(null);
   const [filteredQuestions, setFilteredQuestions] = useState([]);
@@ -81,6 +84,8 @@ export default function Dashboard() {
       try {
         const response = await getTeacherbyID(teacherId);
         setTeacher(response);
+        setTeacherName(response.name)
+        setTeacherSurname(response.surname)
       } catch (error) {
         console.error(error);
       }
@@ -92,8 +97,8 @@ export default function Dashboard() {
   }, [teacherId]);
 
   useEffect(() => {
-    console.log("teacher", teacher);
-    console.log;
+    console.log(teacher)
+    console.log(teacherName)
   }, [teacher]);
 
 
@@ -154,7 +159,7 @@ export default function Dashboard() {
   };
   return (
     <div className="quiz-body">
-      <Navbar />
+      <Navbar name={teacherName} surname={teacherSurname} />
       <Flex
         w={"80%"}
         margin={"1em auto 0 auto"}
@@ -248,8 +253,8 @@ export default function Dashboard() {
           minW={{ md: "50%", base: "100%" }}
           p={"10vw"}
           flexWrap={"wrap"}
-        >
 
+        >
           <Flex justifyContent={"center"} alignItems={"center"}>
             <form>
               <Flex
