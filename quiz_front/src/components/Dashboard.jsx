@@ -34,7 +34,6 @@ import getTeacherbyID from "../api/getTeacherbyID";
 import getUnigroupbyID from "../api/getUnigroupbyID";
 import sendFile from "../api/sendFile";
 import getQuestions from "../api/getQuestions";
-import deleteQuestion from "../api/deleteQuestion";
 
 export default function Dashboard() {
   const [file, setFile] = useState(null);
@@ -96,39 +95,19 @@ export default function Dashboard() {
   }, [teacherId]);
 
   useEffect(() => {
-    const fetchQuestions = async () => {
-      const response = await getQuestions();
-      setFilteredQuestions(
-        response.filter(
-          (question) =>
-            question.groupId == selectedGroup &&
-            question.subjectId == selectedSubject
-        )
-      );
-    };
-    fetchQuestions();
-    isSubmitted && setIsSubmitted(false);
-  }, [isSubmitted]);
+    console.log(teacher);
+    console.log(teacherName);
+  }, [teacher]);
 
   const handleSearch = async () => {
-    if (selectedGroup && selectedSubject) {
-      const response = await getQuestions();
-      setFilteredQuestions(
-        response.filter(
-          (question) =>
-            question.groupId == selectedGroup &&
-            question.subjectId == selectedSubject
-        )
-      );
-    } else {
-      toast.closeAll();
-      toast({
-        title: "Select both of the options",
-        status: "error",
-        isClosable: true,
-        duration: 1000,
-      });
-    }
+    const response = await getQuestions();
+    //filter the question which has selected group and subject
+    const filteredQuestions = response.filter(
+      (question) =>
+        (question.groupId =
+          selectedGroup && question.subjectId === selectedSubject)
+    );
+    setFilteredQuestions(filteredQuestions);
   };
 
   const handleSubjectChange = (event) => {
@@ -137,22 +116,30 @@ export default function Dashboard() {
   };
 
   const handleSubmit = async () => {
+    const response = await sendFile(file, selectedGroup, selectedSubject);
+    console.log(response);
+    console.log(file);
     if (file && selectedGroup && selectedSubject) {
-      const response = await sendFile(file, selectedGroup, selectedSubject);
-      setIsSubmitted(true);
-      console.log(response);
+      file && setFileList([file.name, ...fileList]);
     }
-
-    if (selectedGroup && selectedSubject && !file) {
+    if (!selectedGroup && !selectedSubject) {
       toast.closeAll();
       toast({
-        title: "Please Select a file ",
+        title: "Please Select both of the options ",
         status: "error",
         isClosable: true,
         duration: 1000,
       });
     }
-    if (!selectedGroup || !selectedSubject) {
+  };
+
+  const handleItems = (event) => {
+    event.preventDefault();
+    const group = selectedGroup;
+    const subject = selectedSubject;
+    if (group && subject) {
+      setFileList(listOfFiles.ListOfFiles);
+    } else {
       toast.closeAll();
       toast({
         title: "Please Select both of the options ",
@@ -192,14 +179,14 @@ export default function Dashboard() {
           overflowY={"auto"}
           overflowX={"hidden"}
         >
-          {fileList &&
-            fileList.map((e, key) => {
+          {filteredQuestions &&
+            filteredQuestions.map((questions, key) => {
               return (
                 <>
                   <Flex
                     cursor={"pointer"}
                     onClick={onOpen}
-                    key={key}
+                    key={key.id}
                     boxShadow={"4px 4px 0px black"}
                     border={"2px solid black"}
                     borderRadius={"0.3em"}
@@ -211,7 +198,7 @@ export default function Dashboard() {
                     justifyContent={"space-between"}
                     p={"0.4em"}
                   >
-                    <Box wordBreak={"break-word"}>{e}</Box>
+                    <Box wordBreak={"break-word"}>{questions.filename}</Box>
                     <Box>
                       <CloseIcon
                         onClick={() => {
@@ -222,37 +209,44 @@ export default function Dashboard() {
                       />
                     </Box>
                   </Flex>
+                  <Modal isOpen={isOpen} onClose={onClose}>
+                    <ModalOverlay />
+                    <ModalContent>
+                      <ModalHeader>{questions.question}</ModalHeader>
+                      <ModalCloseButton />
+                      <ModalBody>
+                        <UnorderedList>
+                          {questions.Options.map((options) => (
+                            <ListItem>{options.option}</ListItem>
+                          ))}
+                        </UnorderedList>
+                        {questions.Options.map((options) => {
+                          if (options.is_correct) {
+                            return (
+                              <Text key={options.id}>
+                                Correct Answer: {options.option}
+                              </Text>
+                            );
+                          }
+                        })}
+                      </ModalBody>
+
+                      <ModalFooter>
+                        <Button
+                          border={"2px solid black"}
+                          variant="outline"
+                          mr={3}
+                          onClick={onClose}
+                          _hover={{ backgroundColor: "white" }}
+                        >
+                          Close
+                        </Button>
+                      </ModalFooter>
+                    </ModalContent>
+                  </Modal>
                 </>
               );
             })}
-          <Modal isOpen={isOpen} onClose={onClose}>
-            <ModalOverlay />
-            <ModalContent>
-              <ModalHeader>Question</ModalHeader>
-              <ModalCloseButton />
-              <ModalBody>
-                <UnorderedList>
-                  <ListItem>a</ListItem>
-                  <ListItem>a</ListItem>
-                  <ListItem>a</ListItem>
-                  <ListItem>a</ListItem>
-                </UnorderedList>
-                <Text>Correct answer:</Text>
-              </ModalBody>
-
-              <ModalFooter>
-                <Button
-                  border={"2px solid black"}
-                  variant="outline"
-                  mr={3}
-                  onClick={onClose}
-                  _hover={{ backgroundColor: "white" }}
-                >
-                  Close
-                </Button>
-              </ModalFooter>
-            </ModalContent>
-          </Modal>
         </Flex>
 
         <Flex
@@ -292,6 +286,7 @@ export default function Dashboard() {
                   setFile(e.target.files[0]);
                 }}
                 display={"none"}
+                accept=".docx"
               />
               <Button
                 size={"xs"}
@@ -326,7 +321,7 @@ export default function Dashboard() {
           minH={{ md: "", base: "25%" }}
           minW={{ md: "25%", base: "100%" }}
         >
-          <form onSubmit={handleItems}>
+          <form>
             <Flex
               p={"5vw"}
               alignItems="center"
@@ -384,7 +379,7 @@ export default function Dashboard() {
                   focusBorderColor={"black"}
                   cursor="pointer"
                   backgroundColor={"white"}
-                  type={"submit"}
+                  type={"button"}
                   alignContent={"center"}
                 >
                   Search
