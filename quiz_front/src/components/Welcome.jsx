@@ -25,6 +25,7 @@ import { useToast } from '@chakra-ui/react'
 import { useNavigate } from "react-router-dom";
 import getUniGroup from "../api/getUniGroup";
 import getSubject from "../api/getSubject";
+import getQuestions from "../api/getQuestions";
 
 
 export default function Welcome() {
@@ -34,11 +35,23 @@ export default function Welcome() {
   const [surname, setSurname] = useState("");
   const [groups, setGroups] = useState([]);
   const [subjects, setSubjects] = useState([]);
+  const [selectedGroup, setSelectedGroup] = useState("");
+  const [selectedSubject, setSelectedSubject] = useState("");
+  const [questions, setQuestions] = useState([]);
   const toast = useToast()
 
-
+  const handleQuestionLoad = async () => {
+    const response = await getQuestions();
+    //map through the response and filter the questions by group and subject
+    const filteredQuestions = response.filter(
+      (question) =>
+        question.groupId == selectedGroup && question.subjectId == selectedSubject
+    );
+    setQuestions(filteredQuestions);
+  };
   const handleSubmit = (event) => {
     event.preventDefault();
+    handleQuestionLoad();
     if (name && surname && groups && subjects) {
       navigate("/quiz");
     } else {
@@ -52,6 +65,11 @@ export default function Welcome() {
     }
   };
 
+  
+
+ 
+    
+
 
   useEffect(() => {
     document.title = "Quiz App | Home";
@@ -63,10 +81,13 @@ export default function Welcome() {
       const response = await getSubject();
       setSubjects(response)
     }
+    
+
     fetchGroupData();
     fetchSubjectData();
+    console.log(questions);
 
-  }, []);
+  }, [questions]);
 
   
   return (
@@ -149,7 +170,8 @@ export default function Welcome() {
                         boxShadow={"4px 4px 1px black"}
                         border={"2px solid black"}
                         backgroundColor={"white"}
-                        onChange={(event) => setGroup(event.target.value)}
+                        value={selectedGroup}
+                        onChange={(event) => setSelectedGroup(event.target.value)}
                         _hover={{ border: "2px solid black" }}
                         focusBorderColor={"black"}
                         placeholder={"Group"}
@@ -170,7 +192,8 @@ export default function Welcome() {
                         backgroundColor={"white"}
                         _hover={{ border: "2px solid black" }}
                         focusBorderColor={"black"}
-                        onChange={(event) => setSubject(event.target.value)}
+                        value={selectedSubject}
+                        onChange={(event) => setSelectedSubject(event.target.value)}
                         placeholder={"Subject"}
                       >
                        {
