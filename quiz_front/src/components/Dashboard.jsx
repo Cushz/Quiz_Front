@@ -33,6 +33,7 @@ import getTeacherbyID from "../api/getTeacherbyID";
 import getUnigroupbyID from "../api/getUnigroupbyID";
 import sendFile from "../api/sendFile";
 import getQuestions from "../api/getQuestions";
+import deleteQuestion from "../api/deleteQuestion";
 
 export default function Dashboard() {
   const [file, setFile] = useState(null);
@@ -41,11 +42,12 @@ export default function Dashboard() {
   const [selectedGroup, setSelectedGroup] = useState("");
   const [selectedSubject, setSelectedSubject] = useState("");
   const [unigroup, setUnigroup] = useState("");
-  const [teacherName,setTeacherName] = useState(null);
-  const [teacherSurname,setTeacherSurname] = useState(null);
+  const [teacherName, setTeacherName] = useState(null);
+  const [teacherSurname, setTeacherSurname] = useState(null);
   const [teacherId, setTeacherId] = useState(localStorage.getItem("teacherId"));
   const [filteredQuestions, setFilteredQuestions] = useState([]);
   const toast = useToast();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleGroupChange = (event) => {
     const selectedGroup = event.target.value;
@@ -79,8 +81,8 @@ export default function Dashboard() {
       try {
         const response = await getTeacherbyID(teacherId);
         setTeacher(response);
-        setTeacherName(response.name)
-        setTeacherSurname(response.surname)
+        setTeacherName(response.name);
+        setTeacherSurname(response.surname);
       } catch (error) {
         console.error(error);
       }
@@ -95,21 +97,27 @@ export default function Dashboard() {
     console.log(teacher);
     console.log(teacherName);
     console.log("filteredQuestions", filteredQuestions);
-  }, [teacher, filteredQuestions]);
-    console.log(teacher)
-    console.log(teacherName)
-  }, [teacher]);
-
+  }, [filteredQuestions]);
 
   const handleSearch = async () => {
-    const response = await getQuestions();
-    setFilteredQuestions(
-      response.filter(
-        (question) =>
-          question.groupId == selectedGroup &&
-          question.subjectId == selectedSubject
-      )
-    );
+    if (selectedGroup && selectedSubject) {
+      const response = await getQuestions();
+      setFilteredQuestions(
+        response.filter(
+          (question) =>
+            question.groupId == selectedGroup &&
+            question.subjectId == selectedSubject
+        )
+      );
+    } else {
+      toast.closeAll();
+      toast({
+        title: "Select both of the options",
+        status: "error",
+        isClosable: true,
+        duration: 1000,
+      });
+    }
   };
 
   const handleSubjectChange = (event) => {
@@ -118,16 +126,22 @@ export default function Dashboard() {
   };
 
   const handleSubmit = async () => {
-    if (selectedGroup && selectedSubject) {
+    if (file && selectedGroup && selectedSubject) {
       const response = await sendFile(file, selectedGroup, selectedSubject);
       handleSearch();
       console.log(response);
       console.log(file);
     }
 
-    // if (file && selectedGroup && selectedSubject) {
-    //   file && setFileList([file.name, ...fileList]);
-    // }
+    if (selectedGroup && selectedSubject && !file) {
+      toast.closeAll();
+      toast({
+        title: "Please Select a file ",
+        status: "error",
+        isClosable: true,
+        duration: 1000,
+      });
+    }
     if (!selectedGroup || !selectedSubject) {
       toast.closeAll();
       toast({
@@ -137,6 +151,12 @@ export default function Dashboard() {
         duration: 1000,
       });
     }
+  };
+
+  const handleDeleteQuestion = async (id) => {
+    const response = await deleteQuestion(id);
+    handleSearch();
+    console.log(response);
   };
 
   return (
@@ -184,16 +204,18 @@ export default function Dashboard() {
                     <Box wordBreak={"break-word"}>{questions.filename}</Box>
                     <Box>
                       <CloseIcon
-                        onClick={() => {
-                          alert("hello");
+                        cursor={"pointer"}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDeleteQuestion(questions.id);
                         }}
                         fontSize={"0.7em"}
                         color="black"
                       />
                     </Box>
                   </Flex>
-                  <Modal isOpen={isOpen} onClose={onClose}>
-                    <ModalOverlay />
+                  <Modal isOpen={isOpen} onClose={onClose} isCentered>
+                    <ModalOverlay backgroundColor={"blackAlpha.300"} />
                     <ModalContent>
                       <ModalHeader>{questions.question}</ModalHeader>
                       <ModalCloseButton />
@@ -213,7 +235,6 @@ export default function Dashboard() {
                           }
                         })}
                       </ModalBody>
-
                       <ModalFooter>
                         <Button
                           border={"2px solid black"}
@@ -243,7 +264,6 @@ export default function Dashboard() {
           p={"10vw"}
           flexWrap={"wrap"}
         >
-
           <Flex justifyContent={"center"} alignItems={"center"}>
             <form>
               <Flex
@@ -256,11 +276,10 @@ export default function Dashboard() {
                 </Box>
                 <Flex justifyContent={"center"} alignItems={"center"}>
                   <Box>
-                  <Text  wordBreak={"break-word"} htmlFor={"upload"}>
-                    {file ? file.name : "Choose File"}
-                  </Text>
+                    <Text wordBreak={"break-word"} htmlFor={"upload"}>
+                      {file ? file.name : "Choose File"}
+                    </Text>
                   </Box>
-                  
                 </Flex>
                 <Box>
                   <Input
