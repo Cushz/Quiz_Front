@@ -1,6 +1,7 @@
 import React from "react";
 import { useEffect } from "react";
 import {
+  FormControl,
   ListItem,
   UnorderedList,
   useDisclosure,
@@ -142,7 +143,7 @@ export default function Dashboard() {
         w={"80%"}
         margin={"1em auto 0 auto"}
         h={"80%"}
-        gap={1}
+        gap={2}
         flexDirection={{ md: "row", base: "column" }}
         justifyContent={"space-evenly"}
       >
@@ -253,11 +254,10 @@ export default function Dashboard() {
                 </Box>
                 <Flex justifyContent={"center"} alignItems={"center"}>
                   <Box>
-                  <Text  wordBreak={"break-word"} htmlFor={"upload"}>
-                    {file ? file.name : "Choose File"}
-                  </Text>
+                    <Text wordBreak={"break-word"} htmlFor={"upload"}>
+                      {file ? file.name : "Choose File"}
+                    </Text>
                   </Box>
-                  
                 </Flex>
                 <Box>
                   <Input
@@ -302,16 +302,22 @@ export default function Dashboard() {
           maxW={"25%"}
           minH={{ md: "", base: "25%" }}
           minW={{ md: "25%", base: "100%" }}
+          flexDirection={"row"}
         >
-          <form>
+          <FormControl
+            display={"flex"}
+            flexDirection={{ md: "column", base: "row" }}
+            gap={2}
+            width={{ md: "50%", base: "70%" }}
+            flexWrap={"wrap"}
+            justifyContent={"flex-start"}
+          >
             <Flex
-              p={"5vw"}
-              alignItems="center"
-              flexWrap={"wrap"}
-              flexDirection={{ md: "column", base: "row" }}
               gap={2}
+              flexDirection={{ md: "column", base: "row" }}
+              width={"-webkit-fill-available"}
             >
-              <Box>
+              <Box minW={"47%"} maxW={{ md: "100%", base: "50%" }}>
                 <Select
                   boxShadow={"4px 4px 1px black"}
                   border={"2px solid black"}
@@ -333,7 +339,7 @@ export default function Dashboard() {
                     })}
                 </Select>
               </Box>
-              <Box>
+              <Box minW={"50%"} maxW={{ md: "100%", base: "50%" }}>
                 <Select
                   boxShadow={"4px 4px 1px black"}
                   border={"2px solid black"}
@@ -353,6 +359,9 @@ export default function Dashboard() {
                     ))}
                 </Select>
               </Box>
+            </Flex>
+
+            <Flex justifyContent={"center"} flexGrow={1}>
               <Box>
                 <Button
                   boxShadow={"4px 4px 1px black"}
@@ -369,7 +378,7 @@ export default function Dashboard() {
                 </Button>
               </Box>
             </Flex>
-          </form>
+          </FormControl>
         </Flex>
       </Flex>
     </div>
