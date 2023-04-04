@@ -115,13 +115,25 @@ export default function Quiz() {
                       bg={"#ffffff"}
                       border={"4px solid #000000"}
                       bottom={0}
-                      transition={"bottom 0.2s ease-out"}
+                      transition={"transform 0.2s ease-out"}
                       wordBreak={"break-word"}
                       whiteSpace={"normal"}
+                      _before={{
+                        content: '""',
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        height: "100%"
+                      }}
                       _hover={{
+                        _before:{
+                          height:"calc(100% + 0.5em)"
+                        },
                         backgroundColor: "black",
                         color: "white",
-                        bottom: "4px",
+                        transform: "translate(0, -4px)"
+                        
                       }}
                     >
                       {option.answerText}
