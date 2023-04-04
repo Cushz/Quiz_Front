@@ -20,7 +20,7 @@ export default function Navbar(props) {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = useRef();
-  const [mobile, setMobile] = useState(false);
+  const [mobile, setMobile] = useState(window.innerWidth < 768);
   useEffect(() => {
     function handleResize() {
       if (window.innerWidth < 768) {
@@ -109,20 +109,17 @@ export default function Navbar(props) {
                         </Box>
                       </Link>
                       <Link style={{ textDecoration: "none" }}>
-                        <Box>
-                          <Button
-                            _hover={{
-                              backgroundColor: "transparent",
-                              color: "black",
-                            }}
-                            border={"none"}
-                            variant={"outline"}
-                            color={"black"}
-                            cursor={"default"}
-                          >
-                            Welcome {props?.name} {props?.surname}
-                          </Button>
-                        </Box>
+                      <Box>
+                        <Button
+                          _hover={{ backgroundColor: "black", color: "white" }}
+                          border={"none"}
+                          color={"black"}
+                          variant={"outline"}
+                          onClick={handleLogout}
+                        >
+                          Logout
+                        </Button>
+                      </Box>
                       </Link>
                     </>
                   ) : (
