@@ -34,8 +34,6 @@ import getUnigroupbyID from "../api/getUnigroupbyID";
 import sendFile from "../api/sendFile";
 import getQuestions from "../api/getQuestions";
 
-
-
 export default function Dashboard() {
   const [file, setFile] = useState(null);
   const [fileList, setFileList] = useState([]);
@@ -44,8 +42,8 @@ export default function Dashboard() {
   const [selectedGroup, setSelectedGroup] = useState("");
   const [selectedSubject, setSelectedSubject] = useState("");
   const [unigroup, setUnigroup] = useState("");
-  const [teacherName,setTeacherName] = useState(null);
-  const [teacherSurname,setTeacherSurname] = useState(null);
+  const [teacherName, setTeacherName] = useState(null);
+  const [teacherSurname, setTeacherSurname] = useState(null);
   const [teacherId, setTeacherId] = useState(localStorage.getItem("teacherId"));
   const [jsonData, setJsonData] = useState(null);
   const [filteredQuestions, setFilteredQuestions] = useState([]);
@@ -68,7 +66,6 @@ export default function Dashboard() {
     setFile(file);
   };
 
-
   useEffect(() => {
     document.title = "Quiz App | Dashboard";
     const fetchUserInfo = async () => {
@@ -84,8 +81,8 @@ export default function Dashboard() {
       try {
         const response = await getTeacherbyID(teacherId);
         setTeacher(response);
-        setTeacherName(response.name)
-        setTeacherSurname(response.surname)
+        setTeacherName(response.name);
+        setTeacherSurname(response.surname);
       } catch (error) {
         console.error(error);
       }
@@ -97,24 +94,21 @@ export default function Dashboard() {
   }, [teacherId]);
 
   useEffect(() => {
-    console.log(teacher)
-    console.log(teacherName)
-  }, [teacher]);
-
+    console.log(teacher);
+    console.log(teacherName);
+    console.log("filteredQuestions", filteredQuestions);
+  }, [teacher, filteredQuestions]);
 
   const handleSearch = async () => {
     const response = await getQuestions();
-    //filter the question which has selected group and subject
-    const filteredQuestions = response.filter(
-      (question) =>
-      question.groupId = selectedGroup && question.subjectId === selectedSubject
+    setFilteredQuestions(
+      response.filter(
+        (question) =>
+          question.groupId == selectedGroup &&
+          question.subjectId == selectedSubject
+      )
     );
-    setFilteredQuestions(filteredQuestions);
-  }
-  
-
-
-
+  };
 
   const handleSubjectChange = (event) => {
     const selectedSubject = event.target.value;
@@ -122,32 +116,17 @@ export default function Dashboard() {
   };
 
   const handleSubmit = async () => {
-
-    const response = await sendFile(file, selectedGroup, selectedSubject);
+    if (selectedGroup && selectedSubject) {
+      const response = await sendFile(file, selectedGroup, selectedSubject);
+      handleSearch();
     console.log(response);
-    console.log(file);
-    if (file && selectedGroup && selectedSubject) {
-      file && setFileList([file.name, ...fileList]);
+    console.log(file);  
     }
-    if (!selectedGroup && !selectedSubject) {
-      toast.closeAll();
-      toast({
-        title: "Please Select both of the options ",
-        status: "error",
-        isClosable: true,
-        duration: 1000,
-      });
-    }
-
-  };
-
-  const handleItems = (event) => {
-    event.preventDefault();
-    const group = selectedGroup;
-    const subject = selectedSubject;
-    if (group && subject) {
-      setFileList(listOfFiles.ListOfFiles);
-    } else {
+    
+    // if (file && selectedGroup && selectedSubject) {
+    //   file && setFileList([file.name, ...fileList]);
+    // }
+    if (!selectedGroup || !selectedSubject) {
       toast.closeAll();
       toast({
         title: "Please Select both of the options ",
@@ -157,6 +136,23 @@ export default function Dashboard() {
       });
     }
   };
+
+  // const handleItems = (event) => {
+  //   event.preventDefault();
+  //   const group = selectedGroup;
+  //   const subject = selectedSubject;
+  //   if (group && subject) {
+  //     setFileList(listOfFiles.ListOfFiles);
+  //   } else {
+  //     toast.closeAll();
+  //     toast({
+  //       title: "Please Select both of the options ",
+  //       status: "error",
+  //       isClosable: true,
+  //       duration: 1000,
+  //     });
+  //   }
+  // };
   return (
     <div className="quiz-body">
       <Navbar name={teacherName} surname={teacherSurname} />
@@ -180,14 +176,14 @@ export default function Dashboard() {
           overflowY={"auto"}
           overflowX={"hidden"}
         >
-          {fileList &&
-            fileList.map((e, key) => {
+          {filteredQuestions &&
+            filteredQuestions.map((questions, key) => {
               return (
                 <>
                   <Flex
                     cursor={"pointer"}
                     onClick={onOpen}
-                    key={key}
+                    key={key.id}
                     boxShadow={"4px 4px 0px black"}
                     border={"2px solid black"}
                     borderRadius={"0.3em"}
@@ -199,7 +195,7 @@ export default function Dashboard() {
                     justifyContent={"space-between"}
                     p={"0.4em"}
                   >
-                    <Box wordBreak={"break-word"}>{e}</Box>
+                    <Box wordBreak={"break-word"}>{questions.filename}</Box>
                     <Box>
                       <CloseIcon
                         onClick={() => {
@@ -210,37 +206,44 @@ export default function Dashboard() {
                       />
                     </Box>
                   </Flex>
+                  <Modal isOpen={isOpen} onClose={onClose}>
+                    <ModalOverlay />
+                    <ModalContent>
+                      <ModalHeader>{questions.question}</ModalHeader>
+                      <ModalCloseButton />
+                      <ModalBody>
+                        <UnorderedList>
+                          {questions.Options.map((options) => (
+                            <ListItem>{options.option}</ListItem>
+                          ))}
+                        </UnorderedList>
+                        {questions.Options.map((options) => {
+                          if (options.is_correct) {
+                            return (
+                              <Text key={options.id}>
+                                Correct Answer: {options.option}
+                              </Text>
+                            );
+                          }
+                          })}
+                      </ModalBody>
+
+                      <ModalFooter>
+                        <Button
+                          border={"2px solid black"}
+                          variant="outline"
+                          mr={3}
+                          onClick={onClose}
+                          _hover={{ backgroundColor: "white" }}
+                        >
+                          Close
+                        </Button>
+                      </ModalFooter>
+                    </ModalContent>
+                  </Modal>
                 </>
               );
             })}
-          <Modal isOpen={isOpen} onClose={onClose}>
-            <ModalOverlay />
-            <ModalContent>
-              <ModalHeader>Question</ModalHeader>
-              <ModalCloseButton />
-              <ModalBody>
-                <UnorderedList>
-                  <ListItem>a</ListItem>
-                  <ListItem>a</ListItem>
-                  <ListItem>a</ListItem>
-                  <ListItem>a</ListItem>
-                </UnorderedList>
-                <Text>Correct answer:</Text>
-              </ModalBody>
-
-              <ModalFooter>
-                <Button
-                  border={"2px solid black"}
-                  variant="outline"
-                  mr={3}
-                  onClick={onClose}
-                  _hover={{ backgroundColor: "white" }}
-                >
-                  Close
-                </Button>
-              </ModalFooter>
-            </ModalContent>
-          </Modal>
         </Flex>
 
         <Flex
@@ -278,7 +281,7 @@ export default function Dashboard() {
                 type="file"
                 onChange={handleFileChange}
                 display={"none"}
-                accept= ".docx"
+                accept=".docx"
               />
               <Button
                 size={"xs"}
@@ -313,7 +316,7 @@ export default function Dashboard() {
           minH={{ md: "", base: "25%" }}
           minW={{ md: "25%", base: "100%" }}
         >
-          <form onSubmit={handleItems}>
+          <form>
             <Flex
               p={"5vw"}
               alignItems="center"
@@ -371,7 +374,7 @@ export default function Dashboard() {
                   focusBorderColor={"black"}
                   cursor="pointer"
                   backgroundColor={"white"}
-                  type={"submit"}
+                  type={"button"}
                   alignContent={"center"}
                   onClick={handleSearch}
                 >
