@@ -36,7 +36,6 @@ import getQuestions from "../api/getQuestions";
 
 export default function Dashboard() {
   const [file, setFile] = useState(null);
-  const [fileList, setFileList] = useState([]);
   const [teacher, setTeacher] = useState("");
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [selectedGroup, setSelectedGroup] = useState("");
@@ -45,7 +44,6 @@ export default function Dashboard() {
   const [teacherName, setTeacherName] = useState(null);
   const [teacherSurname, setTeacherSurname] = useState(null);
   const [teacherId, setTeacherId] = useState(localStorage.getItem("teacherId"));
-  const [jsonData, setJsonData] = useState(null);
   const [filteredQuestions, setFilteredQuestions] = useState([]);
   const toast = useToast();
 
@@ -119,10 +117,10 @@ export default function Dashboard() {
     if (selectedGroup && selectedSubject) {
       const response = await sendFile(file, selectedGroup, selectedSubject);
       handleSearch();
-    console.log(response);
-    console.log(file);  
+      console.log(response);
+      console.log(file);
     }
-    
+
     // if (file && selectedGroup && selectedSubject) {
     //   file && setFileList([file.name, ...fileList]);
     // }
@@ -137,22 +135,6 @@ export default function Dashboard() {
     }
   };
 
-  // const handleItems = (event) => {
-  //   event.preventDefault();
-  //   const group = selectedGroup;
-  //   const subject = selectedSubject;
-  //   if (group && subject) {
-  //     setFileList(listOfFiles.ListOfFiles);
-  //   } else {
-  //     toast.closeAll();
-  //     toast({
-  //       title: "Please Select both of the options ",
-  //       status: "error",
-  //       isClosable: true,
-  //       duration: 1000,
-  //     });
-  //   }
-  // };
   return (
     <div className="quiz-body">
       <Navbar name={teacherName} surname={teacherSurname} />
@@ -225,7 +207,7 @@ export default function Dashboard() {
                               </Text>
                             );
                           }
-                          })}
+                        })}
                       </ModalBody>
 
                       <ModalFooter>
@@ -269,41 +251,45 @@ export default function Dashboard() {
                 <Box onClick={() => document.getElementById("upload").click()}>
                   <Image src={file_upload} w={"4em"} cursor="pointer" />
                 </Box>
-                <Box>
-                  <FormLabel wordBreak={"break-word"} htmlFor={"upload"}>
+                <Flex justifyContent={"center"} alignItems={"center"}>
+                  <Box>
+                  <Text  wordBreak={"break-word"} htmlFor={"upload"}>
                     {file ? file.name : "Choose File"}
-                  </FormLabel>
+                  </Text>
+                  </Box>
+                  
+                </Flex>
+                <Box>
+                  <Input
+                    id={"upload"}
+                    border={"none"}
+                    type="file"
+                    onChange={handleFileChange}
+                    display={"none"}
+                    accept=".docx"
+                  />
+                  <Button
+                    size={"xs"}
+                    type="button"
+                    boxShadow={"4px 4px 1px black"}
+                    border={"2px solid black"}
+                    variant="outline"
+                    position={"relative"}
+                    bottom={0}
+                    transition={"bottom 0.2s ease-out"}
+                    _hover={{ bottom: "4px" }}
+                    color={"black"}
+                    backgroundColor={"white"}
+                    cursor={"pointer"}
+                    p={"1em"}
+                    _active={{ backgroundColor: "none" }}
+                    onClick={handleSubmit}
+                    mt={"5px"}
+                  >
+                    Upload
+                  </Button>
                 </Box>
               </Flex>
-
-              <Input
-                id={"upload"}
-                border={"none"}
-                type="file"
-                onChange={handleFileChange}
-                display={"none"}
-                accept=".docx"
-              />
-              <Button
-                size={"xs"}
-                type="button"
-                boxShadow={"4px 4px 1px black"}
-                border={"2px solid black"}
-                variant="outline"
-                position={"relative"}
-                bottom={0}
-                transition={"bottom 0.2s ease-out"}
-                _hover={{ bottom: "4px" }}
-                color={"black"}
-                backgroundColor={"white"}
-                cursor={"pointer"}
-                p={"1em"}
-                _active={{ backgroundColor: "none" }}
-                onClick={handleSubmit}
-                marginLeft={"0.7rem"}
-              >
-                Upload
-              </Button>
             </form>
           </Flex>
         </Flex>
