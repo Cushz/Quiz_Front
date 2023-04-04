@@ -73,17 +73,23 @@ export default function Navbar(props) {
                 <DrawerBody>
                   {isLoggedIn ? (
                     <>
-                      <Box>
-                        <Button
-                          _hover={{ backgroundColor: "black", color: "white" }}
-                          border={"none"}
-                          color={"black"}
-                          variant={"outline"}
-                          onClick={handleLogout}
-                        >
-                          Logout
-                        </Button>
-                      </Box>
+                    <Link style={{ textDecoration: "none" }}>
+                        <Box>
+                          <Button
+                            _hover={{
+                              backgroundColor: "transparent",
+                              color: "black",
+                            }}
+                            border={"none"}
+                            variant={"outline"}
+                            color={"black"}
+                            cursor={"default"}
+                          >
+                            Welcome {props?.name} {props?.surname}
+                          </Button>
+                        </Box>
+                      </Link>
+                     
                       <Link
                         style={{ textDecoration: "none" }}
                         href={"/dashboard"}
@@ -102,22 +108,17 @@ export default function Navbar(props) {
                           </Button>
                         </Box>
                       </Link>
-                      <Link style={{ textDecoration: "none" }}>
-                        <Box>
-                          <Button
-                            _hover={{
-                              backgroundColor: "transparent",
-                              color: "black",
-                            }}
-                            border={"none"}
-                            variant={"outline"}
-                            color={"black"}
-                            cursor={"default"}
-                          >
-                            Welcome {props?.name} {props?.surname}
-                          </Button>
-                        </Box>
-                      </Link>
+                      <Box>
+                        <Button
+                          _hover={{ backgroundColor: "black", color: "white" }}
+                          border={"none"}
+                          color={"black"}
+                          variant={"outline"}
+                          onClick={handleLogout}
+                        >
+                          Logout
+                        </Button>
+                      </Box>
                     </>
                   ) : (
                     <>
