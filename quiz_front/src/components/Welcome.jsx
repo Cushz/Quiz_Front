@@ -21,12 +21,12 @@ import {
 import logo from "../assets/vectorpaint.svg";
 import Navbar from "./Navbar";
 import "../assets/style.css";
-import { useToast } from '@chakra-ui/react'
+import { useToast } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import getUniGroup from "../api/getUniGroup";
 import getSubject from "../api/getSubject";
 import getQuestions from "../api/getQuestions";
-
+import createQuiz from "../api/createQuiz";
 
 export default function Welcome() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -38,62 +38,74 @@ export default function Welcome() {
   const [selectedGroup, setSelectedGroup] = useState("");
   const [selectedSubject, setSelectedSubject] = useState("");
   const [questions, setQuestions] = useState([]);
-  const toast = useToast()
+  const [questionIds, setQuestionIds] = useState([]);
+  const toast = useToast();
 
   const handleQuestionLoad = async () => {
     const response = await getQuestions();
     //map through the response and filter the questions by group and subject
     const filteredQuestions = response.filter(
       (question) =>
-        question.groupId == selectedGroup && question.subjectId == selectedSubject
+        question.groupId == selectedGroup &&
+        question.subjectId == selectedSubject
     );
+    //write all filtered questions id to an array
+    const questionIds = filteredQuestions.map((question) => question.id);
+    setQuestionIds(questionIds);
     setQuestions(filteredQuestions);
   };
   const handleSubmit = (event) => {
     event.preventDefault();
     handleQuestionLoad();
     if (name && surname && groups && subjects) {
+      handleQuizCreate();
       navigate("/quiz");
     } else {
-      toast.closeAll()
+      toast.closeAll();
       toast({
         title: "Fill all inputs correctly",
         status: "error",
         isClosable: true,
-        duration:1000,
-      })
+        duration: 1000,
+      });
     }
   };
 
-  
-
- 
-    
-
-
+  const handleQuizCreate = async () => {
+    const fullname = `${name} ${surname}`;
+    const response = await createQuiz(
+      fullname,
+      selectedSubject,
+      selectedGroup,
+      questionIds
+    );
+    onClose();
+    console.log(response);
+  };
   useEffect(() => {
     document.title = "Quiz App | Home";
     async function fetchGroupData() {
       const response = await getUniGroup();
-      setGroups(response)
+      setGroups(response);
     }
     async function fetchSubjectData() {
       const response = await getSubject();
-      setSubjects(response)
+      setSubjects(response);
     }
-    
 
     fetchGroupData();
     fetchSubjectData();
-    console.log(questions);
-
   }, [questions]);
 
-  
   return (
     <div className="quiz-body">
       <Navbar />
-      <Flex   gap={10} flexDirection={"column"} w={{md:"50%",base:"90%"}} margin={"0 auto"}>
+      <Flex
+        gap={10}
+        flexDirection={"column"}
+        w={{ md: "50%", base: "90%" }}
+        margin={"0 auto"}
+      >
         <Flex justifyContent={"center"} alignItems={"center"}>
           <Box>
             <Image src={logo} w={"20em"} />
@@ -131,7 +143,7 @@ export default function Welcome() {
             >
               Start
             </Button>
-            <form >
+            <form>
               <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
                 <ModalContent>
@@ -153,7 +165,6 @@ export default function Welcome() {
                         focusBorderColor={"black"}
                         placeholder={"Name"}
                         _placeholder={{ color: "black" }}
-                        
                       />
                       <Input
                         boxShadow={"4px 4px 1px black"}
@@ -171,20 +182,20 @@ export default function Welcome() {
                         border={"2px solid black"}
                         backgroundColor={"white"}
                         value={selectedGroup}
-                        onChange={(event) => setSelectedGroup(event.target.value)}
+                        onChange={(event) =>
+                          setSelectedGroup(event.target.value)
+                        }
                         _hover={{ border: "2px solid black" }}
                         focusBorderColor={"black"}
                         placeholder={"Group"}
                       >
-                 {
-                          groups.map((group) => {
-                            return (
-                              <option key={group.id} value={group.id}>{group.name}</option>
-                            )
-                          }
-                          )
-                        }
-                        
+                        {groups.map((group) => {
+                          return (
+                            <option key={group.id} value={group.id}>
+                              {group.name}
+                            </option>
+                          );
+                        })}
                       </Select>
                       <Select
                         boxShadow={"4px 4px 1px black"}
@@ -193,17 +204,18 @@ export default function Welcome() {
                         _hover={{ border: "2px solid black" }}
                         focusBorderColor={"black"}
                         value={selectedSubject}
-                        onChange={(event) => setSelectedSubject(event.target.value)}
+                        onChange={(event) =>
+                          setSelectedSubject(event.target.value)
+                        }
                         placeholder={"Subject"}
                       >
-                       {
-                          subjects.map((subject) => {
-                            return (
-                              <option key={subject.id} value={subject.id}>{subject.name}</option>
-                            )
-                          }
-                          )
-                        }
+                        {subjects.map((subject) => {
+                          return (
+                            <option key={subject.id} value={subject.id}>
+                              {subject.name}
+                            </option>
+                          );
+                        })}
                       </Select>
                     </FormControl>
                   </ModalBody>
