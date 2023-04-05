@@ -35,6 +35,7 @@ import getTeacherbyID from "../api/getTeacherbyID";
 import getUnigroupbyID from "../api/getUnigroupbyID";
 import sendFile from "../api/sendFile";
 import getQuestions from "../api/getQuestions";
+import deleteQuestion from "../api/deleteQuestion";
 
 export default function Dashboard() {
   const [file, setFile] = useState(null);
@@ -101,14 +102,24 @@ export default function Dashboard() {
   }, [teacher]);
 
   const handleSearch = async () => {
-    const response = await getQuestions();
-    //filter the question which has selected group and subject
-    const filteredQuestions = response.filter(
-      (question) =>
-        (question.groupId =
-          selectedGroup && question.subjectId === selectedSubject)
-    );
-    setFilteredQuestions(filteredQuestions);
+    if (selectedGroup && selectedSubject) {
+      const response = await getQuestions();
+      setFilteredQuestions(
+        response.filter(
+          (question) =>
+            question.groupId == selectedGroup &&
+            question.subjectId == selectedSubject
+        )
+      );
+    } else {
+      toast.closeAll();
+      toast({
+        title: "Select both of the options",
+        status: "error",
+        isClosable: true,
+        duration: 1000,
+      });
+    }
   };
 
   const handleSubjectChange = (event) => {
@@ -117,30 +128,22 @@ export default function Dashboard() {
   };
 
   const handleSubmit = async () => {
-    const response = await sendFile(file, selectedGroup, selectedSubject);
-    console.log(response);
-    console.log(file);
     if (file && selectedGroup && selectedSubject) {
-      file && setFileList([file.name, ...fileList]);
+      const response = await sendFile(file, selectedGroup, selectedSubject);
+      setIsSubmitted(true);
+      console.log(response);
     }
-    if (!selectedGroup && !selectedSubject) {
+
+    if (selectedGroup && selectedSubject && !file) {
       toast.closeAll();
       toast({
-        title: "Please Select both of the options ",
+        title: "Please Select a file ",
         status: "error",
         isClosable: true,
         duration: 1000,
       });
     }
-  };
-
-  const handleItems = (event) => {
-    event.preventDefault();
-    const group = selectedGroup;
-    const subject = selectedSubject;
-    if (group && subject) {
-      setFileList(listOfFiles.ListOfFiles);
-    } else {
+    if (!selectedGroup || !selectedSubject) {
       toast.closeAll();
       toast({
         title: "Please Select both of the options ",
@@ -186,8 +189,8 @@ export default function Dashboard() {
                 <>
                   <Flex
                     cursor={"pointer"}
-                    onClick={onOpen}
                     key={key.id}
+                    onClick={onOpen}
                     boxShadow={"4px 4px 0px black"}
                     border={"2px solid black"}
                     borderRadius={"0.3em"}
@@ -202,15 +205,16 @@ export default function Dashboard() {
                     <Box wordBreak={"break-word"}>{questions.filename}</Box>
                     <Box>
                       <CloseIcon
-                        onClick={() => {
-                          alert("hello");
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDeleteQuestion(questions.id);
                         }}
                         fontSize={"0.7em"}
                         color="black"
                       />
                     </Box>
                   </Flex>
-                  <Modal isOpen={isOpen} onClose={onClose}>
+                  <Modal isOpen={isOpen} onClose={onClose} isCentered>
                     <ModalOverlay />
                     <ModalContent>
                       <ModalHeader>{questions.question}</ModalHeader>
@@ -391,6 +395,7 @@ export default function Dashboard() {
                   backgroundColor={"white"}
                   type={"button"}
                   alignContent={"center"}
+                  onClick={handleSearch}
                 >
                   Search
                 </Button>
