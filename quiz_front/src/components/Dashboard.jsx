@@ -49,8 +49,6 @@ export default function Dashboard() {
   const [teacherId, setTeacherId] = useState(localStorage.getItem("teacherId"));
   const [filteredQuestions, setFilteredQuestions] = useState([]);
   const toast = useToast();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleGroupChange = (event) => {
     const selectedGroup = event.target.value;
@@ -96,11 +94,6 @@ export default function Dashboard() {
     }
   }, [teacherId]);
 
-  useEffect(() => {
-    console.log(teacher);
-    console.log(teacherName);
-  }, [teacher]);
-
   const handleSearch = async () => {
     if (selectedGroup && selectedSubject) {
       const response = await getQuestions();
@@ -130,7 +123,7 @@ export default function Dashboard() {
   const handleSubmit = async () => {
     if (file && selectedGroup && selectedSubject) {
       const response = await sendFile(file, selectedGroup, selectedSubject);
-      setIsSubmitted(true);
+      await handleSearch();
       console.log(response);
     }
 
