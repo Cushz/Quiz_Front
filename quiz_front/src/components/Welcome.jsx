@@ -35,13 +35,18 @@ export default function Welcome() {
   const [surname, setSurname] = useState("");
   const [groups, setGroups] = useState([]);
   const [subjects, setSubjects] = useState([]);
-  const [selectedGroup, setSelectedGroup] = useState("");
+  const [selectedGroup, setSelectedGroup] = useState();
   const [selectedSubject, setSelectedSubject] = useState("");
-  const [questions, setQuestions] = useState([]);
-  const [questionIds, setQuestionIds] = useState([]);
+  const [selectedSubjectText, setSelectedSubjectText] = useState("");
+  const [selectedGroupText, setSelectedGroupText] = useState("");
   const toast = useToast();
 
-  const handleQuestionLoad = async () => {
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const fullname = name + " " + surname;
+    localStorage.setItem("fullname", fullname);
+    localStorage.setItem("group", selectedGroupText);
+    localStorage.setItem("subject", selectedSubjectText);
     const response = await getQuestions();
     //map through the response and filter the questions by group and subject
     const filteredQuestions = response.filter(
@@ -49,17 +54,33 @@ export default function Welcome() {
         question.groupId == selectedGroup &&
         question.subjectId == selectedSubject
     );
+
     //write all filtered questions id to an array
-    const questionIds = filteredQuestions.map((question) => question.id);
-    setQuestionIds(questionIds);
-    setQuestions(filteredQuestions);
-  };
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    handleQuestionLoad();
+    const questionIdArray = filteredQuestions.map((question) =>
+      parseInt(question.id)
+    );
+
+    if (questionIdArray.length > 0) {
+      const responseQuizCreate = await createQuiz(
+        selectedSubject,
+        selectedGroup,
+        questionIdArray
+      );
+      localStorage.setItem("quizId", responseQuizCreate.id);
+      console.log(responseQuizCreate);
+    }
     if (name && surname && groups && subjects) {
-      handleQuizCreate();
-      navigate("/quiz");
+      if (filteredQuestions.length > 0) {
+        navigate("/quiz");
+      } else {
+        toast.closeAll();
+        toast({
+          title: "No questions found",
+          status: "error",
+          isClosable: true,
+          duration: 1000,
+        });
+      }
     } else {
       toast.closeAll();
       toast({
@@ -71,19 +92,9 @@ export default function Welcome() {
     }
   };
 
-  const handleQuizCreate = async () => {
-    const fullname = `${name} ${surname}`;
-    const response = await createQuiz(
-      fullname,
-      selectedSubject,
-      selectedGroup,
-      questionIds
-    );
-    onClose();
-    console.log(response);
-  };
   useEffect(() => {
     document.title = "Quiz App | Home";
+
     async function fetchGroupData() {
       const response = await getUniGroup();
       setGroups(response);
@@ -95,7 +106,11 @@ export default function Welcome() {
 
     fetchGroupData();
     fetchSubjectData();
-  }, [questions]);
+  }, []);
+
+  useEffect(() => {
+    console.log(selectedSubjectText);
+  }, [selectedSubjectText]);
 
   return (
     <div className="quiz-body">
@@ -182,9 +197,12 @@ export default function Welcome() {
                         border={"2px solid black"}
                         backgroundColor={"white"}
                         value={selectedGroup}
-                        onChange={(event) =>
-                          setSelectedGroup(event.target.value)
-                        }
+                        onChange={(event) => {
+                          setSelectedGroup(parseInt(event.target.value));
+                          const selectedOption =
+                            event.target.options[event.target.selectedIndex];
+                          setSelectedGroupText(selectedOption.text);
+                        }}
                         _hover={{ border: "2px solid black" }}
                         focusBorderColor={"black"}
                         placeholder={"Group"}
@@ -204,9 +222,12 @@ export default function Welcome() {
                         _hover={{ border: "2px solid black" }}
                         focusBorderColor={"black"}
                         value={selectedSubject}
-                        onChange={(event) =>
-                          setSelectedSubject(event.target.value)
-                        }
+                        onChange={(event) => {
+                          setSelectedSubject(parseInt(event.target.value));
+                          const selectedOption =
+                            event.target.options[event.target.selectedIndex];
+                          setSelectedSubjectText(selectedOption.text);
+                        }}
                         placeholder={"Subject"}
                       >
                         {subjects.map((subject) => {
