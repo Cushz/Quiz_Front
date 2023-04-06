@@ -4,14 +4,16 @@ import { useState } from "react";
 import "../assets/style.css";
 import Stats from "./Stats";
 import getQuiz from "../api/getQuiz";
+import { useNavigate } from "react-router-dom";
 
 export default function Quiz() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [showScore, setShowScore] = useState(false);
+  const [showScore, setShowScore] = useState(localStorage.getItem("showScore"));
   const [numOfCorrect, setNumOfCorrect] = useState(0);
   const [questions, setQuestions] = useState(null);
   const [subject, setSubject] = useState("");
-  const [quizId, setQuizId] = useState("");
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     document.title = "Quiz App | Quiz";
@@ -22,11 +24,18 @@ export default function Quiz() {
       console.log(response);
       setQuestions(response.Questions);
       setSubject(response.subject);
-      setQuizId(response.id);
       console.log(response.Questions[0].Options);
     }
     const quizId = localStorage.getItem("quizId");
     if (quizId) getQuizData();
+    const currentQuestion = localStorage.getItem("currentQuestion");
+    if (currentQuestion) setCurrentQuestion(parseInt(currentQuestion));
+
+    if (localStorage.getItem("showScore")) {
+      setShowScore(true);
+    }
+
+    //if reloads the page, delete local storage and navigate to home
   }, []);
 
   const handleQuestions = (option) => {
@@ -34,7 +43,10 @@ export default function Quiz() {
     const nextQuestion = currentQuestion + 1;
     if (nextQuestion < questions.length) {
       setCurrentQuestion(nextQuestion);
-    } else {
+      localStorage.setItem("currentQuestion", nextQuestion);
+    } else if (nextQuestion >= questions.length) {
+      localStorage.removeItem("currentQuestion");
+      localStorage.setItem("showScore", true);
       setShowScore(true);
     }
     console.log(numOfCorrect);
