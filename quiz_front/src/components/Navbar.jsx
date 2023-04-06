@@ -89,6 +89,21 @@ export default function Navbar(props) {
                           </Button>
                         </Box>
                       </Link>
+                      <Link style={{ textDecoration: "none" }} href={"/"}>
+                        <Box>
+                          <Button
+                            _hover={{
+                              backgroundColor: "black",
+                              color: "white",
+                            }}
+                            border={"none"}
+                            variant={"outline"}
+                            color={"black"}
+                          >
+                            Main
+                          </Button>
+                        </Box>
+                      </Link>
 
                       <Link
                         style={{ textDecoration: "none" }}
