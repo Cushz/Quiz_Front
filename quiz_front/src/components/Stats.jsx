@@ -28,6 +28,10 @@ export default function Stats(props) {
       console.log(response);
     };
     createResultData();
+    localStorage.removeItem("fullname");
+    localStorage.removeItem("subject");
+    localStorage.removeItem("group");
+    localStorage.removeItem("quizId");
   }, []);
 
   return (
