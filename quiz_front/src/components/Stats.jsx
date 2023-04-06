@@ -1,15 +1,37 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Flex, Box, Heading, Text, Button } from "@chakra-ui/react";
-import Navbar from "./Navbar"; 
-import { AiOutlineCheck,AiOutlineClose } from "react-icons/ai";
+import Navbar from "./Navbar";
+import { AiOutlineCheck, AiOutlineClose } from "react-icons/ai";
+import createResult from "../api/createResult";
+
 export default function Stats(props) {
+  const [fullname, setFullname] = useState("");
+  const [subject, setSubject] = useState("");
+  const [group, setGroup] = useState("");
+
   useEffect(() => {
     document.title = "Quiz App | Results";
-  });
+    const fullname = localStorage.getItem("fullname");
+    const subject = localStorage.getItem("subject");
+    const group = localStorage.getItem("group");
+    const quizId = parseInt(localStorage.getItem("quizId"));
+    setFullname(fullname);
+    setSubject(subject);
+    setGroup(group);
+    const createResultData = async () => {
+      const response = await createResult(
+        quizId,
+        fullname,
+        props.all,
+        props.correct
+      );
+      console.log(response);
+    };
+    createResultData();
+  }, []);
 
   return (
     <div className="quiz-body">
-      
       <Flex
         bg={"rgb(255 249 228)"}
         boxShadow={"9px 9px 1px #000000"}
@@ -17,9 +39,8 @@ export default function Stats(props) {
         border={"5px solid black"}
         flexDirection={"column"}
         margin={"1em auto 0 auto"}
-        w={{md:"50%",base:"90%"}}
+        w={{ md: "50%", base: "90%" }}
       >
-        
         <Flex
           bg={"white"}
           p={"1em"}
@@ -29,10 +50,12 @@ export default function Stats(props) {
           borderBottom={"3px solid black"}
         >
           <Box width={"10%"}>
-          <Navbar isMobile={true}  />
+            <Navbar isMobile={true} />
           </Box>
           <Box width={"80%"} textAlign={"center"}>
-            <Heading color={"black"} width={"95%"}>Results</Heading>
+            <Heading color={"black"} width={"95%"}>
+              Results
+            </Heading>
           </Box>
         </Flex>
         <Flex
@@ -42,20 +65,20 @@ export default function Stats(props) {
           backgroundColor={"white"}
           flexWrap={"wrap"}
           margin={"4em auto 0 auto"}
-          width={{md:"50%",base:"80%"}}
+          width={{ md: "50%", base: "80%" }}
           color={"black"}
           flexDirection={"column"}
           p={"1em"}
         >
           <Box>
-            <Text fontWeight={"bold"}>Arif Abdullayev</Text>
+            <Text fontWeight={"bold"}>{fullname}</Text>
           </Box>
 
           <Box>
-            <Text fontWeight={"bold"}>Computer Science</Text>
+            <Text fontWeight={"bold"}>{group}</Text>
           </Box>
           <Box>
-            <Text fontWeight={"bold"}>Math</Text>
+            <Text fontWeight={"bold"}>{subject}</Text>
           </Box>
         </Flex>
         <Flex
@@ -65,7 +88,7 @@ export default function Stats(props) {
           backgroundColor={"white"}
           p={"1em"}
           flexWrap={"wrap"}
-          width={{md:"50%",base:"80%"}}
+          width={{ md: "50%", base: "80%" }}
           color={"black"}
           justifyContent={"space-between"}
           flexDirection={"column"}
