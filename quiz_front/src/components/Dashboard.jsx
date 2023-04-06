@@ -192,7 +192,7 @@ export default function Dashboard() {
                 <>
                   <Flex
                     cursor={"pointer"}
-                    key={key.id}
+                    key={questions.id}
                     onClick={onOpen}
                     boxShadow={"4px 4px 0px black"}
                     border={"2px solid black"}
@@ -217,7 +217,7 @@ export default function Dashboard() {
                       />
                     </Box>
                   </Flex>
-                  <Modal isOpen={isOpen} onClose={onClose} isCentered>
+                  <Modal isOpen={isOpen} onClose={onClose}>
                     <ModalOverlay />
                     <ModalContent>
                       <ModalHeader>{questions.question}</ModalHeader>
