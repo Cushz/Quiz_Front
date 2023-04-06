@@ -69,7 +69,7 @@ export default function Quiz() {
               alignItems={"center"}
             >
               <Box>
-                <Heading color={"black"}>{subject}</Heading>
+                <Heading wordBreak={"break-word"} color={"black"}>{subject}</Heading>
               </Box>
             </Flex>
             <form>
