@@ -15,6 +15,9 @@ import { useNavigate } from "react-router-dom";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import { useDisclosure } from "@chakra-ui/react";
 import { useRef } from "react";
+import updateTeacher from "../api/updateTeacher";
+import getUserInfo from "../api/getUserInfo";
+
 export default function Navbar(props) {
   const navigate = useNavigate();
 
@@ -39,11 +42,17 @@ export default function Navbar(props) {
 
   const [isLoggedIn, setIsLoggedIn] = useState(isValid);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     setIsLoggedIn(!isLoggedIn);
+    const updateTeacherInfo = async () => {
+      const teacherInfo = await getUserInfo();
+      await updateTeacher(teacherInfo.id, false);
+    };
+    await updateTeacherInfo();
     localStorage.removeItem("token");
     localStorage.removeItem("teacherId");
-    navigate("/");
+
+    navigate("/auth");
   };
 
   const navigateAuth = () => {
