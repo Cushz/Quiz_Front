@@ -109,6 +109,12 @@ export default function Welcome() {
   }, []);
 
   useEffect(() => {
+    localStorage.removeItem("currentQuestion");
+    localStorage.removeItem("showScore");
+    localStorage.removeItem("quizId");
+    localStorage.removeItem("fullname");
+    localStorage.removeItem("group");
+    localStorage.removeItem("subject");
     console.log(selectedSubjectText);
   }, [selectedSubjectText]);
 
@@ -153,7 +159,21 @@ export default function Welcome() {
               position={"relative"}
               bottom={0}
               transition={"bottom 0.2s ease-out"}
-              _hover={{ bottom: "4px" }}
+              _before={{
+                content: '""',
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                height: "100%",
+              }}
+              _hover={{
+                _before: {
+                  height: "calc(100% + 0.5em)",
+                },
+                bottom: "4px",
+                transform: "translate(0, -4px)",
+              }}
               _focus={{ backgroundColor: "inherit" }}
             >
               Start
