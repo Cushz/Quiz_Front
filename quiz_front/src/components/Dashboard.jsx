@@ -40,7 +40,6 @@ import deleteQuestion from "../api/deleteQuestion";
 export default function Dashboard() {
   const [file, setFile] = useState(null);
   const [teacher, setTeacher] = useState("");
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const [selectedGroup, setSelectedGroup] = useState("");
   const [selectedSubject, setSelectedSubject] = useState("");
   const [unigroup, setUnigroup] = useState("");
@@ -48,6 +47,10 @@ export default function Dashboard() {
   const [teacherSurname, setTeacherSurname] = useState(null);
   const [teacherId, setTeacherId] = useState(localStorage.getItem("teacherId"));
   const [filteredQuestions, setFilteredQuestions] = useState([]);
+  const [isOpen, setIsOpen] = useState(
+    Array(filteredQuestions.length).fill(false)
+  );
+
   const toast = useToast();
 
   const handleGroupChange = (event) => {
@@ -187,13 +190,17 @@ export default function Dashboard() {
           overflowX={"hidden"}
         >
           {filteredQuestions &&
-            filteredQuestions.map((questions, key) => {
+            filteredQuestions.map((questions, index) => {
               return (
                 <>
                   <Flex
                     cursor={"pointer"}
-                    key={key.id}
-                    onClick={onOpen}
+                    key={questions.id}
+                    onClick={() => {
+                      const newIsOpen = [...isOpen];
+                      newIsOpen[index] = true;
+                      setIsOpen(newIsOpen);
+                    }}
                     boxShadow={"4px 4px 0px black"}
                     border={"2px solid black"}
                     borderRadius={"0.3em"}
@@ -204,6 +211,7 @@ export default function Dashboard() {
                     _hover={{ bottom: "2px" }}
                     justifyContent={"space-between"}
                     p={"0.4em"}
+                    
                   >
                     <Box wordBreak={"break-word"}>{questions.filename}</Box>
                     <Box>
@@ -217,12 +225,21 @@ export default function Dashboard() {
                       />
                     </Box>
                   </Flex>
-                  <Modal isOpen={isOpen} onClose={onClose} isCentered>
+                  <Modal
+                    isOpen={isOpen[index]}
+                    onClose={() => {
+                      const newIsOpen = [...isOpen];
+                      newIsOpen[index] = false;
+                      setIsOpen(newIsOpen);
+                    }}
+                    
+                  >
                     <ModalOverlay />
                     <ModalContent>
+                      
                       <ModalHeader>{questions.question}</ModalHeader>
                       <ModalCloseButton />
-                      <ModalBody>
+                      <ModalBody >
                         <UnorderedList>
                           {questions.Options.map((options) => (
                             <ListItem>{options.option}</ListItem>
@@ -244,7 +261,11 @@ export default function Dashboard() {
                           border={"2px solid black"}
                           variant="outline"
                           mr={3}
-                          onClick={onClose}
+                          onClick={() => {
+                            const newIsOpen = [...isOpen];
+                            newIsOpen[index] = false;
+                            setIsOpen(newIsOpen);
+                          }}
                           _hover={{ backgroundColor: "white" }}
                         >
                           Close
