@@ -123,6 +123,16 @@ export default function Dashboard() {
   const handleSubmit = async () => {
     if (file && selectedGroup && selectedSubject) {
       const response = await sendFile(file, selectedGroup, selectedSubject);
+      //if response is badrequest then show error
+      if (response.statusText == "Bad Request") {
+        toast.closeAll();
+        toast({
+          title: "Please select a valid file",
+          status: "error",
+          isClosable: true,
+          duration: 1000,
+        });
+      }
       await handleSearch();
       console.log(response);
     }
