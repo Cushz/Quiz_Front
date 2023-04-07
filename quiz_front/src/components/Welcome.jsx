@@ -87,8 +87,8 @@ export default function Welcome() {
         localStorage.setItem("quizId", responseQuizFind.id);
       } else {
         const responseQuizCreate = await createQuiz(
-          selectedSubject,
-          selectedGroup,
+          parseInt(selectedSubject),
+          parseInt(selectedGroup),
           questionIdArray
         );
         localStorage.setItem("quizId", responseQuizCreate.id);
