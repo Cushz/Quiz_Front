@@ -143,8 +143,21 @@ export default function SignIn() {
             variant="outline"
             position={"relative"}
             bottom={0}
-            transition={"bottom 0.2s ease-out"}
-            _hover={{ bottom: "4px" }}
+            transition={"all 0.2s ease-out"}
+            _before={{
+              content: '""',
+              position: "absolute",
+              top: 0,
+              left: 0,
+              right: 0,
+              height: "100%",
+            }}
+            _hover={{
+              _before: {
+                height: "calc(100% + 0.5em)",
+              },
+              transform: "translate(0, -4px)",
+            }}
             color={"black"}
             backgroundColor={"white"}
             cursor={"pointer"}
