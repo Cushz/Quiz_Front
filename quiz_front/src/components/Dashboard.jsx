@@ -215,17 +215,21 @@ export default function Dashboard() {
                       transform: "translate(0, -2px)",
                     }}
                     justifyContent={"space-between"}
+                    alignItems={"center"}
                     p={"0.4em"}
                   >
                     <Box wordBreak={"break-word"}>{questions.filename}</Box>
                     <Box>
                       <CloseIcon
+                        borderRadius={"50%"}
+                        _hover={{ background: "gray.400" }}
                         onClick={(e) => {
                           e.stopPropagation();
                           handleDeleteQuestion(questions.id);
                         }}
-                        fontSize={"0.7em"}
-                        color="red"
+                        fontSize={"2em"}
+                        p={"0.3em"}
+                        color="black"
                       />
                     </Box>
                   </Flex>
