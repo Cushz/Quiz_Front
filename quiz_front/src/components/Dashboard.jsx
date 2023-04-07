@@ -183,9 +183,9 @@ export default function Dashboard() {
           flexDirection={"column"}
           p={"1em"}
           gap={2}
-          maxW={"25%"}
+          maxW={"23.5%"}
           minH={{ md: "", base: "25%" }}
-          minW={{ md: "25%", base: "100%" }}
+          minW={{ md: "23.5%", base: "100%" }}
           overflowY={"auto"}
           overflowX={"hidden"}
         >
@@ -293,9 +293,9 @@ export default function Dashboard() {
           alignItems={"center"}
           boxShadow={"4px 4px 1px black"}
           border={"2px solid black"}
-          maxW={"50%"}
+          maxW={"51.5%"}
           minH={{ md: "", base: "50%" }}
-          minW={{ md: "50%", base: "100%" }}
+          minW={{ md: "51.5%", base: "100%" }}
           p={"10vw"}
           flexWrap={"wrap"}
         >
@@ -356,9 +356,9 @@ export default function Dashboard() {
           border={"2px solid black"}
           justifyContent={"center"}
           alignItems={"center"}
-          maxW={"25%"}
+          maxW={"23.5%"}
           minH={{ md: "", base: "25%" }}
-          minW={{ md: "25%", base: "100%" }}
+          minW={{ md: "23.5%", base: "100%" }}
           flexDirection={"row"}
         >
           <FormControl
@@ -381,10 +381,11 @@ export default function Dashboard() {
                   _hover={{ border: "2px solid black" }}
                   focusBorderColor={"black"}
                   cursor="pointer"
-                  placeholder="Group"
                   backgroundColor={"white"}
+                  color={selectedGroup ? "black" : "gray"}
                   onChange={handleGroupChange}
                   value={selectedGroup}
+                  placeholder="Group"
                 >
                   {teacher &&
                     teacher.Unigroups.map((unigroup) => {
@@ -403,15 +404,16 @@ export default function Dashboard() {
                   _hover={{ border: "2px solid black" }}
                   focusBorderColor={"black"}
                   cursor="pointer"
-                  placeholder="Speciality"
+                  color={selectedSubject ? "black" : "gray"}
                   backgroundColor={"white"}
                   onChange={handleSubjectChange}
                   value={selectedSubject}
+                  placeholder="Subject"
                 >
                   {unigroup &&
-                    unigroup.Subjects.map((group) => (
-                      <option key={group.id} value={group.id}>
-                        {group.name}
+                    unigroup.Subjects.map((subject) => (
+                      <option key={subject.id} value={subject.id}>
+                        {subject.name}
                       </option>
                     ))}
                 </Select>
