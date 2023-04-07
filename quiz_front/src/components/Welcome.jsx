@@ -28,6 +28,7 @@ import getSubject from "../api/getSubject";
 import getQuestions from "../api/getQuestions";
 import createQuiz from "../api/createQuiz";
 import findQuiz from "../api/findQuiz";
+import getUnigroupbyID from "../api/getUnigroupbyID";
 
 export default function Welcome() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -40,7 +41,23 @@ export default function Welcome() {
   const [selectedSubject, setSelectedSubject] = useState("");
   const [selectedSubjectText, setSelectedSubjectText] = useState("");
   const [selectedGroupText, setSelectedGroupText] = useState("");
+  const [group, setGroup] = useState();
   const toast = useToast();
+
+  const handleGroupChange = (event) => {
+    const selectedGroup = event.target.value;
+    setSelectedGroup(selectedGroup);
+    const selectedOption = event.target.options[event.target.selectedIndex];
+    console.log(selectedGroup);
+    setSelectedGroupText(selectedOption.text);
+    const fetchUnigroupbyID = async () => {
+      const response = await getUnigroupbyID(selectedGroup);
+      setGroup(response);
+    };
+    if (selectedGroup) {
+      fetchUnigroupbyID();
+    }
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -62,7 +79,10 @@ export default function Welcome() {
     );
 
     if (questionIdArray.length > 0) {
-      const responseQuizFind = await findQuiz(selectedSubject, selectedGroup);
+      const responseQuizFind = await findQuiz(
+        parseInt(selectedSubject),
+        parseInt(selectedGroup)
+      );
       if (!(responseQuizFind.status == 404)) {
         localStorage.setItem("quizId", responseQuizFind.id);
       } else {
@@ -75,7 +95,7 @@ export default function Welcome() {
         console.log(responseQuizCreate);
       }
     }
-    if (name && surname && groups && subjects) {
+    if (name && surname && selectedGroup && selectedSubject) {
       if (filteredQuestions.length > 0) {
         navigate("/quiz");
       } else {
@@ -205,7 +225,6 @@ export default function Welcome() {
                         _hover={{ border: "2px solid black" }}
                         focusBorderColor={"black"}
                         placeholder={"Name"}
-                        _placeholder={{ color: "black" }}
                       />
                       <Input
                         boxShadow={"4px 4px 1px black"}
@@ -215,7 +234,6 @@ export default function Welcome() {
                         backgroundColor={"white"}
                         _hover={{ border: "2px solid black" }}
                         focusBorderColor={"black"}
-                        _placeholder={{ color: "black" }}
                         placeholder={"Surname"}
                       />
                       <Select
@@ -223,15 +241,11 @@ export default function Welcome() {
                         border={"2px solid black"}
                         backgroundColor={"white"}
                         value={selectedGroup}
-                        onChange={(event) => {
-                          setSelectedGroup(parseInt(event.target.value));
-                          const selectedOption =
-                            event.target.options[event.target.selectedIndex];
-                          setSelectedGroupText(selectedOption.text);
-                        }}
+                        color={selectedGroup ? "black" : "gray"}
+                        onChange={handleGroupChange}
                         _hover={{ border: "2px solid black" }}
                         focusBorderColor={"black"}
-                        placeholder={"Group"}
+                        placeholder="Group"
                       >
                         {groups.map((group) => {
                           return (
@@ -247,22 +261,23 @@ export default function Welcome() {
                         backgroundColor={"white"}
                         _hover={{ border: "2px solid black" }}
                         focusBorderColor={"black"}
+                        color={selectedSubject ? "black" : "gray"}
                         value={selectedSubject}
+                        placeholder="Subject"
                         onChange={(event) => {
                           setSelectedSubject(parseInt(event.target.value));
+
                           const selectedOption =
                             event.target.options[event.target.selectedIndex];
                           setSelectedSubjectText(selectedOption.text);
                         }}
-                        placeholder={"Subject"}
                       >
-                        {subjects.map((subject) => {
-                          return (
+                        {group &&
+                          group.Subjects.map((subject) => (
                             <option key={subject.id} value={subject.id}>
                               {subject.name}
                             </option>
-                          );
-                        })}
+                          ))}
                       </Select>
                     </FormControl>
                   </ModalBody>
