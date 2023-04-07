@@ -208,14 +208,6 @@ export default function Dashboard() {
                     position={"relative"}
                     bottom={0}
                     transition={"all 0.1s ease-out"}
-                    _before={{
-                      content: '""',
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      height: "100%",
-                    }}
                     _hover={{
                       _before: {
                         height: "calc(100% + 0.5em)",
@@ -233,7 +225,7 @@ export default function Dashboard() {
                           handleDeleteQuestion(questions.id);
                         }}
                         fontSize={"0.7em"}
-                        color="black"
+                        color="red"
                       />
                     </Box>
                   </Flex>
