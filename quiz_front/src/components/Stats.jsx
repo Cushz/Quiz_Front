@@ -70,16 +70,30 @@ export default function Stats(props) {
           flexDirection={"column"}
           p={"1em"}
         >
-          <Box>
-            <Text fontWeight={"bold"}>{fullname}</Text>
-          </Box>
-
-          <Box>
-            <Text fontWeight={"bold"}>{group}</Text>
-          </Box>
-          <Box>
-            <Text fontWeight={"bold"}>{subject}</Text>
-          </Box>
+          <Flex justifyContent={"space-between"}>
+            <Box>
+              <Text fontWeight={"bold"}>Full name:</Text>
+            </Box>
+            <Box>
+              <Text fontWeight={"bold"}>{fullname}</Text>
+            </Box>
+          </Flex>
+          <Flex justifyContent={"space-between"}>
+            <Box>
+              <Text fontWeight={"bold"}>Group:</Text>
+            </Box>
+            <Box>
+              <Text fontWeight={"bold"}>{group}</Text>
+            </Box>
+          </Flex>
+          <Flex justifyContent={"space-between"}>
+            <Box>
+              <Text fontWeight={"bold"}>Subject:</Text>
+            </Box>
+            <Box>
+              <Text fontWeight={"bold"}>{subject}</Text>
+            </Box>
+          </Flex>
         </Flex>
         <Flex
           boxShadow={"4px 4px 0px black"}
