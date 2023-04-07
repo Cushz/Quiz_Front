@@ -27,6 +27,7 @@ import getUniGroup from "../api/getUniGroup";
 import getSubject from "../api/getSubject";
 import getQuestions from "../api/getQuestions";
 import createQuiz from "../api/createQuiz";
+import findQuiz from "../api/findQuiz";
 
 export default function Welcome() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -61,13 +62,18 @@ export default function Welcome() {
     );
 
     if (questionIdArray.length > 0) {
-      const responseQuizCreate = await createQuiz(
-        selectedSubject,
-        selectedGroup,
-        questionIdArray
-      );
-      localStorage.setItem("quizId", responseQuizCreate.id);
-      console.log(responseQuizCreate);
+      const responseQuizFind = await findQuiz(selectedSubject, selectedGroup);
+      if (!(responseQuizFind.status == 404)) {
+        localStorage.setItem("quizId", responseQuizFind.id);
+      } else {
+        const responseQuizCreate = await createQuiz(
+          selectedSubject,
+          selectedGroup,
+          questionIdArray
+        );
+        localStorage.setItem("quizId", responseQuizCreate.id);
+        console.log(responseQuizCreate);
+      }
     }
     if (name && surname && groups && subjects) {
       if (filteredQuestions.length > 0) {
