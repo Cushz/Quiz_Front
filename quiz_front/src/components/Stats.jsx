@@ -27,7 +27,10 @@ export default function Stats(props) {
       );
       console.log(response);
     };
-    createResultData();
+    if (quizId) {
+      createResultData();
+    }
+    localStorage.removeItem("quizId");
   }, []);
 
   return (
