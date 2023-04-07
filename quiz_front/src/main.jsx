@@ -11,6 +11,7 @@ import PrivateRoutes from "./utils/PrivateRoutes";
 import ExcludingRoutes from "./utils/ExcludingRoutes";
 import Dashboard from "./components/Dashboard";
 import ExcludingQuizRoute from "./utils/ExcludingQuizRoute";
+import { Navigate } from "react-router-dom";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <ChakraProvider>
@@ -26,8 +27,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           <Route path="quiz/" element={<Quiz />} />
         </Route>
         <Route path="/" element={<Welcome />} />
-        <Route path="stats/" element={<Stats />} />
         <Route path="auth/" element={<SignIn />} />
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </BrowserRouter>
   </ChakraProvider>
