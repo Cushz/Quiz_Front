@@ -127,7 +127,7 @@ export default function Dashboard() {
     if (file && selectedGroup && selectedSubject) {
       const response = await sendFile(file, selectedGroup, selectedSubject);
       //if response is badrequest then show error
-      if (response.statusText == "Bad Request") {
+      if (response.status == 400) {
         toast.closeAll();
         toast({
           title: "Please select a valid file",
@@ -207,8 +207,21 @@ export default function Dashboard() {
                     backgroundColor={"white"}
                     position={"relative"}
                     bottom={0}
-                    transition={"bottom 0.1s ease-out"}
-                    _hover={{ bottom: "2px" }}
+                    transition={"all 0.1s ease-out"}
+                    _before={{
+                      content: '""',
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      height: "100%",
+                    }}
+                    _hover={{
+                      _before: {
+                        height: "calc(100% + 0.5em)",
+                      },
+                      transform: "translate(0, -2px)",
+                    }}
                     justifyContent={"space-between"}
                     p={"0.4em"}
                   >
