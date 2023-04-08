@@ -1,10 +1,36 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Flex, Box, Heading, Text, Button } from "@chakra-ui/react";
-export default function Stats(props) {
+import Navbar from "./Navbar";
+import { AiOutlineCheck, AiOutlineClose } from "react-icons/ai";
+import createResult from "../api/createResult";
 
-  useEffect(()=>{
-   document.title= "Quiz App | Results" 
-  })
+export default function Stats(props) {
+  const [fullname, setFullname] = useState("");
+  const [subject, setSubject] = useState("");
+  const [group, setGroup] = useState("");
+
+  useEffect(() => {
+    document.title = "Quiz App | Results";
+    const fullname = localStorage.getItem("fullname");
+    const subject = localStorage.getItem("subject");
+    const group = localStorage.getItem("group");
+    const quizId = parseInt(localStorage.getItem("quizId"));
+    setFullname(fullname);
+    setSubject(subject);
+    setGroup(group);
+    const createResultData = async () => {
+      const response = await createResult(
+        quizId,
+        fullname,
+        props.all,
+        props.correct
+      );
+    };
+    if (quizId) {
+      createResultData();
+    }
+    localStorage.removeItem("quizId");
+  }, []);
 
   return (
     <div className="quiz-body">
@@ -15,44 +41,101 @@ export default function Stats(props) {
         border={"5px solid black"}
         flexDirection={"column"}
         margin={"1em auto 0 auto"}
-        w={"50%"}
+        w={{ md: "50%", base: "90%" }}
       >
         <Flex
           bg={"white"}
           p={"1em"}
           borderRadius={"14px 14px 0 0"}
-          justifyContent={"center"}
+          justifyContent={"flex-start"}
+          alignItems={"center"}
           borderBottom={"3px solid black"}
         >
-          <Box>
-            <Heading>Stats</Heading>
+          <Box width={"10%"}>
+            <Navbar isMobile={true} />
+          </Box>
+          <Box width={"80%"} textAlign={"center"}>
+            <Heading color={"black"} width={"95%"}>
+              Results
+            </Heading>
           </Box>
         </Flex>
-
         <Flex
+          boxShadow={"4px 4px 0px black"}
+          border={"2px solid black"}
+          borderRadius={"0.3em"}
+          backgroundColor={"white"}
           flexWrap={"wrap"}
-          width={"11em"}
+          margin={"4em auto 0 auto"}
+          width={{ md: "50%", base: "80%" }}
+          color={"black"}
+          flexDirection={"column"}
+          p={"1em"}
+        >
+          <Flex justifyContent={"space-between"}>
+            <Box>
+              <Text fontWeight={"bold"}>Full name:</Text>
+            </Box>
+            <Box>
+              <Text fontWeight={"bold"}>{fullname}</Text>
+            </Box>
+          </Flex>
+          <Flex justifyContent={"space-between"}>
+            <Box>
+              <Text fontWeight={"bold"}>Group:</Text>
+            </Box>
+            <Box>
+              <Text fontWeight={"bold"}>{group}</Text>
+            </Box>
+          </Flex>
+          <Flex justifyContent={"space-between"}>
+            <Box>
+              <Text fontWeight={"bold"}>Subject:</Text>
+            </Box>
+            <Box>
+              <Text fontWeight={"bold"}>{subject}</Text>
+            </Box>
+          </Flex>
+        </Flex>
+        <Flex
+          boxShadow={"4px 4px 0px black"}
+          border={"2px solid black"}
+          borderRadius={"0.3em"}
+          backgroundColor={"white"}
+          p={"1em"}
+          flexWrap={"wrap"}
+          width={{ md: "50%", base: "80%" }}
+          color={"black"}
           justifyContent={"space-between"}
+          flexDirection={"column"}
           margin={"5em auto 8em auto"}
         >
-          <Box>
-            <Text fontWeight={"bold"}>Answered:</Text>
-          </Box>
-          <Box>
-            <Text>{props.all}</Text>
-          </Box>
-          <Box>
-            <Text fontWeight={"bold"}>Right answers:</Text>
-          </Box>
-          <Box>
-            <Text>{props.correct}</Text>
-          </Box>
-          <Box>
-            <Text fontWeight={"bold"}>Wrong answers:</Text>
-          </Box>
-          <Box>
-            <Text>{props.incorrect}</Text>
-          </Box>
+          <Flex justifyContent={"space-between"}>
+            <Box>
+              <Text fontWeight={"bold"}>Answered:</Text>
+            </Box>
+            <Flex w={"24px"}>
+              <Text>{props.all} </Text>
+            </Flex>
+          </Flex>
+          <Flex justifyContent={"space-between"}>
+            <Box>
+              <Text fontWeight={"bold"}>Correct:</Text>
+            </Box>
+            <Flex alignItems={"center"}>
+              <Text>{props.correct}</Text>
+              <AiOutlineCheck color="green" />
+            </Flex>
+          </Flex>
+          <Flex justifyContent={"space-between"}>
+            <Box>
+              <Text fontWeight={"bold"}>Incorrect:</Text>
+            </Box>
+            <Flex alignItems={"center"}>
+              <Text>{props.incorrect}</Text>
+              <AiOutlineClose color="red" />
+            </Flex>
+          </Flex>
         </Flex>
       </Flex>
     </div>
