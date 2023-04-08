@@ -4,9 +4,7 @@ import {
   FormControl,
   ListItem,
   UnorderedList,
-  useDisclosure,
   useToast,
-  Spinner,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import file_upload from "../assets/file.png";
@@ -137,7 +135,6 @@ export default function Dashboard() {
         });
       }
       await handleSearch();
-      console.log(response);
     }
 
     if (selectedGroup && selectedSubject && !file) {
@@ -163,7 +160,6 @@ export default function Dashboard() {
   const handleDeleteQuestion = async (id) => {
     const response = await deleteQuestion(id);
     handleSearch();
-    console.log(response);
   };
 
   return (

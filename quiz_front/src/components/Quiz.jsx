@@ -19,12 +19,9 @@ export default function Quiz() {
     document.title = "Quiz App | Quiz";
     async function getQuizData() {
       const quizId = localStorage.getItem("quizId");
-      console.log(quizId);
       const response = await getQuiz(quizId);
-      console.log(response);
       setQuestions(response.Questions);
       setSubject(response.subject);
-      console.log(response.Questions[0].Options);
     }
     const quizId = localStorage.getItem("quizId");
     if (quizId) getQuizData();
@@ -49,7 +46,6 @@ export default function Quiz() {
       localStorage.setItem("showScore", true);
       setShowScore(true);
     }
-    console.log(numOfCorrect);
   };
 
   return (

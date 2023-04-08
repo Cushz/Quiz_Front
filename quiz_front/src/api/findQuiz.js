@@ -7,7 +7,6 @@ const findQuiz = async (subjectId, groupId) => {
     };
     const url = `${import.meta.env.VITE_APP_API_URL}/quiz/find`;
     try {
-        console.log(postData);
         const response = await axios.post(url, postData);
         return response.data;
       } catch (error) {

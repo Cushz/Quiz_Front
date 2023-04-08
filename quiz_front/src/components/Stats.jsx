@@ -25,7 +25,6 @@ export default function Stats(props) {
         props.all,
         props.correct
       );
-      console.log(response);
     };
     if (quizId) {
       createResultData();

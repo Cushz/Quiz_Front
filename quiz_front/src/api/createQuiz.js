@@ -7,7 +7,6 @@ const createQuiz = async (subjectId, groupId, questionsArray) => {
         groupId: groupId,
         questionIds: questionsArray,
     };
-    console.log("postData", postData);
     const response = await axios.post(url, postData);
     return response.data;
 }

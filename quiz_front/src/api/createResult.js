@@ -8,7 +8,6 @@ const createResult = async (quizId, student, scoreTotal, scoreAchieved) => {
         scoreTotal: scoreTotal,
         scoreAchieved: scoreAchieved,
     };
-    console.log("postData", postData);
     const response = await axios.post(url, postData);
     return response.data;
 }
