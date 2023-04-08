@@ -66,6 +66,7 @@ export default function Welcome() {
       (/\d/.test(name) && surname.includes(" ")) ||
       /\d/.test(surname)
     ) {
+      toast.closeAll();
       toast({
         title: "Name and Surname cannot include space or digit",
         status: "error",
