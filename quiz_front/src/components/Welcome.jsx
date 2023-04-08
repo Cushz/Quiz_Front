@@ -29,6 +29,7 @@ import getQuestions from "../api/getQuestions";
 import createQuiz from "../api/createQuiz";
 import findQuiz from "../api/findQuiz";
 import getUnigroupbyID from "../api/getUnigroupbyID";
+import updateQuiz from "../api/updateQuiz";
 
 export default function Welcome() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -36,7 +37,6 @@ export default function Welcome() {
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
   const [groups, setGroups] = useState([]);
-  const [subjects, setSubjects] = useState([]);
   const [selectedGroup, setSelectedGroup] = useState();
   const [selectedSubject, setSelectedSubject] = useState("");
   const [selectedSubjectText, setSelectedSubjectText] = useState("");
@@ -48,7 +48,6 @@ export default function Welcome() {
     const selectedGroup = event.target.value;
     setSelectedGroup(selectedGroup);
     const selectedOption = event.target.options[event.target.selectedIndex];
-    console.log(selectedGroup);
     setSelectedGroupText(selectedOption.text);
     const fetchUnigroupbyID = async () => {
       const response = await getUnigroupbyID(selectedGroup);
@@ -61,6 +60,21 @@ export default function Welcome() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    //if name includes space or digit, show toast
+    if (
+      name.includes(" ") ||
+      (/\d/.test(name) && surname.includes(" ")) ||
+      /\d/.test(surname)
+    ) {
+      toast({
+        title: "Name and Surname cannot include space or digit",
+        status: "error",
+        duration: 1500,
+        isClosable: true,
+      });
+      return;
+    }
+
     const fullname = name + " " + surname;
     localStorage.setItem("fullname", fullname);
     localStorage.setItem("group", selectedGroupText);
@@ -84,6 +98,12 @@ export default function Welcome() {
         parseInt(selectedGroup)
       );
       if (!(responseQuizFind.status == 404)) {
+        if (responseQuizFind.Questions.length == 0) {
+          const responseQuizUpdate = await updateQuiz(
+            responseQuizFind.id,
+            questionIdArray
+          );
+        }
         localStorage.setItem("quizId", responseQuizFind.id);
       } else {
         const responseQuizCreate = await createQuiz(
@@ -92,7 +112,6 @@ export default function Welcome() {
           questionIdArray
         );
         localStorage.setItem("quizId", responseQuizCreate.id);
-        console.log(responseQuizCreate);
       }
     }
     if (name && surname && selectedGroup && selectedSubject) {
@@ -125,13 +144,8 @@ export default function Welcome() {
       const response = await getUniGroup();
       setGroups(response);
     }
-    async function fetchSubjectData() {
-      const response = await getSubject();
-      setSubjects(response);
-    }
 
     fetchGroupData();
-    fetchSubjectData();
   }, []);
 
   useEffect(() => {
@@ -141,7 +155,6 @@ export default function Welcome() {
     localStorage.removeItem("fullname");
     localStorage.removeItem("group");
     localStorage.removeItem("subject");
-    console.log(selectedSubjectText);
   }, [selectedSubjectText]);
 
   return (
@@ -235,6 +248,8 @@ export default function Welcome() {
                         _hover={{ border: "2px solid black" }}
                         focusBorderColor={"black"}
                         placeholder={"Surname"}
+                        type="text"
+                        pattern="[^\d]+"
                       />
                       <Select
                         boxShadow={"4px 4px 1px black"}
